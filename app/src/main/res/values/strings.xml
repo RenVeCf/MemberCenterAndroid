@@ -1,0 +1,71 @@
+<resources>
+    <array name="permissions">
+        <item>@string/permission_recode_audio_hint</item>
+        <item>@string/permission_get_accounts_hint</item>
+        <item>@string/permission_read_phone_hint</item>
+        <item>@string/permission_call_phone_hint</item>
+        <item>@string/permission_camera_hint</item>
+        <item>@string/permission_access_fine_location_hint</item>
+        <item>@string/permission_access_coarse_location_hint</item>
+        <item>@string/permission_read_external_hint</item>
+        <item>@string/permission_white_external_hint</item>
+    </array>
+
+    <string name="permission_get_accounts_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_GET_ACCOUNTS</string>
+    <string name="permission_read_phone_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_READ_PHONE_STATE</string>
+    <string name="permission_call_phone_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_CALL_PHONE</string>
+    <string name="permission_camera_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_CAMERA</string>
+    <string name="permission_access_fine_location_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_ACCESS_FINE_LOCATION</string>
+    <string name="permission_access_coarse_location_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_ACCESS_COARSE_LOCATION</string>
+    <string name="permission_read_external_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_READ_EXTERNAL_STORAGE</string>
+    <string name="permission_white_external_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_WRITE_EXTERNAL_STORAGE</string>
+    <string name="permission_recode_audio_hint">没有此权限，无法开启这个功能，请开启权限。PERMISSION_RECORD_AUDIO</string>
+
+    <string name="app_name">会员中心</string>
+    <string name="going_member_center">进入会员中心</string>
+    <string name="vip_card_name">橙市会员卡</string>
+    <string name="register">注册</string>
+    <string name="register_success">注册成功</string>
+    <string name="register_next_success">恭喜您，注册成功</string>
+    <string name="register_next_gift">注册大礼包</string>
+    <string name="see_gift">(点击查看大礼包)</string>
+    <string name="account_right">我们为您同步此号码已获得权益，可在会员中心查看使用</string>
+    <string name="go_login">已有账号,登录</string>
+    <string name="go_register">去注册</string>
+    <string name="required_msg">必填信息</string>
+    <string name="input_phone">请输入手机号码</string>
+    <string name="input_name">请输入真实姓名</string>
+    <string name="input_captcha">请输入验证码</string>
+    <string name="obtain_captcha">获取验证码</string>
+    <string name="vip_card_declarations_start">我已阅读并同意&#160;</string>
+    <string name="vip_card_declarations_end">会员卡信息使用声明</string>
+    <string name="login">登录</string>
+    <string name="china_unicom">中国联通</string>
+    <string name="commit">提交</string>
+    <string name="captcha">验证码</string>
+    <string name="coupon">优惠券</string>
+    <string name="activities">活动</string>
+    <string name="Toast_permission">权限</string>
+    <string name="Dialog_Multi_Permission">多个权限</string>
+    <string name="permission_illegal_code">非法权限</string>
+    <string name="not_use">未使用</string>
+    <string name="failed">已失效</string>
+    <string name="convertibility">已兑换</string>
+    <string name="error_phone_num">请输入正确的手机号码！</string>
+    <string name="phone_num">手机号码</string>
+    <string name="error_login">请选择正确的格式！</string>
+    <string name="group_bug_coupon">团购券</string>
+    <string name="privacy_policy">个人资料及隐私政策</string>
+    <string name="commitment_privacy_policy">* 我接受注册用户协议，并承诺我已经阅读并接受注册用户协议和隐私政策的详细内容。</string>
+    <string name="read_it">我已阅读</string>
+    <string name="modify_personal_data">修改个人资料</string>
+    <string name="real_name">真实姓名</string>
+    <string name="id_card">身份证</string>
+    <string name="e_mail_address">邮箱地址</string>
+    <string name="input_id_card">请输入身份证号码</string>
+    <string name="input_e_mail_address">请输入邮箱地址</string>
+    <string name="growth_value_record">您的成长值获取记录</string>
+    <string name="date">日期</string>
+    <string name="source">来源</string>
+    <string name="detailed">明细</string>
+</resources>

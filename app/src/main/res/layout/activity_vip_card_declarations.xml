@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.VipCardDeclarationsActivity">
+
+    <com.liantong.membercenter.membercenter.utils.TopView
+        android:id="@+id/tv_vip_card_declarations_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:is_back="true"
+        app:title="@string/china_unicom"
+        app:title_color="@color/white" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginBottom="@dimen/y26"
+        android:layout_marginEnd="@dimen/x40"
+        android:layout_marginStart="@dimen/x40"
+        android:layout_marginTop="@dimen/y80"
+        android:text="@string/privacy_policy"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/x40"
+        android:layout_marginStart="@dimen/x40"
+        android:scrollbars="none">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="@dimen/y24"
+            android:text="中国联通主要经营GSM、WCDMA和FDD-LTE制式移动网络业务，固定通信业务，国内、国际通信设施服务业务，卫星国际专线业务、数据通信业务、网络接入业务和各类电信增值业务，与通信信息业务相关的系统集成业务等。2009年1月6日，原中国联合通信有限公司与原中国网络通信集团公司重组合并，新公司更名为中国联合网络通信集团有限公司。为与合并前的中国联通相区分，业界常以“新联通”进行称呼。中国联通主要经营GSM、WCDMA和FDD-LTE制式移动网络业务，固定通信业务，国内、国际通信设施服务业务，卫星国际专线业务、数据通信业务、网络接入业务和各类电信增值业务，与通信信息业务相关的系统集成业务等。
+中国联通主要经营GSM、WCDMA和FDD-LTE制式移动网络业务，固定通信业务，国内、国际通信设施服务业"
+            android:textColor="@color/black" />
+    </ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/x40"
+        android:layout_marginStart="@dimen/x40"
+        android:layout_marginTop="@dimen/y24"
+        android:text="@string/commitment_privacy_policy"
+        android:textColor="@color/tx_commitment_privacy_policy"
+        android:textSize="12sp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginEnd="@dimen/x108"
+        android:layout_marginStart="@dimen/x106"
+        android:layout_marginTop="@dimen/y36"
+        android:background="@drawable/bg_login_bt"
+        android:gravity="center"
+        android:paddingBottom="@dimen/y40"
+        android:paddingTop="@dimen/y40"
+        android:text="@string/read_it"
+        android:textColor="@color/white" />
+</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.liantong.membercenter.membercenter.utils.TopView
+        android:id="@+id/tv_activities_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y270"
+        android:gravity="bottom"
+        app:is_back="false"
+        app:title="@string/activities"
+        app:title_color="@color/black" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_activities_weekly_receivez"
+            android:gravity="center"
+            android:text="周周领" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_activities_everyday_sign"
+            android:gravity="center"
+            android:text="每日签到" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_activities_electronic_coupons"
+            android:gravity="center"
+            android:text="电子券" />
+    </RadioGroup>
+</LinearLayout>

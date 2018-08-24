@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.liantong.membercenter.membercenter.utils.TopView
+        android:id="@+id/tv_coupon_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y270"
+        android:gravity="bottom"
+        app:is_back="false"
+        app:title="@string/coupon"
+        app:title_color="@color/black" />
+
+    <com.liantong.membercenter.membercenter.common.view.NavitationLayout
+        android:id="@+id/nl_coupon"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_coupon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

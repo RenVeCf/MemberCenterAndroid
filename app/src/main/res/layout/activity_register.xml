@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.RegisterActivity">
+
+    <com.liantong.membercenter.membercenter.utils.TopView
+        android:id="@+id/tv_register_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:is_back="true"
+        app:title="@string/register"
+        app:title_color="@color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_login"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/x40"
+        android:paddingStart="@dimen/x40">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/y28"
+            android:layout_marginTop="@dimen/y28"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/bg_login_title_card" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_login"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/x84"
+            android:paddingStart="@dimen/x66">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y80"
+                android:text="@string/required_msg"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_register_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y26"
+                android:background="@null"
+                android:drawablePadding="@dimen/x52"
+                android:drawableStart="@drawable/ic_login_phone"
+                android:hint="@string/input_phone"
+                android:inputType="phone"
+                android:paddingTop="@dimen/y100"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_line" />
+
+            <EditText
+                android:id="@+id/et_register_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y26"
+                android:layout_marginTop="@dimen/y80"
+                android:background="@null"
+                android:drawablePadding="@dimen/x52"
+                android:drawableStart="@drawable/ic_register_name"
+                android:hint="@string/input_name"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y26"
+                android:layout_marginTop="@dimen/y80"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_register_captcha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:drawablePadding="@dimen/x52"
+                    android:drawableStart="@drawable/ic_login_captcha"
+                    android:hint="@string/input_captcha"
+                    android:inputType="number"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/x26"
+                    android:background="@color/bg_line" />
+
+                <TextView
+                    android:id="@+id/tv_register_captcha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/obtain_captcha"
+                    android:textColor="@color/bg_captcha"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_line" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y66"
+                android:layout_marginTop="@dimen/y74"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vip_card_declarations_start"
+                    android:textColor="@color/bg_vip_card_declarations" />
+
+                <TextView
+                    android:id="@+id/tv_register_declarations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vip_card_declarations_end"
+                    android:textColor="@color/dodgerblue" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/bt_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/y54"
+                android:background="@drawable/bg_login_bt"
+                android:gravity="center"
+                android:text="@string/commit"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_register_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/y54"
+                android:orientation="horizontal"
+                android:padding="@dimen/x20">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/go_login"
+                    android:textColor="@color/red" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
