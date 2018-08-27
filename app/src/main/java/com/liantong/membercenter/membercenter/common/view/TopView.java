@@ -1,4 +1,4 @@
-package com.liantong.membercenter.membercenter.utils;
+package com.liantong.membercenter.membercenter.common.view;
 
 import android.app.Activity;
 import android.content.Context;

@@ -7,11 +7,10 @@
     android:orientation="vertical"
     tools:context=".activity.GrowthValueActivity">
 
-    <com.liantong.membercenter.membercenter.utils.TopView
+    <com.liantong.membercenter.membercenter.common.view.TopView
         android:id="@+id/tv_growth_value_top"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y270"
-        android:gravity="center"
+        android:layout_height="?attr/actionBarSize"
         app:is_back="true"
         app:title="@string/app_name"
         app:title_color="@color/black" />
@@ -41,7 +40,7 @@
             android:layout_weight="2"
             android:gravity="start"
             android:text="@string/date"
-            android:textColor="@color/tx_commitment_privacy_policy"
+            android:textColor="@color/tx_check_box"
             android:textSize="16sp" />
 
         <TextView
@@ -49,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="@string/source"
-            android:textColor="@color/tx_commitment_privacy_policy"
+            android:textColor="@color/tx_check_box"
             android:textSize="16sp" />
 
         <TextView
@@ -58,7 +57,7 @@
             android:layout_weight="1"
             android:gravity="end"
             android:text="@string/detailed"
-            android:textColor="@color/tx_commitment_privacy_policy"
+            android:textColor="@color/tx_check_box"
             android:textSize="16sp" />
     </LinearLayout>
 

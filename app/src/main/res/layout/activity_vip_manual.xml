@@ -7,12 +7,12 @@
     android:orientation="vertical"
     tools:context=".activity.VipManualActivity">
 
-    <com.liantong.membercenter.membercenter.utils.TopView
+    <com.liantong.membercenter.membercenter.common.view.TopView
         android:id="@+id/tv_vip_manual_top"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:is_back="true"
-        app:title="@string/register_success"
+        app:title="@string/vip_manual"
         app:title_color="@color/black" />
 
     <ImageView

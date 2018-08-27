@@ -1,7 +1,11 @@
 package com.liantong.membercenter.membercenter.base;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -28,6 +32,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(getLayoutId());
+        //控件绑定初始化
         ButterKnife.bind(this);
         //沉浸式状态栏初始化
         ImmersionBar.with(this).fitsSystemWindows(false).statusBarDarkFont(true).init();
@@ -40,8 +45,19 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         if (presenter != null && view != null) {
             presenter.attachView(view);
         }
+        /**
+         * 初始化
+         */
         init();
+
+        /**
+         * 事件
+         */
         initListener();
+
+        /**
+         * 数据
+         */
         initData();
     }
 
@@ -58,9 +74,37 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 
     public abstract void initData();
 
+    /**
+     * 防止手机字体调整，统一return字体大小
+     *
+     * @return
+     */
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        Configuration config = new Configuration();
+        config.setToDefaults();
+        res.updateConfiguration(config, res.getDisplayMetrics());
+        return res;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (null != this.getCurrentFocus()) {
+            /**
+             * 点击空白位置 隐藏软键盘
+             */
+            InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.onTouchEvent(event);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //沉浸式状态栏注销
+        ImmersionBar.with(this).destroy(); //不调用该方法，如果界面bar发生改变，在不关闭app的情况下，退出此界面再进入将记忆最后一次bar改变的状态
         if (presenter != null) {
             presenter.detachView();
         }

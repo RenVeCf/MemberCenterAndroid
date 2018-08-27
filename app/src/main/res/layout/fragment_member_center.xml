@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.liantong.membercenter.membercenter.utils.TopView
+    <com.liantong.membercenter.membercenter.common.view.TopView
         android:id="@+id/tv_member_center_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y270"
@@ -18,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/y540"
         android:layout_gravity="center"
-        android:layout_marginEnd="@dimen/x40"
-        android:layout_marginStart="@dimen/x40">
+        android:layout_marginStart="@dimen/x40"
+        android:layout_marginEnd="@dimen/x40">
 
         <ImageView
             android:layout_width="match_parent"
@@ -28,31 +28,36 @@
             android:background="@drawable/bg_member_center_title" />
 
         <ImageView
+            android:id="@+id/iv_vip_lv_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="@dimen/y74"
             android:layout_marginStart="@dimen/x62"
             android:layout_marginTop="@dimen/y306"
+            android:layout_marginBottom="@dimen/y74"
             app:srcCompat="@drawable/ic_w1_vip" />
 
         <TextView
-            android:id="@+id/tv_vip_card_num"
+            android:id="@+id/tv_vip_card_num_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/y66"
             android:layout_marginStart="@dimen/x62"
+            android:layout_marginBottom="@dimen/y66"
             android:text="4247 9236 6197 2"
             android:textColor="@color/white"
             android:textSize="16sp" />
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/iv_vip_bar_code"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y26" />
 
     <TextView
+        android:id="@+id/tv_vip_card_num_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -62,27 +67,69 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/x66"
         android:layout_marginStart="@dimen/x66"
+        android:layout_marginTop="@dimen/y106"
+        android:layout_marginEnd="@dimen/x66"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="会员卡号：42479236619（修改个人资料）"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vip_card_num"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_vip_card_num_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="42479236619"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_to_modify_personal_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to_modify_personal_data"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y30"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vip_lv"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_vip_lv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="W1会员"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_to_vip_manual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="您当前的会员等级为：W1会员"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y30"
+            android:lineSpacingExtra="@dimen/y30"
             android:text="当前50成长值，距离W2级会员还有1950成长值（点此了解会员等级说明）"
             android:textColor="@color/black"
             android:textSize="16sp" />

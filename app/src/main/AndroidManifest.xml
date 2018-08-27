@@ -46,9 +46,18 @@
             android:name=".activity.RegisterNextActivity"
             android:exported="true"
             android:launchMode="singleTask" />
-        <activity android:name=".activity.ModifyPersonalDataActivity" />
-        <activity android:name=".activity.VipManualActivity" />
-        <activity android:name=".activity.GrowthValueActivity"></activity>
+        <activity
+            android:name=".activity.ModifyPersonalDataActivity"
+            android:exported="true"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activity.VipManualActivity"
+            android:exported="true"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activity.GrowthValueActivity"
+            android:exported="true"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

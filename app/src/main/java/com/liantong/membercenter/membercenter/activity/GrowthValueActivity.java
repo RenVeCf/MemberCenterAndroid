@@ -6,11 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.adapter.GrowthValueAdapter;
 import com.liantong.membercenter.membercenter.base.BaseActivity;
 import com.liantong.membercenter.membercenter.base.BaseResponse;
 import com.liantong.membercenter.membercenter.bean.LoginBean;
+import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.contract.LoginContract;
 import com.liantong.membercenter.membercenter.presenter.LoginPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
@@ -27,6 +29,8 @@ public class GrowthValueActivity extends BaseActivity<LoginContract.View, LoginC
     SwipeRefreshLayout srlGrowthValue;
     @BindView(R.id.rv_growth_value)
     RecyclerView rvGrowthValue;
+    @BindView(R.id.tv_growth_value_top)
+    TopView tvGrowthValueTop;
     private GrowthValueAdapter mGrowthValueAdapter;
     private List<String> mGrowthValueBean;
 
@@ -47,6 +51,10 @@ public class GrowthValueActivity extends BaseActivity<LoginContract.View, LoginC
 
     @Override
     public void init() {
+        ApplicationUtil.getManager().addActivity(this);
+        //防止状态栏和标题重叠
+        ImmersionBar.setTitleBar(this, tvGrowthValueTop);
+
         LinearLayoutManager NotUseList = new LinearLayoutManager(ApplicationUtil.getContext(), LinearLayoutManager.VERTICAL, false);
         rvGrowthValue.setLayoutManager(NotUseList);
         rvGrowthValue.setHasFixedSize(true);

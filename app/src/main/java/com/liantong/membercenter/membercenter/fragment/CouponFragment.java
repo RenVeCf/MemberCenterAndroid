@@ -5,16 +5,16 @@ import android.support.v4.view.ViewPager;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
+import com.liantong.membercenter.membercenter.adapter.ViewPagerAdapter;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
 import com.liantong.membercenter.membercenter.base.BaseResponse;
 import com.liantong.membercenter.membercenter.bean.LoginBean;
 import com.liantong.membercenter.membercenter.common.view.NavitationLayout;
-import com.liantong.membercenter.membercenter.common.view.ViewPagerAdapter;
+import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.contract.LoginContract;
 import com.liantong.membercenter.membercenter.presenter.LoginPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
-import com.liantong.membercenter.membercenter.utils.TopView;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;

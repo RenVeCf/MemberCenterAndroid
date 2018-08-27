@@ -7,17 +7,19 @@
     android:orientation="vertical"
     tools:context=".activity.VipCardDeclarationsActivity">
 
-    <com.liantong.membercenter.membercenter.utils.TopView
+    <com.liantong.membercenter.membercenter.common.view.TopView
         android:id="@+id/tv_vip_card_declarations_top"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:is_back="true"
-        app:title="@string/china_unicom"
+        app:title="@string/privacy_policy"
         app:title_color="@color/white" />
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_privacy_policy_logo"
+        android:layout_gravity="center"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,7 +29,7 @@
         android:layout_marginEnd="@dimen/x40"
         android:layout_marginStart="@dimen/x40"
         android:layout_marginTop="@dimen/y80"
-        android:text="@string/privacy_policy"
+        android:text="@string/data_andr_privacy_policy"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -55,7 +57,7 @@
         android:layout_marginStart="@dimen/x40"
         android:layout_marginTop="@dimen/y24"
         android:text="@string/commitment_privacy_policy"
-        android:textColor="@color/tx_commitment_privacy_policy"
+        android:textColor="@color/tx_check_box"
         android:textSize="12sp" />
 
     <Button

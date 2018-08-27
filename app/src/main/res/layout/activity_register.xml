@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".activity.RegisterActivity">
 
-    <com.liantong.membercenter.membercenter.utils.TopView
+    <com.liantong.membercenter.membercenter.common.view.TopView
         android:id="@+id/tv_register_top"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -57,7 +57,9 @@
                 android:drawableStart="@drawable/ic_login_phone"
                 android:hint="@string/input_phone"
                 android:inputType="phone"
+                android:maxLength="11"
                 android:paddingTop="@dimen/y100"
+                android:singleLine="true"
                 android:textSize="16sp" />
 
             <View
@@ -75,6 +77,8 @@
                 android:drawablePadding="@dimen/x52"
                 android:drawableStart="@drawable/ic_register_name"
                 android:hint="@string/input_name"
+                android:maxLength="10"
+                android:singleLine="true"
                 android:textSize="16sp" />
 
             <View
@@ -99,6 +103,8 @@
                     android:drawableStart="@drawable/ic_login_captcha"
                     android:hint="@string/input_captcha"
                     android:inputType="number"
+                    android:maxLength="6"
+                    android:singleLine="true"
                     android:textSize="16sp" />
 
                 <View
@@ -133,20 +139,10 @@
                     android:id="@+id/cb_register"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/vip_card_declarations_start"
-                    android:textColor="@color/bg_vip_card_declarations" />
-
-                <TextView
-                    android:id="@+id/tv_register_declarations"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/vip_card_declarations_end"
-                    android:textColor="@color/dodgerblue" />
+                    android:checked="true"
+                    android:text="@string/vip_card_declarations"
+                    android:textColor="@color/tx_check_box"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <Button
@@ -174,10 +170,6 @@
                     android:layout_height="wrap_content"
                     android:text="@string/go_login"
                     android:textColor="@color/red" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

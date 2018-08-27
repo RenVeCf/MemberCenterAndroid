@@ -19,7 +19,7 @@ public class SPUtil {
     /**
      * 保存在手机里面的文件名
      */
-    public static final String FILE_NAME = "kohler";
+    public static final String FILE_NAME = "member_center";
 
     /**
      * 保存数据的方法，我们需要拿到保存数据的具体类型，然后根据类型调用不同的保存方法
@@ -59,8 +59,7 @@ public class SPUtil {
      * @param defaultObject
      * @return
      */
-    public static Object get(Context context, String key, Object defaultObject)
-    {
+    public static Object get(Context context, String key, Object defaultObject) {
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
 
@@ -80,6 +79,7 @@ public class SPUtil {
 
     /**
      * 移除某个key值已经对应的值
+     *
      * @param context
      * @param key
      */
@@ -93,6 +93,7 @@ public class SPUtil {
 
     /**
      * 清除所有数据
+     *
      * @param context
      */
     public static void clear(Context context) {
@@ -105,6 +106,7 @@ public class SPUtil {
 
     /**
      * 查询某个key是否已经存在
+     *
      * @param context
      * @param key
      * @return
@@ -131,7 +133,6 @@ public class SPUtil {
      * 创建一个解决SharedPreferencesCompat.apply方法的一个兼容类
      *
      * @author zhy
-     *
      */
     private static class SharedPreferencesCompat {
         private static final Method sApplyMethod = findApplyMethod();
@@ -141,7 +142,7 @@ public class SPUtil {
          *
          * @return
          */
-        @SuppressWarnings({ "unchecked", "rawtypes" })
+        @SuppressWarnings({"unchecked", "rawtypes"})
         private static Method findApplyMethod() {
             try {
                 Class clz = SharedPreferences.Editor.class;

@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="transparent">#00000000</color><!--透明 -->
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="ivory">#FFFFF0</color><!--象牙色 -->
     <color name="lightyellow">#FFFFE0</color><!--亮黄色-->
@@ -159,6 +160,8 @@
     <color name="tx_not_use">#FFFFC140</color><!--优惠券—未使用字体色 -->
     <color name="tx_failed">#FF666666</color><!--优惠券—已失效字体色 -->
     <color name="tx_link">#FF406FCF</color><!--超链接字体色 -->
-    <color name="tx_commitment_privacy_policy">#FF333333</color><!--超链接字体色 -->
+    <color name="tx_check_box">#FF333333</color><!--复选框字体色 -->
     <color name="bg_growth_value">#FFEBEBEB</color><!-- 成长值界面 RecyclerView 的头部背景框 -->
+    <color name="tx_default_input">#CCCCCC</color><!--类似输入框默认提示的字体色 -->
+
 </resources>

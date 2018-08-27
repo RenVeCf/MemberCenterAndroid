@@ -14,6 +14,7 @@
         android:orientation="vertical" />
 
     <android.support.v4.view.ViewPager
+        android:id="@+id/vp_member_center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -33,7 +34,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@drawable/bg_select_member_center"
+            android:drawableTop="@drawable/select_bg_member_center"
             android:gravity="center"
             android:text="@string/app_name"
             android:textColor="@drawable/tx_select_member_center" />
@@ -44,7 +45,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@drawable/bg_select_coupon"
+            android:drawableTop="@drawable/select_bg_coupon"
             android:gravity="center"
             android:text="@string/coupon"
             android:textColor="@drawable/tx_select_member_center" />
@@ -55,7 +56,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@drawable/bg_select_activities"
+            android:drawableTop="@drawable/select_bg_activities"
             android:gravity="center"
             android:text="@string/activities"
             android:textColor="@drawable/tx_select_member_center" />

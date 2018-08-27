@@ -1,4 +1,4 @@
-package com.liantong.membercenter.membercenter.common.view;
+package com.liantong.membercenter.membercenter.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.liantong.membercenter.membercenter.utils.TopView
+    <com.liantong.membercenter.membercenter.common.view.TopView
         android:id="@+id/tv_activities_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y270"
@@ -26,7 +26,7 @@
             android:button="@null"
             android:drawableTop="@drawable/ic_activities_weekly_receivez"
             android:gravity="center"
-            android:text="周周领" />
+            android:text="@string/weekly_receivez" />
 
         <RadioButton
             android:layout_width="0dp"
@@ -35,7 +35,7 @@
             android:button="@null"
             android:drawableTop="@drawable/ic_activities_everyday_sign"
             android:gravity="center"
-            android:text="每日签到" />
+            android:text="@string/everyday_sign" />
 
         <RadioButton
             android:layout_width="0dp"
@@ -44,6 +44,28 @@
             android:button="@null"
             android:drawableTop="@drawable/ic_activities_electronic_coupons"
             android:gravity="center"
-            android:text="电子券" />
+            android:text="@string/electronic_coupons" />
     </RadioGroup>
+
+    <com.ryane.banner.AdPlayBanner
+        android:id="@+id/apb_activities_loop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y372"
+        android:layout_marginTop="@dimen/y36" />
+
+    <ImageView
+        android:id="@+id/iv_activities_center"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y372"
+        android:layout_marginTop="@dimen/y32"
+        android:background="@color/black"
+        android:src="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:id="@+id/iv_activities_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y372"
+        android:layout_marginTop="@dimen/y32"
+        android:background="@color/black"
+        android:src="@mipmap/ic_launcher" />
 </LinearLayout>

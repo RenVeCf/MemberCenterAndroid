@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".activity.RegisterNextActivity">
 
-    <com.liantong.membercenter.membercenter.utils.TopView
+    <com.liantong.membercenter.membercenter.common.view.TopView
         android:id="@+id/tv_register_success_top"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

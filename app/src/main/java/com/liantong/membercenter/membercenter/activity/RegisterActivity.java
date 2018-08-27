@@ -1,8 +1,10 @@
 package com.liantong.membercenter.membercenter.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,19 +17,29 @@ import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.base.BaseActivity;
 import com.liantong.membercenter.membercenter.base.BaseResponse;
 import com.liantong.membercenter.membercenter.bean.LoginBean;
+import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.contract.RegisterContract;
 import com.liantong.membercenter.membercenter.presenter.RegisterPresenter;
+import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.CountDownUtil;
 import com.liantong.membercenter.membercenter.utils.LogUtils;
+import com.liantong.membercenter.membercenter.utils.StringLinkUtils;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
-import com.liantong.membercenter.membercenter.utils.TopView;
 import com.liantong.membercenter.membercenter.utils.VerifyUtils;
 
 import java.util.TreeMap;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
+
+/**
+ * Description ：注册
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
+ */
 
 public class RegisterActivity extends BaseActivity<RegisterContract.View, RegisterContract.Presenter> implements RegisterContract.View {
 
@@ -43,12 +55,12 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
     TextView tvRegisterCaptcha;
     @BindView(R.id.cb_register)
     CheckBox cbRegister;
-    @BindView(R.id.tv_register_declarations)
-    TextView tvRegisterDeclarations;
     @BindView(R.id.bt_register)
     Button btRegister;
     @BindView(R.id.ll_register_login)
     LinearLayout llRegisterLogin;
+
+    boolean isName = false; //用户名格式判断
 
     @Override
     public int getLayoutId() {
@@ -67,8 +79,13 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
 
     @Override
     public void init() {
+        //将每个Activity加入到栈中
+        ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvRegisterTop);
+        //从字符串中获取要变为超链接的字符串
+        cbRegister.setText(StringLinkUtils.checkAutoLink(getResources().getString(R.string.vip_card_declarations), getResources().getString(R.string.privacy_policy)));
+        cbRegister.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
@@ -87,9 +104,9 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
             @Override
             public void afterTextChanged(Editable s) {
                 //输入文字后的状态
+                //如果输入长度等于11位但并非是正常的手机号码
                 if (etRegisterPhone.getText().toString().trim().length() == 11 && !VerifyUtils.isMobileNumber(etRegisterPhone.getText().toString().trim())) {
                     ToastUtil.showShortToast(getString(R.string.error_phone_num));
-                    etRegisterPhone.setText("");
                 }
             }
         });
@@ -108,11 +125,12 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
             @Override
             public void afterTextChanged(Editable s) {
                 //输入文字后的状态
-                if (VerifyUtils.isChinese(etRegisterName.getText().toString().trim()) == true && etRegisterName.getText().toString().trim().length() <= 10) {
-
-                }
-                if (VerifyUtils.isEnglish(etRegisterName.getText().toString().trim()) == true && etRegisterName.getText().toString().trim().length() <= 20) {
-
+                //只能输入中文且长度小于等于10 或 只能输入英文且长度小于等于20
+                if (VerifyUtils.isChinese(etRegisterName.getText().toString().trim()) == true && etRegisterName.getText().toString().trim().length() <= 10 || VerifyUtils.isEnglish(etRegisterName.getText().toString().trim()) == true && etRegisterName.getText().toString().trim().length() <= 20) {
+                    isName = true;
+                } else {
+                    isName = false;
+                    ToastUtil.showShortToast(getResources().getString(R.string.error_name));
                 }
             }
         });
@@ -131,9 +149,9 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
             @Override
             public void afterTextChanged(Editable s) {
                 //输入文字后的状态
+                //如果输入长度等于6位但并非是纯数字
                 if (etRegisterCaptcha.getText().toString().trim().length() == 6 && !VerifyUtils.isNumeric(etRegisterCaptcha.getText().toString().trim())) {
                     ToastUtil.showShortToast(getString(R.string.error_phone_num));
-                    etRegisterCaptcha.setText("");
                 }
             }
         });
@@ -146,7 +164,8 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
 
     @Override
     public void resultRegister(BaseResponse<LoginBean> data) {
-
+        startActivity(new Intent(this, RegisterNextActivity.class));
+        finish();
     }
 
     @Override
@@ -179,9 +198,12 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_register_captcha:
+                //手机号码的长度判断
                 if (!etRegisterPhone.getText().toString().trim().equals("") && etRegisterPhone.getText().toString().trim().length() == 11) {
                     TreeMap<String, String> captchaMap = new TreeMap<>();
+                    //获取手机号码
                     captchaMap.put("mobile", etRegisterPhone.getText().toString().trim());
+                    //平台标识码
                     captchaMap.put("delegate_code", "2010006");
                     getPresenter().captcha(captchaMap, true, true);
                 } else {
@@ -189,10 +211,24 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
                 }
                 break;
             case R.id.bt_register:
-                startActivity(new Intent(this, RegisterNextActivity.class));
-                finish();
+                //手机号码的长度判断，验证码的长度判断，复选框状态
+                if (etRegisterPhone.getText().toString().trim().length() == 11 && isName == true && etRegisterCaptcha.getText().toString().trim().length() == 6 && cbRegister.isChecked() == true) {
+                    TreeMap<String, String> Loginmap = new TreeMap<>();
+                    //获取手机号码
+                    Loginmap.put("mobile", etRegisterPhone.getText().toString().trim());
+                    //获取手机号码
+                    Loginmap.put("name", etRegisterName.getText().toString().trim());
+                    //获取验证码
+                    Loginmap.put("captcha", etRegisterPhone.getText().toString().trim());
+                    //平台标识码
+                    Loginmap.put("delegate_code", "2010006");
+                    getPresenter().register(Loginmap, true, true);
+                } else {
+                    ToastUtil.showShortToast(getString(R.string.error_login));
+                }
                 break;
             case R.id.ll_register_login:
+                //跳登录
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 break;

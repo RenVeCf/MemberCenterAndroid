@@ -150,7 +150,7 @@ public class VerifyUtils {
      * verify whether Num is only contained
      * 核实是否只包含数字
      *
-     * @param data
+     * @param str
      * @return
      */
 

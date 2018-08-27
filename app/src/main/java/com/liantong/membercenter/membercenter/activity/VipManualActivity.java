@@ -5,7 +5,7 @@ import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.base.BaseActivity;
 import com.liantong.membercenter.membercenter.base.BasePresenter;
 import com.liantong.membercenter.membercenter.base.BaseView;
-import com.liantong.membercenter.membercenter.utils.TopView;
+import com.liantong.membercenter.membercenter.common.view.TopView;
 
 import butterknife.BindView;
 
