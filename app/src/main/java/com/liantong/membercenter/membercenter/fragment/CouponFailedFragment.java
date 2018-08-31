@@ -4,39 +4,41 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liantong.membercenter.membercenter.R;
-import com.liantong.membercenter.membercenter.adapter.FailedAdapter;
 import com.liantong.membercenter.membercenter.adapter.NotUseAdapter;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
-import com.liantong.membercenter.membercenter.base.BaseResponse;
-import com.liantong.membercenter.membercenter.bean.LoginBean;
-import com.liantong.membercenter.membercenter.contract.LoginContract;
-import com.liantong.membercenter.membercenter.presenter.LoginPresenter;
+import com.liantong.membercenter.membercenter.bean.CouponListBean;
+import com.liantong.membercenter.membercenter.contract.CouponListContract;
+import com.liantong.membercenter.membercenter.presenter.CouponListPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import io.reactivex.ObservableTransformer;
 
 /**
- * Description ：
+ * Description ：已失效
  * Author ： MengYang
  * Email ： 942685687@qq.com
  * Time ： 2018/8/21.
  */
-public class CouponFailedFragment extends BaseFragment<LoginContract.View, LoginContract.Presenter> implements LoginContract.View, BaseQuickAdapter.RequestLoadMoreListener {
+public class CouponFailedFragment extends BaseFragment<CouponListContract.View, CouponListContract.Presenter> implements CouponListContract.View {
 
     @BindView(R.id.srl_failed)
     SwipeRefreshLayout srlFailed;
     @BindView(R.id.rv_failed)
     RecyclerView rvFailed;
-    private FailedAdapter mFailedAdapter;
-    private List<String> mFailedBean;
+    @BindView(R.id.tv_failed_total_num)
+    TextView tvFailedTotalNum;
+
+    private NotUseAdapter mFailedAdapter;
+    private List<CouponListBean.TicketListBean> mFailedBean;
 
     @Override
     public int getLayoutId() {
@@ -44,12 +46,12 @@ public class CouponFailedFragment extends BaseFragment<LoginContract.View, Login
     }
 
     @Override
-    public LoginContract.Presenter createPresenter() {
-        return new LoginPresenter(mContext);
+    public CouponListContract.Presenter createPresenter() {
+        return new CouponListPresenter(mContext);
     }
 
     @Override
-    public LoginContract.View createView() {
+    public CouponListContract.View createView() {
         return this;
     }
 
@@ -61,7 +63,7 @@ public class CouponFailedFragment extends BaseFragment<LoginContract.View, Login
         rvFailed.setItemAnimator(new DefaultItemAnimator());
 
         mFailedBean = new ArrayList<>();
-        mFailedAdapter = new FailedAdapter(mFailedBean);
+        mFailedAdapter = new NotUseAdapter(mFailedBean);
         rvFailed.setAdapter(mFailedAdapter);
     }
 
@@ -78,23 +80,20 @@ public class CouponFailedFragment extends BaseFragment<LoginContract.View, Login
 
     @Override
     public void initData() {
-        mFailedBean.add("1");
-        mFailedBean.add("2");
+        TreeMap<String, String> map = new TreeMap<>();
+        getPresenter().getCouponList(map, true, true);
+    }
 
-        mFailedAdapter = new FailedAdapter(mFailedBean);
+    @Override
+    public void getCouponList(CouponListBean data) {
+        mFailedBean.clear();
+        for (int i = 0; i < data.getTicket_list().size(); i++) {
+            if (data.getTicket_list().get(i).getCoupon_status().equals("3"))
+                mFailedBean.add(data.getTicket_list().get(i));
+        }
+        tvFailedTotalNum.setText("共" + mFailedBean.size() + "张券");
+        mFailedAdapter = new NotUseAdapter(mFailedBean);
         rvFailed.setAdapter(mFailedAdapter);
-        mFailedAdapter.setOnLoadMoreListener(CouponFailedFragment.this, rvFailed);
-        mFailedAdapter.loadMoreEnd(); //加载更多
-    }
-
-    @Override
-    public void resultLogin(BaseResponse<LoginBean> data) {
-
-    }
-
-    @Override
-    public void resultCaptcha(BaseResponse data) {
-
     }
 
     @Override
@@ -105,10 +104,5 @@ public class CouponFailedFragment extends BaseFragment<LoginContract.View, Login
     @Override
     public <T> ObservableTransformer<T, T> bindLifecycle() {
         return this.bindUntilEvent(FragmentEvent.PAUSE);
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        initData();
     }
 }

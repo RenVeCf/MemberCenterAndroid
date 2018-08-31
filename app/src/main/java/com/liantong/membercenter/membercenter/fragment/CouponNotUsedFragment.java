@@ -2,43 +2,46 @@ package com.liantong.membercenter.membercenter.fragment;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.adapter.NotUseAdapter;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
-import com.liantong.membercenter.membercenter.base.BaseResponse;
-import com.liantong.membercenter.membercenter.bean.LoginBean;
-import com.liantong.membercenter.membercenter.bean.NotUseBean;
-import com.liantong.membercenter.membercenter.contract.LoginContract;
-import com.liantong.membercenter.membercenter.presenter.LoginPresenter;
+import com.liantong.membercenter.membercenter.bean.CouponListBean;
+import com.liantong.membercenter.membercenter.contract.CouponListContract;
+import com.liantong.membercenter.membercenter.presenter.CouponListPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
+import com.liantong.membercenter.membercenter.utils.ToastUtil;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import io.reactivex.ObservableTransformer;
 
 /**
- * Description ：
+ * Description ：未使用
  * Author ： MengYang
  * Email ： 942685687@qq.com
  * Time ： 2018/8/21.
  */
-public class CouponNotUsedFragment extends BaseFragment<LoginContract.View, LoginContract.Presenter> implements LoginContract.View, BaseQuickAdapter.RequestLoadMoreListener {
+public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View, CouponListContract.Presenter> implements CouponListContract.View {
 
     @BindView(R.id.srl_not_use)
     SwipeRefreshLayout srlNotUse;
     @BindView(R.id.rv_not_use)
     RecyclerView rvNotUse;
-    private NotUseAdapter mNotUseAdapter;
-    private List<String> mNotUseBean;
+    @BindView(R.id.tv_not_use_total_num)
+    TextView tvNotUseTotalNum;
+
+    private NotUseAdapter notUseAdapter;
+    private List<CouponListBean.TicketListBean> notUseBean;
 
     @Override
     public int getLayoutId() {
@@ -46,12 +49,12 @@ public class CouponNotUsedFragment extends BaseFragment<LoginContract.View, Logi
     }
 
     @Override
-    public LoginContract.Presenter createPresenter() {
-        return new LoginPresenter(mContext);
+    public CouponListContract.Presenter createPresenter() {
+        return new CouponListPresenter(mContext);
     }
 
     @Override
-    public LoginContract.View createView() {
+    public CouponListContract.View createView() {
         return this;
     }
 
@@ -62,9 +65,9 @@ public class CouponNotUsedFragment extends BaseFragment<LoginContract.View, Logi
         rvNotUse.setHasFixedSize(true);
         rvNotUse.setItemAnimator(new DefaultItemAnimator());
 
-        mNotUseBean = new ArrayList<>();
-        mNotUseAdapter = new NotUseAdapter(mNotUseBean);
-        rvNotUse.setAdapter(mNotUseAdapter);
+        notUseBean = new ArrayList<>();
+        notUseAdapter = new NotUseAdapter(notUseBean);
+        rvNotUse.setAdapter(notUseAdapter);
     }
 
     @Override
@@ -80,24 +83,26 @@ public class CouponNotUsedFragment extends BaseFragment<LoginContract.View, Logi
 
     @Override
     public void initData() {
-        mNotUseBean.add("1");
-        mNotUseBean.add("2");
-        mNotUseBean.add("3");
-
-        mNotUseAdapter = new NotUseAdapter(mNotUseBean);
-        rvNotUse.setAdapter(mNotUseAdapter);
-        mNotUseAdapter.setOnLoadMoreListener(CouponNotUsedFragment.this, rvNotUse);
-        mNotUseAdapter.loadMoreEnd(); //加载更多
+        TreeMap<String, String> map = new TreeMap<>();
+        getPresenter().getCouponList(map, true, true);
     }
 
     @Override
-    public void resultLogin(BaseResponse<LoginBean> data) {
-
-    }
-
-    @Override
-    public void resultCaptcha(BaseResponse data) {
-
+    public void getCouponList(CouponListBean data) {
+        notUseBean.clear();
+        for (int i = 0; i < data.getTicket_list().size(); i++) {
+            if (data.getTicket_list().get(i).getCoupon_status().equals("0"))
+                notUseBean.add(data.getTicket_list().get(i));
+        }
+        tvNotUseTotalNum.setText("共" + notUseBean.size() + "张券");
+        notUseAdapter = new NotUseAdapter(notUseBean);
+        rvNotUse.setAdapter(notUseAdapter);
+        notUseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ToastUtil.showShortToast(position);
+            }
+        });
     }
 
     @Override
@@ -108,10 +113,5 @@ public class CouponNotUsedFragment extends BaseFragment<LoginContract.View, Logi
     @Override
     public <T> ObservableTransformer<T, T> bindLifecycle() {
         return this.bindUntilEvent(FragmentEvent.PAUSE);
-    }
-
-    @Override
-    public void onLoadMoreRequested() {
-        initData();
     }
 }

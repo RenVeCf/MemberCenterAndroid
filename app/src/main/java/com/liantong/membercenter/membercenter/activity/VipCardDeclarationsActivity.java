@@ -9,6 +9,13 @@ import com.liantong.membercenter.membercenter.common.view.TopView;
 
 import butterknife.BindView;
 
+/**
+ * Description ：隐私政策
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
+ */
+
 public class VipCardDeclarationsActivity extends BaseActivity {
     @BindView(R.id.tv_vip_card_declarations_top)
     TopView tvVipCardDeclarationsTop;

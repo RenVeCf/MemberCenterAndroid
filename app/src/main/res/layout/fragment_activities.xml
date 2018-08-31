@@ -58,14 +58,12 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/y372"
         android:layout_marginTop="@dimen/y32"
-        android:background="@color/black"
-        android:src="@mipmap/ic_launcher" />
+        android:scaleType="fitXY" />
 
     <ImageView
         android:id="@+id/iv_activities_bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y372"
         android:layout_marginTop="@dimen/y32"
-        android:background="@color/black"
-        android:src="@mipmap/ic_launcher" />
+        android:scaleType="fitXY" />
 </LinearLayout>

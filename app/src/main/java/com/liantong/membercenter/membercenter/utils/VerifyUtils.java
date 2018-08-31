@@ -147,6 +147,29 @@ public class VerifyUtils {
     }
 
     /**
+     * "a a a a a a a"
+     * 核实是否字符与字符间只能用一个空格相连
+     *
+     * @param str
+     * @return true为存在多个空格相连
+     */
+    public static boolean isHasTwinSpace(String str) {
+        String content = new String(str);
+        String tem = "";
+        boolean hasTwinSpace = false;
+        String[] contents = content.split("");
+        for (int i = 0; i < contents.length; i++) {
+            if (tem.matches("^[\\s]$") && tem.equals(contents[i])) {
+                hasTwinSpace = true;
+                break;
+            } else {
+                tem = contents[i];
+            }
+        }
+        return hasTwinSpace;
+    }
+
+    /**
      * verify whether Num is only contained
      * 核实是否只包含数字
      *
@@ -154,7 +177,7 @@ public class VerifyUtils {
      * @return
      */
 
-    public static boolean isNumeric(String str){
+    public static boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");
         return pattern.matcher(str).matches();
     }

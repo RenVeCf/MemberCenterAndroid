@@ -1,9 +1,8 @@
 package com.liantong.membercenter.membercenter.contract;
 
 import com.liantong.membercenter.membercenter.base.BasePresenter;
-import com.liantong.membercenter.membercenter.base.BaseResponse;
 import com.liantong.membercenter.membercenter.base.BaseView;
-import com.liantong.membercenter.membercenter.bean.LoginBean;
+import com.liantong.membercenter.membercenter.bean.UserInfoBean;
 
 import java.util.TreeMap;
 
@@ -18,9 +17,7 @@ public interface MemberCenterContract {
 
     interface View extends BaseView {
         //不同的Bean单独处理
-        void resultLogin(BaseResponse<LoginBean> data);
-
-        void resultCaptcha(BaseResponse data);
+        void getUserInfo(UserInfoBean data);
 
         void setMsg(String msg);
 
@@ -28,8 +25,6 @@ public interface MemberCenterContract {
     }
 
     abstract class Presenter extends BasePresenter<View> {
-        public abstract void login(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
-
-        public abstract void captcha(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
+        public abstract void getUserInfo(TreeMap<String, String> map, boolean isDialog, boolean cancelable);
     }
 }

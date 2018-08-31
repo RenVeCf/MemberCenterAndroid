@@ -1,14 +1,9 @@
 package com.liantong.membercenter.membercenter.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,22 +16,17 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.activity.GrowthValueActivity;
-import com.liantong.membercenter.membercenter.activity.ModifyPersonalDataActivity;
-import com.liantong.membercenter.membercenter.activity.VipManualActivity;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
-import com.liantong.membercenter.membercenter.base.BaseResponse;
-import com.liantong.membercenter.membercenter.bean.LoginBean;
-import com.liantong.membercenter.membercenter.contract.LoginContract;
-import com.liantong.membercenter.membercenter.presenter.LoginPresenter;
+import com.liantong.membercenter.membercenter.bean.UserInfoBean;
+import com.liantong.membercenter.membercenter.common.view.TopView;
+import com.liantong.membercenter.membercenter.contract.MemberCenterContract;
+import com.liantong.membercenter.membercenter.presenter.MemberCenterPresenter;
 import com.liantong.membercenter.membercenter.utils.StringLinkUtils;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
-import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
-import java.io.FileOutputStream;
 import java.util.Hashtable;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -46,11 +36,13 @@ import static android.graphics.Color.BLACK;
 import static android.graphics.Color.WHITE;
 
 /**
- * 作者：rmy on 2017/12/27 16:36
- * 邮箱：942685687@qq.com
+ * Description ：会员中心
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
  */
 
-public class MemberCenterFragment extends BaseFragment<LoginContract.View, LoginContract.Presenter> implements LoginContract.View {
+public class MemberCenterFragment extends BaseFragment<MemberCenterContract.View, MemberCenterContract.Presenter> implements MemberCenterContract.View {
 
     @BindView(R.id.tv_member_center_top)
     TopView tvMemberCenterTop;
@@ -79,13 +71,18 @@ public class MemberCenterFragment extends BaseFragment<LoginContract.View, Login
     }
 
     @Override
-    public LoginContract.Presenter createPresenter() {
-        return new LoginPresenter(mContext);
+    public MemberCenterContract.Presenter createPresenter() {
+        return new MemberCenterPresenter(mContext);
     }
 
     @Override
-    public LoginContract.View createView() {
+    public MemberCenterContract.View createView() {
         return this;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
     }
 
     @Override
@@ -94,15 +91,6 @@ public class MemberCenterFragment extends BaseFragment<LoginContract.View, Login
         ImmersionBar.setTitleBar(getActivity(), tvMemberCenterTop);
         tvToModifyPersonalData.setText(StringLinkUtils.checkAutoLink(getResources().getString(R.string.to_modify_personal_data), "修改个人资料"));
         tvToModifyPersonalData.setMovementMethod(LinkMovementMethod.getInstance());
-        tvToVipManual.setText(StringLinkUtils.checkAutoLink(tvToVipManual.getText().toString(), "点此了解"));
-        tvToVipManual.setMovementMethod(LinkMovementMethod.getInstance());
-
-        try {
-            Bitmap barCode = createBarCode("1215156156415", (int) getResources().getDimension(R.dimen.x820), (int) getResources().getDimension(R.dimen.y212));
-            ivVipBarCode.setImageBitmap(barCode);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -112,7 +100,8 @@ public class MemberCenterFragment extends BaseFragment<LoginContract.View, Login
 
     @Override
     public void initData() {
-
+        TreeMap<String, String> captchaMap = new TreeMap<>();
+        getPresenter().getUserInfo(captchaMap, true, true);
     }
 
     /**
@@ -171,11 +160,40 @@ public class MemberCenterFragment extends BaseFragment<LoginContract.View, Login
     }
 
     @Override
-    public void resultLogin(BaseResponse<LoginBean> data) {
-    }
+    public void getUserInfo(UserInfoBean data) {
+        switch (data.getMember_level()) {
+            case "W1":
+                ivVipLvImg.setImageResource(R.drawable.ic_w1_vip);
+                tvVipLv.setText(getResources().getString(R.string.w1_vip));
+                tvToVipManual.setText("当前" + data.getExp() + "成长值，距离W2级会员还有" + data.getNext_level_exp() + "成长值（点此了解会员等级说明）");
+                tvToVipManual.setText(StringLinkUtils.checkAutoLink(tvToVipManual.getText().toString(), "点此了解"));
+                tvToVipManual.setMovementMethod(LinkMovementMethod.getInstance());
+                break;
+            case "W2":
+                ivVipLvImg.setImageResource(R.drawable.ic_w2_vip);
+                tvVipLv.setText(getResources().getString(R.string.w2_vip));
+                tvToVipManual.setText("当前" + data.getExp() + "成长值，距离W3级会员还有" + data.getNext_level_exp() + "成长值（点此了解会员等级说明）");
+                tvToVipManual.setText(StringLinkUtils.checkAutoLink(tvToVipManual.getText().toString(), "点此了解"));
+                tvToVipManual.setMovementMethod(LinkMovementMethod.getInstance());
+                break;
+            case "W3":
+                ivVipLvImg.setImageResource(R.drawable.ic_w3_vip);
+                tvVipLv.setText(getResources().getString(R.string.w3_vip));
+                tvToVipManual.setText("当前" + data.getExp() + "成长值（点此了解会员等级说明）");
+                tvToVipManual.setText(StringLinkUtils.checkAutoLink(tvToVipManual.getText().toString(), "点此了解"));
+                tvToVipManual.setMovementMethod(LinkMovementMethod.getInstance());
+                break;
+        }
+        tvVipCardNumTop.setText(data.getMember_code());
+        tvVipCardNumCenter.setText(data.getMember_code());
+        tvVipCardNumBottom.setText(data.getMember_code());
 
-    @Override
-    public void resultCaptcha(BaseResponse data) {
+        try {
+            Bitmap barCode = createBarCode(data.getMember_code(), (int) getResources().getDimension(R.dimen.x1020), (int) getResources().getDimension(R.dimen.y252));
+            ivVipBarCode.setImageBitmap(barCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

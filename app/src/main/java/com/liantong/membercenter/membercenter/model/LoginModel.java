@@ -22,7 +22,7 @@ public class LoginModel<T> extends BaseModel {
 
         //当不需要指定是否由dialog时，可以调用这个方法
         //        subscribe(context, Api.getApiService().login(map), observerListener);
-        subscribe(context, Api.getApiService().login(map), observerListener, transformer, isDialog, cancelable);
+        paramSubscribe(context, Api.getApiService().login(map), observerListener, transformer, isDialog, cancelable);
     }
 
     public void captcha(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
@@ -30,7 +30,7 @@ public class LoginModel<T> extends BaseModel {
 
         //当不需要指定是否由dialog时，可以调用这个方法
         //        subscribe(context, Api.getApiService().login(map), observerListener);
-        subscribe(context, Api.getApiService().captcha(map), observerListener, transformer, isDialog, cancelable);
+        paramSubscribe(context, Api.getApiService().captcha(map), observerListener, transformer, isDialog, cancelable);
     }
 
     //// TODO: 2017/12/27 其他需要请求、数据库等等的操作

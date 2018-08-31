@@ -163,5 +163,6 @@
     <color name="tx_check_box">#FF333333</color><!--复选框字体色 -->
     <color name="bg_growth_value">#FFEBEBEB</color><!-- 成长值界面 RecyclerView 的头部背景框 -->
     <color name="tx_default_input">#CCCCCC</color><!--类似输入框默认提示的字体色 -->
+    <color name="growth_value_exp">#FF21750F</color><!--类似输入框默认提示的字体色 -->
 
 </resources>

@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission
         android:name="android.permission.READ_PHONE_STATE"
         android:protectionLevel="signature" />
@@ -56,6 +58,10 @@
             android:launchMode="singleTask" />
         <activity
             android:name=".activity.GrowthValueActivity"
+            android:exported="true"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activity.CouponDetailsActivity"
             android:exported="true"
             android:launchMode="singleTask" />
     </application>

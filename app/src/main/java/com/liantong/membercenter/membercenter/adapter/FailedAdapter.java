@@ -9,7 +9,10 @@ import com.liantong.membercenter.membercenter.R;
 import java.util.List;
 
 /**
- * Created by Mengyang on 2018/8/23
+ * Description ：已失效适配器
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
  */
 public class FailedAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
     public FailedAdapter(@Nullable List<String> data) {

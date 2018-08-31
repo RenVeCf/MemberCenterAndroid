@@ -10,20 +10,27 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.adapter.GrowthValueAdapter;
 import com.liantong.membercenter.membercenter.base.BaseActivity;
-import com.liantong.membercenter.membercenter.base.BaseResponse;
-import com.liantong.membercenter.membercenter.bean.LoginBean;
+import com.liantong.membercenter.membercenter.bean.GrowthValueBean;
 import com.liantong.membercenter.membercenter.common.view.TopView;
-import com.liantong.membercenter.membercenter.contract.LoginContract;
-import com.liantong.membercenter.membercenter.presenter.LoginPresenter;
+import com.liantong.membercenter.membercenter.contract.GrowthValueContract;
+import com.liantong.membercenter.membercenter.presenter.GrowthValuePresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import io.reactivex.ObservableTransformer;
 
-public class GrowthValueActivity extends BaseActivity<LoginContract.View, LoginContract.Presenter> implements LoginContract.View, BaseQuickAdapter.RequestLoadMoreListener {
+/**
+ * Description ：成长值
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
+ */
+
+public class GrowthValueActivity extends BaseActivity<GrowthValueContract.View, GrowthValueContract.Presenter> implements GrowthValueContract.View, BaseQuickAdapter.RequestLoadMoreListener {
 
     @BindView(R.id.srl_growth_value)
     SwipeRefreshLayout srlGrowthValue;
@@ -32,7 +39,7 @@ public class GrowthValueActivity extends BaseActivity<LoginContract.View, LoginC
     @BindView(R.id.tv_growth_value_top)
     TopView tvGrowthValueTop;
     private GrowthValueAdapter mGrowthValueAdapter;
-    private List<String> mGrowthValueBean;
+    private List<GrowthValueBean.GrowthValueItemBean> mGrowthValueBean;
 
     @Override
     public int getLayoutId() {
@@ -40,12 +47,12 @@ public class GrowthValueActivity extends BaseActivity<LoginContract.View, LoginC
     }
 
     @Override
-    public LoginContract.Presenter createPresenter() {
-        return new LoginPresenter(this);
+    public GrowthValueContract.Presenter createPresenter() {
+        return new GrowthValuePresenter(this);
     }
 
     @Override
-    public LoginContract.View createView() {
+    public GrowthValueContract.View createView() {
         return this;
     }
 
@@ -55,8 +62,8 @@ public class GrowthValueActivity extends BaseActivity<LoginContract.View, LoginC
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvGrowthValueTop);
 
-        LinearLayoutManager NotUseList = new LinearLayoutManager(ApplicationUtil.getContext(), LinearLayoutManager.VERTICAL, false);
-        rvGrowthValue.setLayoutManager(NotUseList);
+        LinearLayoutManager GrowthValueList = new LinearLayoutManager(ApplicationUtil.getContext(), LinearLayoutManager.VERTICAL, false);
+        rvGrowthValue.setLayoutManager(GrowthValueList);
         rvGrowthValue.setHasFixedSize(true);
         rvGrowthValue.setItemAnimator(new DefaultItemAnimator());
 
@@ -78,24 +85,20 @@ public class GrowthValueActivity extends BaseActivity<LoginContract.View, LoginC
 
     @Override
     public void initData() {
-        mGrowthValueBean.add("1");
-        mGrowthValueBean.add("2");
-        mGrowthValueBean.add("3");
+        TreeMap<String, String> map = new TreeMap<>();
+        map.put("page", "1");
+        map.put("page_size", "20");
+        getPresenter().getGrowthValueList(map, true, true);
+    }
 
+    @Override
+    public void getGrowthValueList(GrowthValueBean data) {
+        mGrowthValueBean.clear();
+        mGrowthValueBean.addAll(data.getList());
         mGrowthValueAdapter = new GrowthValueAdapter(mGrowthValueBean);
         rvGrowthValue.setAdapter(mGrowthValueAdapter);
         mGrowthValueAdapter.setOnLoadMoreListener(this, rvGrowthValue);
         mGrowthValueAdapter.loadMoreEnd(); //加载更多
-    }
-
-    @Override
-    public void resultLogin(BaseResponse<LoginBean> data) {
-
-    }
-
-    @Override
-    public void resultCaptcha(BaseResponse data) {
-
     }
 
     @Override

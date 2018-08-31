@@ -26,12 +26,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/x52"
                 android:layout_marginEnd="@dimen/x52"
+                android:layout_marginStart="@dimen/x52"
+                android:layout_marginTop="@dimen/y52"
                 android:orientation="vertical">
 
                 <TextView
@@ -91,8 +91,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/y96"
                     android:layout_marginBottom="@dimen/y42"
+                    android:layout_marginTop="@dimen/y96"
                     android:orientation="horizontal">
 
                     <TextView
@@ -121,8 +121,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/y42"
                     android:layout_marginBottom="@dimen/y42"
+                    android:layout_marginTop="@dimen/y42"
                     android:orientation="horizontal">
 
                     <TextView
@@ -151,8 +151,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/y42"
                     android:layout_marginBottom="@dimen/y42"
+                    android:layout_marginTop="@dimen/y42"
                     android:orientation="horizontal">
 
                     <TextView
@@ -171,8 +171,9 @@
 
                         <TextView
                             android:id="@+id/tv_modify_personal_data_sex"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:hint="@string/select_sex"
                             android:textColor="@color/tx_default_input"
                             android:textSize="16sp" />
@@ -180,8 +181,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="end" />
-
+                            android:src="@drawable/ic_arrow_gray" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -193,8 +193,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/y42"
                     android:layout_marginBottom="@dimen/y42"
+                    android:layout_marginTop="@dimen/y42"
                     android:orientation="horizontal">
 
                     <TextView
@@ -213,8 +213,9 @@
 
                         <TextView
                             android:id="@+id/tv_modify_personal_data_detailed_address"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:hint="@string/select_detailed_address"
                             android:textColor="@color/tx_default_input"
                             android:textSize="16sp" />
@@ -222,8 +223,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="end" />
-
+                            android:src="@drawable/ic_arrow_gray" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -236,8 +236,8 @@
                     android:id="@+id/ed_modify_personal_data_door_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/y42"
                     android:layout_marginBottom="@dimen/y42"
+                    android:layout_marginTop="@dimen/y42"
                     android:background="@null"
                     android:hint="@string/input_door_num"
                     android:textSize="16sp" />
@@ -269,13 +269,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/x106"
+                android:layout_marginEnd="@dimen/x106"
                 android:layout_marginStart="@dimen/x106"
                 android:layout_marginTop="@dimen/y80"
-                android:layout_marginEnd="@dimen/x106"
-                android:layout_marginBottom="@dimen/x106"
                 android:background="@drawable/bg_login_bt"
-                android:paddingTop="@dimen/y40"
                 android:paddingBottom="@dimen/y40"
+                android:paddingTop="@dimen/y40"
                 android:text="@string/commit"
                 android:textColor="@color/white"
                 android:textSize="16sp" />

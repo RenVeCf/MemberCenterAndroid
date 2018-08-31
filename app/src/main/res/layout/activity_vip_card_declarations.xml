@@ -11,15 +11,14 @@
         android:id="@+id/tv_vip_card_declarations_top"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:is_back="true"
         app:title="@string/privacy_policy"
-        app:title_color="@color/white" />
+        app:title_color="@color/black" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_privacy_policy_logo"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:src="@mipmap/ic_privacy_policy_logo" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -19,7 +19,7 @@ public interface LoginContract {
 
     interface View extends BaseView {
         //不同的Bean单独处理
-        void resultLogin(BaseResponse<LoginBean> data);
+        void resultLogin(LoginBean data);
 
         void resultCaptcha(BaseResponse data);
 

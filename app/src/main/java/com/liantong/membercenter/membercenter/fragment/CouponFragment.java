@@ -7,12 +7,11 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.adapter.ViewPagerAdapter;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
-import com.liantong.membercenter.membercenter.base.BaseResponse;
-import com.liantong.membercenter.membercenter.bean.LoginBean;
+import com.liantong.membercenter.membercenter.bean.CouponListBean;
 import com.liantong.membercenter.membercenter.common.view.NavitationLayout;
 import com.liantong.membercenter.membercenter.common.view.TopView;
-import com.liantong.membercenter.membercenter.contract.LoginContract;
-import com.liantong.membercenter.membercenter.presenter.LoginPresenter;
+import com.liantong.membercenter.membercenter.contract.CouponListContract;
+import com.liantong.membercenter.membercenter.presenter.CouponListPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 import com.trello.rxlifecycle2.android.FragmentEvent;
@@ -24,12 +23,12 @@ import butterknife.BindView;
 import io.reactivex.ObservableTransformer;
 
 /**
- * Description ：
+ * Description ：优惠券
  * Author ： MengYang
  * Email ： 942685687@qq.com
  * Time ： 2018/8/19.
  */
-public class CouponFragment extends BaseFragment<LoginContract.View, LoginContract.Presenter> implements LoginContract.View {
+public class CouponFragment extends BaseFragment<CouponListContract.View, CouponListContract.Presenter> implements CouponListContract.View {
 
     private String[] titles1 = new String[]{ApplicationUtil.getContext().getResources().getString(R.string.not_use), ApplicationUtil.getContext().getResources().getString(R.string.failed), ApplicationUtil.getContext().getResources().getString(R.string.convertibility)};
     private ViewPagerAdapter mViewPagerAdapter;
@@ -48,12 +47,12 @@ public class CouponFragment extends BaseFragment<LoginContract.View, LoginContra
     }
 
     @Override
-    public LoginContract.Presenter createPresenter() {
-        return new LoginPresenter(mContext);
+    public CouponListContract.Presenter createPresenter() {
+        return new CouponListPresenter(mContext);
     }
 
     @Override
-    public LoginContract.View createView() {
+    public CouponListContract.View createView() {
         return this;
     }
 
@@ -85,11 +84,7 @@ public class CouponFragment extends BaseFragment<LoginContract.View, LoginContra
     }
 
     @Override
-    public void resultLogin(BaseResponse<LoginBean> data) {
-    }
-
-    @Override
-    public void resultCaptcha(BaseResponse data) {
+    public void getCouponList(CouponListBean data) {
     }
 
     @Override

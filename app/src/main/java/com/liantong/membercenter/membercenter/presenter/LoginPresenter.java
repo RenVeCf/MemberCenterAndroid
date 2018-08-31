@@ -34,8 +34,7 @@ public class LoginPresenter extends LoginContract.Presenter {
             public void onNext(Object o) {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
-                    getView().resultLogin((BaseResponse<LoginBean>) o);
-                    getView().setMsg("请求成功");
+                    getView().resultLogin((LoginBean) o);
                 }
             }
 
@@ -57,7 +56,6 @@ public class LoginPresenter extends LoginContract.Presenter {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().resultCaptcha((BaseResponse) o);
-                    getView().setMsg("请求成功");
                 }
             }
 

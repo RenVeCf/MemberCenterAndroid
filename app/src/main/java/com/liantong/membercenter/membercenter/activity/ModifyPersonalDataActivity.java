@@ -21,17 +21,17 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.contrarywind.view.WheelView;
 import com.google.gson.Gson;
-import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.base.BaseActivity;
-import com.liantong.membercenter.membercenter.base.BaseResponse;
 import com.liantong.membercenter.membercenter.bean.CityAddressBean;
-import com.liantong.membercenter.membercenter.bean.LoginBean;
-import com.liantong.membercenter.membercenter.contract.LoginContract;
-import com.liantong.membercenter.membercenter.presenter.LoginPresenter;
+import com.liantong.membercenter.membercenter.bean.UserInfoBean;
 import com.liantong.membercenter.membercenter.common.view.TopView;
+import com.liantong.membercenter.membercenter.contract.MemberCenterContract;
+import com.liantong.membercenter.membercenter.presenter.MemberCenterPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.StringLinkUtils;
+import com.liantong.membercenter.membercenter.utils.ToastUtil;
+import com.liantong.membercenter.membercenter.utils.VerifyUtils;
 
 import org.json.JSONArray;
 
@@ -44,7 +44,14 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
-public class ModifyPersonalDataActivity extends BaseActivity<LoginContract.View, LoginContract.Presenter> implements LoginContract.View {
+/**
+ * Description ：修改个人资料
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
+ */
+
+public class ModifyPersonalDataActivity extends BaseActivity<MemberCenterContract.View, MemberCenterContract.Presenter> implements MemberCenterContract.View {
 
     @BindView(R.id.tv_modify_personal_data_top)
     TopView tvModifyPersonalDataTop;
@@ -77,31 +84,27 @@ public class ModifyPersonalDataActivity extends BaseActivity<LoginContract.View,
     ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
     ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
 
-
     @Override
     public int getLayoutId() {
         return R.layout.activity_modify_personal_data;
     }
 
     @Override
-    public LoginContract.Presenter createPresenter() {
-        return new LoginPresenter(this);
+    public MemberCenterContract.Presenter createPresenter() {
+        return new MemberCenterPresenter(this);
     }
 
     @Override
-    public LoginContract.View createView() {
+    public MemberCenterContract.View createView() {
         return this;
     }
 
     @Override
     public void init() {
         ApplicationUtil.getManager().addActivity(this);
-        //防止状态栏和标题重叠
-        ImmersionBar.setTitleBar(this, tvModifyPersonalDataTop);
         cbModifyPersonalData.setText(StringLinkUtils.checkAutoLink(getResources().getString(R.string.modify_personal_data_privacy_policy), "会员章程"));
         cbModifyPersonalData.setText(StringLinkUtils.checkAutoLink(getResources().getString(R.string.modify_personal_data_privacy_policy), "隐私政策"));
         cbModifyPersonalData.setMovementMethod(LinkMovementMethod.getInstance());
-        initJsonData();
     }
 
     public void showPickerView() {
@@ -258,16 +261,11 @@ public class ModifyPersonalDataActivity extends BaseActivity<LoginContract.View,
 
     @Override
     public void initData() {
-
+        initJsonData();
     }
 
     @Override
-    public void resultLogin(BaseResponse<LoginBean> data) {
-
-    }
-
-    @Override
-    public void resultCaptcha(BaseResponse data) {
+    public void getUserInfo(UserInfoBean data) {
 
     }
 
@@ -291,6 +289,11 @@ public class ModifyPersonalDataActivity extends BaseActivity<LoginContract.View,
                 showPickerView();
                 break;
             case R.id.bt_modify_personal_data:
+                if (VerifyUtils.isChineseCard(edModifyPersonalDataIdCard.getText().toString()) && VerifyUtils.isEmail(edModifyPersonalDataEMailAddress.getText().toString())) {
+                    finish();
+                } else {
+                    ToastUtil.showShortToast(getResources().getString(R.string.error_id_card_or_email));
+                }
                 break;
         }
     }

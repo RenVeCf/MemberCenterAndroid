@@ -1,17 +1,24 @@
 package com.liantong.membercenter.membercenter.base;
 
 import android.text.TextUtils;
-import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
+import com.liantong.membercenter.membercenter.utils.LogUtils;
 import com.liantong.membercenter.membercenter.utils.MD5Utils;
 import com.liantong.membercenter.membercenter.utils.NetWorkUtil;
+import com.liantong.membercenter.membercenter.utils.SPUtil;
+import com.liantong.membercenter.membercenter.utils.StringUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -71,16 +78,43 @@ public class BaseApi {
             public Response intercept(Chain chain) throws IOException {
                 Request build = chain.request();
                 FormBody formBody = (FormBody) build.body();
+
                 String parameter = "";
-                for (int i = 0; i < formBody.size(); i++) {
-                    parameter = parameter + formBody.encodedName(i) + "=" + formBody.encodedValue(i);
-                    if (i < formBody.size() - 1)
-                        parameter = parameter + "&";
+                if (formBody != null) {
+                    for (int i = 0; i < formBody.size(); i++) {
+                        parameter = parameter + formBody.encodedName(i) + "=" + formBody.encodedValue(i);
+                        if (i < formBody.size() - 1)
+                            parameter = parameter + "&";
+                    }
                 }
+
+                String buildUrl = "";
+                String jti = "";
+                String uidFromBase64 = "";
                 String timesTamp = String.format("%010d", System.currentTimeMillis() / 1000);
-                String buildUrl = "||2010006|POST|" + build.url().toString().substring(21) + "|" + timesTamp + "||" + parameter + "||";
+
+                if (SPUtil.get(ApplicationUtil.getContext(), IConstants.TOKEN, "").toString().length() > 0) {
+                    uidFromBase64 = getUidFromBase64(StringUtils.identical(SPUtil.get(ApplicationUtil.getContext(), IConstants.TOKEN, "").toString(), ".", "."));
+                }
+                if (uidFromBase64.length() > 0) {
+                    JsonReader jsonReader = new JsonReader(new InputStreamReader(new ByteArrayInputStream(uidFromBase64.getBytes())));
+                    jsonReader.setLenient(true);
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map = new Gson().fromJson(jsonReader, map.getClass());
+                    jti = map.get("jti") + "";
+                }
+                if (build.method().equals("GET") && build.url().toString().substring(21).contains("&")) {
+                    LogUtils.i("rmy", "build.url() = " + build.url().toString() + "substring = " + build.url().toString().substring(21, 45) + ", lastIndexOf = " + build.url().toString().lastIndexOf("?") + 1 + "\nparameter = " + parameter);
+                    buildUrl = "|" + jti + "|2010006|GET|" + build.url().toString().substring(21, 45) + "|" + timesTamp + "|" + build.url().toString().substring(46) + "|||";
+                } else if (build.method().equals("GET"))
+                    buildUrl = "|" + jti + "|2010006|GET|" + build.url().toString().substring(21) + "|" + timesTamp + "|" + parameter + "|||";
+                else
+                    buildUrl = "|" + jti + "|2010006|POST|" + build.url().toString().substring(21) + "|" + timesTamp + "||" + parameter + "||";
+
+                LogUtils.i("rmy", "Base64 = " + getUidFromBase64(SPUtil.get(ApplicationUtil.getContext(), IConstants.TOKEN, "").toString()) + "\nAuthorization = " + getToKen() + "\nX-Signature = " + MD5Utils.encodeMD5(buildUrl) + "\nX-TimesTamp = " + timesTamp + "\nbuildUrl = " + buildUrl);
                 build = build.newBuilder()
                         .addHeader("Content-Type", "application/json")//设置允许请求json数据
+                        .addHeader("Authorization", getToKen())
                         .addHeader("X-Signature", MD5Utils.encodeMD5(buildUrl))
                         .addHeader("X-TimesTamp", timesTamp)
                         .build();
@@ -110,6 +144,34 @@ public class BaseApi {
         return retrofit;
     }
 
+    private String getToKen() {
+        if (!SPUtil.get(ApplicationUtil.getContext(), IConstants.TOKEN, "").equals(""))
+            return "Bearer " + SPUtil.get(ApplicationUtil.getContext(), IConstants.TOKEN, "");
+        else
+            return "";
+    }
+
+    /**
+     * base64 解码
+     *
+     * @param base64Id
+     * @return
+     */
+    public String getUidFromBase64(String base64Id) {
+        String result = "";
+        if (!TextUtils.isEmpty(base64Id)) {
+            if (!TextUtils.isEmpty(base64Id)) {
+                try {
+                    result = new String(android.util.Base64.decode(base64Id.getBytes(), android.util.Base64.DEFAULT));
+                } catch (Exception e) {
+                    LogUtils.i("rmy", e.toString());
+                }
+            }
+        }
+        return result;
+    }
+
+
     /**
      * 设缓存有效期为两天
      */
@@ -134,7 +196,6 @@ public class BaseApi {
 
             Response originalResponse = chain.proceed(request);
             if (NetWorkUtil.isNetConnected(ApplicationUtil.getContext())) {//在线缓存
-                //                KLog.e("在线缓存2分钟");
                 return originalResponse.newBuilder()
                         .removeHeader("Pragma")
                         .header("Cache-Control", cacheControl)//应用服务端配置的缓存策略
@@ -161,17 +222,4 @@ public class BaseApi {
             }
         }
     };
-
-    //post 添加签名
-    private Request addPostParams(Request request) throws UnsupportedEncodingException {
-        Log.i("rmy", "request.url() = " + request.url());
-        //签名
-        String url = "||2010006|POST|" + request.url().toString().substring(21).substring(0, request.url().toString().substring(21).indexOf("?")) + "|" + String.format("%010d", System.currentTimeMillis() / 1000) + "||" + request.url().toString().substring(21).substring(request.url().toString().substring(21).indexOf("?") + 1, request.url().toString().substring(21).length()) + "||";
-        Log.i("rmy", "url : " + url);
-        url = MD5Utils.encodeMD5(url);
-        Log.i("rmy", "data = " + String.format("%010d", System.currentTimeMillis() / 1000));
-        Log.i("rmy", "url = " + url);
-        Log.i("rmy", "request = " + request);
-        return request;
-    }
 }

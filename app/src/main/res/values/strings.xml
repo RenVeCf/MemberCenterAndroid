@@ -55,7 +55,6 @@
     <string name="error_captcha_num">验证码不正确！</string>
     <string name="phone_num">手机号码</string>
     <string name="error_login">请选择正确的格式！</string>
-    <string name="group_bug_coupon">团购券</string>
     <string name="data_andr_privacy_policy">个人资料及隐私政策</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="commitment_privacy_policy">* 我接受注册用户协议，并承诺我已经阅读并接受注册用户协议和隐私政策的详细内容。</string>
@@ -87,4 +86,16 @@
     <string name="sure">确定</string>
     <string name="modify_personal_data_privacy_policy">我接受注册会员章程，并承诺我已阅读并接受注册 隐私政策 的详细内容。</string>
     <string name="error_name">用户名格式不正确！</string>
+    <string name="click_out_again">再按一次退出程序</string>
+    <string name="w1_vip">W1会员</string>
+    <string name="w2_vip">W2会员</string>
+    <string name="w3_vip">W3会员</string>
+    <string name="error_id_card_or_email">身份证或邮箱填写错误！</string>
+    <string name="use_date">使用期限:</string>
+    <string name="group_bug_coupon">团购券</string>
+    <string name="cash_coupon">代金券</string>
+    <string name="offset_coupon">折扣券</string>
+    <string name="discount_coupon">优惠券</string>
+    <string name="exchange_coupon">兑换券</string>
+
 </resources>

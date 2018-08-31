@@ -11,7 +11,6 @@
         android:id="@+id/tv_login_top"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:is_back="false"
         app:title="@string/login"
         app:title_color="@color/black" />
 
@@ -149,7 +148,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_arrow_red"
                     android:text="@string/go_register"
+                    android:drawablePadding="@dimen/x16"
+
+
+
                     android:textColor="@color/red" />
             </LinearLayout>
         </LinearLayout>

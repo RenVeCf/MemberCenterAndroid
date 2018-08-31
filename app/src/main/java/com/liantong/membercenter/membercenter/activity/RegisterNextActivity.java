@@ -15,6 +15,13 @@ import com.liantong.membercenter.membercenter.common.view.TopView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * Description ：注册成功
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
+ */
+
 public class RegisterNextActivity extends BaseActivity {
 
     @BindView(R.id.tv_register_success_top)

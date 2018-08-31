@@ -7,7 +7,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.List;
 
 /**
- * Created by ywl on 10/15/15.
+ * Description ：券界面顶部导航栏
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 

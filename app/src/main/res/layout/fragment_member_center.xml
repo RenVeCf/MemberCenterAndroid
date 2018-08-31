@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/y270"
         android:gravity="bottom"
-        app:is_back="false"
+        app:is_out="true"
         app:title="@string/app_name"
         app:title_color="@color/black" />
 
@@ -18,8 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/y540"
         android:layout_gravity="center"
-        android:layout_marginStart="@dimen/x40"
-        android:layout_marginEnd="@dimen/x40">
+        android:layout_marginEnd="@dimen/x40"
+        android:layout_marginStart="@dimen/x40">
 
         <ImageView
             android:layout_width="match_parent"
@@ -32,19 +32,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginStart="@dimen/x62"
-            android:layout_marginTop="@dimen/y306"
             android:layout_marginBottom="@dimen/y74"
-            app:srcCompat="@drawable/ic_w1_vip" />
+            android:layout_marginStart="@dimen/x62"
+            android:layout_marginTop="@dimen/y306" />
 
         <TextView
             android:id="@+id/tv_vip_card_num_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/x62"
             android:layout_marginBottom="@dimen/y66"
-            android:text="4247 9236 6197 2"
+            android:layout_marginStart="@dimen/x62"
             android:textColor="@color/white"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -61,15 +59,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="42479236619"
         android:textColor="@color/black" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/x66"
         android:layout_marginStart="@dimen/x66"
         android:layout_marginTop="@dimen/y106"
-        android:layout_marginEnd="@dimen/x66"
         android:orientation="vertical">
 
         <LinearLayout
@@ -88,7 +85,6 @@
                 android:id="@+id/tv_vip_card_num_bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="42479236619"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -118,7 +114,6 @@
                 android:id="@+id/tv_vip_lv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="W1会员"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -130,7 +125,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/y30"
             android:lineSpacingExtra="@dimen/y30"
-            android:text="当前50成长值，距离W2级会员还有1950成长值（点此了解会员等级说明）"
             android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
@@ -141,7 +135,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/y68"
-        android:text="您的成长值获取记录"
+        android:drawableEnd="@drawable/ic_arrow_blue"
+        android:drawablePadding="@dimen/x16"
+        android:text="@string/growth_value_record"
         android:textColor="@color/tx_link"
         android:textSize="16sp" />
 </LinearLayout>

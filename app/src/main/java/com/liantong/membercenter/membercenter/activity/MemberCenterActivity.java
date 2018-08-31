@@ -10,20 +10,23 @@ import android.widget.RadioButton;
 
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.base.BaseActivity;
-import com.liantong.membercenter.membercenter.base.BaseResponse;
-import com.liantong.membercenter.membercenter.bean.LoginBean;
+import com.liantong.membercenter.membercenter.bean.UserInfoBean;
 import com.liantong.membercenter.membercenter.contract.MemberCenterContract;
 import com.liantong.membercenter.membercenter.fragment.ActivitiesFragment;
 import com.liantong.membercenter.membercenter.fragment.CouponFragment;
 import com.liantong.membercenter.membercenter.fragment.MemberCenterFragment;
+import com.liantong.membercenter.membercenter.presenter.MemberCenterPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
+import com.liantong.membercenter.membercenter.utils.ToastUtil;
+
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
 /**
- * Description ：会员中心
+ * Description ：会员中心主界面
  * Author ： MengYang
  * Email ： 942685687@qq.com
  * Time ： 2018/8/27.
@@ -42,6 +45,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterContract.View
     @BindView(R.id.rb_navigation_activities)
     RadioButton rbNavigationActivities;
 
+    private long firstTime = 0;
     private Fragment currentFragment = new Fragment();
     private MemberCenterFragment memberCenterFragment = new MemberCenterFragment();
     private CouponFragment couponFragment = new CouponFragment();
@@ -54,12 +58,12 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterContract.View
 
     @Override
     public MemberCenterContract.Presenter createPresenter() {
-        return null;
+        return new MemberCenterPresenter(this);
     }
 
     @Override
     public MemberCenterContract.View createView() {
-        return null;
+        return this;
     }
 
     @Override
@@ -99,16 +103,12 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterContract.View
 
     @Override
     public void initData() {
-
+        TreeMap<String, String> captchaMap = new TreeMap<>();
+        getPresenter().getUserInfo(captchaMap, true, true);
     }
 
     @Override
-    public void resultLogin(BaseResponse<LoginBean> data) {
-
-    }
-
-    @Override
-    public void resultCaptcha(BaseResponse data) {
+    public void getUserInfo(UserInfoBean data) {
 
     }
 
@@ -120,6 +120,20 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterContract.View
     @Override
     public <T> ObservableTransformer<T, T> bindLifecycle() {
         return null;
+    }
+
+    /**
+     * 双击退出程序
+     */
+    @Override
+    public void onBackPressed() {
+        long secondTime = System.currentTimeMillis();
+        if (secondTime - firstTime > 2000) {
+            ToastUtil.showShortToast(getResources().getString(R.string.click_out_again));
+            firstTime = secondTime;
+        } else {
+            ApplicationUtil.getManager().exitApp();
+        }
     }
 
     //Fragment优化

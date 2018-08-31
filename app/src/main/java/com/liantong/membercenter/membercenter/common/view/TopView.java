@@ -2,6 +2,7 @@ package com.liantong.membercenter.membercenter.common.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
@@ -11,6 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liantong.membercenter.membercenter.R;
+import com.liantong.membercenter.membercenter.activity.LoginActivity;
+import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
+import com.liantong.membercenter.membercenter.utils.SPUtil;
 
 /**
  * Description : 标题栏
@@ -23,8 +27,11 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
 
     private TextView tvTopTitle;
     private ImageView ivTopBack;
+    private ImageView ivTopOut;
+
     //各icon是否显示
     private Boolean isBack;
+    private Boolean isOut;
     private Context mContext;
 
     public TopView(Context context) {
@@ -38,11 +45,13 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TopView);
         tvTopTitle.setText(typedArray.getString(R.styleable.TopView_title));
-        tvTopTitle.setTextColor(typedArray.getColor(R.styleable.TopView_title_color, 0x000000));
+        tvTopTitle.setTextColor(typedArray.getColor(R.styleable.TopView_title_color, getResources().getColor(R.color.black)));
         isBack = typedArray.getBoolean(R.styleable.TopView_is_back, false);
+        isOut = typedArray.getBoolean(R.styleable.TopView_is_out, false);
         typedArray.recycle();
 
-        ivTopBack.setVisibility(isBack ? View.GONE : View.VISIBLE);
+        ivTopBack.setVisibility(isBack ? View.VISIBLE : View.GONE);
+        ivTopOut.setVisibility(isOut ? View.VISIBLE : View.GONE);
     }
 
     public TopView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -55,7 +64,10 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
         View.inflate(context, R.layout.top_view, this);
         tvTopTitle = (TextView) this.findViewById(R.id.tv_top_title);
         ivTopBack = (ImageView) this.findViewById(R.id.iv_top_back);
+        ivTopOut = (ImageView) this.findViewById(R.id.iv_top_out);
+
         ivTopBack.setOnClickListener(this);
+        ivTopOut.setOnClickListener(this);
     }
 
     @Override
@@ -68,6 +80,11 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
                         ((InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(((Activity) mContext).getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     }
                 }
+                break;
+            case R.id.iv_top_out:
+                SPUtil.clear(ApplicationUtil.getContext());
+                ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), LoginActivity.class));
+                ApplicationUtil.getManager().finishActivity();
                 break;
             default:
                 break;

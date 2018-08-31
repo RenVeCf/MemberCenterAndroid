@@ -61,6 +61,7 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
     LinearLayout llRegisterLogin;
 
     boolean isName = false; //用户名格式判断
+    private long firstTime = 0;
 
     @Override
     public int getLayoutId() {
@@ -126,8 +127,20 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
             public void afterTextChanged(Editable s) {
                 //输入文字后的状态
                 //只能输入中文且长度小于等于10 或 只能输入英文且长度小于等于20
-                if (VerifyUtils.isChinese(etRegisterName.getText().toString().trim()) == true && etRegisterName.getText().toString().trim().length() <= 10 || VerifyUtils.isEnglish(etRegisterName.getText().toString().trim()) == true && etRegisterName.getText().toString().trim().length() <= 20) {
+                if (VerifyUtils.isChinese(etRegisterName.getText().toString()) == true && etRegisterName.getText().toString().trim().length() <= 10) {
                     isName = true;
+                } else if (etRegisterName.getText().toString().length() <= 20 && !etRegisterName.getText().toString().startsWith(" ")) {
+                    if (!VerifyUtils.isHasTwinSpace(etRegisterName.getText().toString())) {
+                        if (VerifyUtils.isEnglish(etRegisterName.getText().toString().replace(" ", "")))
+                            isName = true;
+                        else {
+                            isName = false;
+                            ToastUtil.showShortToast(getResources().getString(R.string.error_name));
+                        }
+                    } else {
+                        isName = false;
+                        ToastUtil.showShortToast(getResources().getString(R.string.error_name));
+                    }
                 } else {
                     isName = false;
                     ToastUtil.showShortToast(getResources().getString(R.string.error_name));
@@ -194,12 +207,26 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
         return this.bindToLifecycle();
     }
 
+    /**
+     * 双击退出程序
+     */
+    @Override
+    public void onBackPressed() {
+        long secondTime = System.currentTimeMillis();
+        if (secondTime - firstTime > 2000) {
+            ToastUtil.showShortToast(getResources().getString(R.string.click_out_again));
+            firstTime = secondTime;
+        } else {
+            ApplicationUtil.getManager().exitApp();
+        }
+    }
+
     @OnClick({R.id.tv_register_captcha, R.id.bt_register, R.id.ll_register_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_register_captcha:
                 //手机号码的长度判断
-                if (!etRegisterPhone.getText().toString().trim().equals("") && etRegisterPhone.getText().toString().trim().length() == 11) {
+                if (!etRegisterPhone.getText().toString().trim().equals("") && etRegisterPhone.getText().toString().trim().length() == 11 && VerifyUtils.isMobileNumber(etRegisterPhone.getText().toString().trim())) {
                     TreeMap<String, String> captchaMap = new TreeMap<>();
                     //获取手机号码
                     captchaMap.put("mobile", etRegisterPhone.getText().toString().trim());
@@ -212,17 +239,17 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
                 break;
             case R.id.bt_register:
                 //手机号码的长度判断，验证码的长度判断，复选框状态
-                if (etRegisterPhone.getText().toString().trim().length() == 11 && isName == true && etRegisterCaptcha.getText().toString().trim().length() == 6 && cbRegister.isChecked() == true) {
-                    TreeMap<String, String> Loginmap = new TreeMap<>();
+                if (etRegisterPhone.getText().toString().trim().length() == 11 && isName == true && etRegisterCaptcha.getText().toString().trim().length() == 6 && VerifyUtils.isNumeric(etRegisterCaptcha.getText().toString().trim()) && cbRegister.isChecked() == true) {
+                    TreeMap<String, String> loginMap = new TreeMap<>();
                     //获取手机号码
-                    Loginmap.put("mobile", etRegisterPhone.getText().toString().trim());
+                    loginMap.put("mobile", etRegisterPhone.getText().toString().trim());
                     //获取手机号码
-                    Loginmap.put("name", etRegisterName.getText().toString().trim());
+                    loginMap.put("name", etRegisterName.getText().toString().trim());
                     //获取验证码
-                    Loginmap.put("captcha", etRegisterPhone.getText().toString().trim());
+                    loginMap.put("captcha", etRegisterPhone.getText().toString().trim());
                     //平台标识码
-                    Loginmap.put("delegate_code", "2010006");
-                    getPresenter().register(Loginmap, true, true);
+                    loginMap.put("delegate_code", "2010006");
+                    getPresenter().register(loginMap, true, true);
                 } else {
                     ToastUtil.showShortToast(getString(R.string.error_login));
                 }

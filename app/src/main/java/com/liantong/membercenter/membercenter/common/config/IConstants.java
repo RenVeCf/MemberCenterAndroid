@@ -18,4 +18,7 @@ public interface IConstants {
     Boolean FIRST_APP = true; //第一次进应用
     Boolean IS_LOGIN = false; //已经登录
     String TOKEN = ""; //token
+    String AUTHORIZATION_TYPE = ""; //token type
+    String MEMBER_LEVEL = "";
+    String MEMBER_CODE = "";
 }
