@@ -67,6 +67,7 @@ public class CouponFragment extends BaseFragment<CouponListContract.View, Coupon
         fragments1.add(new CouponConvertibilityFragment());
         mViewPagerAdapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager(), fragments1);
         vpCoupon.setAdapter(mViewPagerAdapter);
+        vpCoupon.setOffscreenPageLimit(2);
 
         nlCoupon.setViewPager(getActivity(), titles1, vpCoupon, R.color.black, R.color.bg_captcha, 16, 16, 0, 45, true);
         nlCoupon.setBgLine(getActivity(), 1, R.color.bg_line);

@@ -1,5 +1,6 @@
 package com.liantong.membercenter.membercenter.utils;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -13,6 +14,7 @@ import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.activity.ModifyPersonalDataActivity;
 import com.liantong.membercenter.membercenter.activity.VipCardDeclarationsActivity;
 import com.liantong.membercenter.membercenter.activity.VipManualActivity;
+import com.liantong.membercenter.membercenter.common.config.IConstants;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,17 +29,17 @@ public class StringLinkUtils {
 
     public static SpannableStringBuilder mSsb;
 
-    public static CharSequence checkAutoLink(String content, String link) {
+    public static CharSequence checkAutoLink(Activity activity, String content, String link) {
         mSsb = new SpannableStringBuilder(content);
         Pattern pattern = Pattern.compile(link);//根据正则匹配出带有超链接的文字
         Matcher matcher = pattern.matcher(mSsb);
         while (matcher.find()) {
-            setClickableSpan(mSsb, matcher);
+            setClickableSpan(activity, mSsb, matcher);
         }
         return mSsb;
     }
 
-    private static void setClickableSpan(final SpannableStringBuilder clickableHtmlBuilder, final Matcher matcher) {
+    private static void setClickableSpan(final Activity activity, final SpannableStringBuilder clickableHtmlBuilder, final Matcher matcher) {
         int start = matcher.start();
         int end = matcher.end();
         ClickableSpan clickableSpan = new ClickableSpan() {
@@ -53,7 +55,8 @@ public class StringLinkUtils {
                         break;
                     case R.id.cb_register:
                     case R.id.cb_login:
-                        ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), VipCardDeclarationsActivity.class));
+                        //                        ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), VipCardDeclarationsActivity.class));
+                        activity.startActivityForResult(new Intent(ApplicationUtil.getContext(), VipCardDeclarationsActivity.class), IConstants.REQUEST_CODE);
                         break;
                 }
             }

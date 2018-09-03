@@ -38,8 +38,10 @@ public class GrowthValueActivity extends BaseActivity<GrowthValueContract.View, 
     RecyclerView rvGrowthValue;
     @BindView(R.id.tv_growth_value_top)
     TopView tvGrowthValueTop;
+
     private GrowthValueAdapter mGrowthValueAdapter;
     private List<GrowthValueBean.GrowthValueItemBean> mGrowthValueBean;
+    private int pageNum = 1; //请求页数
 
     @Override
     public int getLayoutId() {
@@ -77,6 +79,7 @@ public class GrowthValueActivity extends BaseActivity<GrowthValueContract.View, 
         srlGrowthValue.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pageNum = 1;
                 initData();
                 srlGrowthValue.setRefreshing(false);
             }
@@ -86,19 +89,39 @@ public class GrowthValueActivity extends BaseActivity<GrowthValueContract.View, 
     @Override
     public void initData() {
         TreeMap<String, String> map = new TreeMap<>();
-        map.put("page", "1");
+        map.put("page", pageNum + "");
         map.put("page_size", "20");
         getPresenter().getGrowthValueList(map, true, true);
     }
 
     @Override
     public void getGrowthValueList(GrowthValueBean data) {
-        mGrowthValueBean.clear();
-        mGrowthValueBean.addAll(data.getList());
-        mGrowthValueAdapter = new GrowthValueAdapter(mGrowthValueBean);
-        rvGrowthValue.setAdapter(mGrowthValueAdapter);
-        mGrowthValueAdapter.setOnLoadMoreListener(this, rvGrowthValue);
-        mGrowthValueAdapter.loadMoreEnd(); //加载更多
+
+        if (data.getTotal() > 0) {
+            if (pageNum == 1) {
+                mGrowthValueBean.clear();
+                mGrowthValueBean.addAll(data.getList());
+
+                if (data.getTotal_page() > 0) {
+                    pageNum += 1;
+                    mGrowthValueAdapter = new GrowthValueAdapter(mGrowthValueBean);
+                    rvGrowthValue.setAdapter(mGrowthValueAdapter);
+                    mGrowthValueAdapter.setOnLoadMoreListener(this, rvGrowthValue);
+                } else {
+                    mGrowthValueAdapter.loadMoreEnd();//完成所有加载
+                }
+            } else {
+                if (data.getList().size() > 0) {
+                    pageNum += 1;
+                    mGrowthValueAdapter.addData(data.getList());
+                    mGrowthValueAdapter.loadMoreComplete(); //完成本次
+                } else {
+                    mGrowthValueAdapter.loadMoreEnd(); //完成所有加载
+                }
+            }
+        } else {
+            mGrowthValueAdapter.loadMoreEnd(); //完成所有加载
+        }
     }
 
     @Override

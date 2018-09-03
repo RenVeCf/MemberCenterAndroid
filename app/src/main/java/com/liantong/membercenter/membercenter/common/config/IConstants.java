@@ -13,12 +13,26 @@ public interface IConstants {
     String PACKAGE_NAME = "com.liantong.membercenter.membercenter";
 
     /**
+     * SharedPreferences
      * 共享参数
      */
     Boolean FIRST_APP = true; //第一次进应用
     Boolean IS_LOGIN = false; //已经登录
-    String TOKEN = ""; //token
-    String AUTHORIZATION_TYPE = ""; //token type
-    String MEMBER_LEVEL = "";
-    String MEMBER_CODE = "";
+    String TOKEN = "token"; //token
+    String AUTHORIZATION_TYPE = "token_type"; //token type
+    String NAME = "name";
+    String PHONE = "phone";
+
+    /**
+     * requestCode
+     * 请求码
+     */
+    int REQUEST_CODE = 90;
+
+
+    /**
+     * resultCode
+     * 返回码
+     */
+    int RESULT_CODE = 1000;
 }

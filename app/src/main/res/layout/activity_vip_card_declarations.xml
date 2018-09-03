@@ -60,6 +60,7 @@
         android:textSize="12sp" />
 
     <Button
+        android:id="@+id/bt_vip_card_declarations"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

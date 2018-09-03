@@ -16,6 +16,7 @@ import java.util.Locale;
  */
 
 public class StringUtils {
+
     /**
      * Judge whether a string is whitespace, empty ("") or null.
      * 判断一个字符串的空格、空（“”）或空。

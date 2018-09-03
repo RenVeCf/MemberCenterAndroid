@@ -2,12 +2,21 @@ package com.liantong.membercenter.membercenter.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -24,14 +33,14 @@ import com.google.gson.Gson;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.base.BaseActivity;
 import com.liantong.membercenter.membercenter.bean.CityAddressBean;
-import com.liantong.membercenter.membercenter.bean.UserInfoBean;
+import com.liantong.membercenter.membercenter.bean.ModifyPersonalDataBean;
+import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.common.view.TopView;
-import com.liantong.membercenter.membercenter.contract.MemberCenterContract;
-import com.liantong.membercenter.membercenter.presenter.MemberCenterPresenter;
+import com.liantong.membercenter.membercenter.contract.ModifyPersonalDataContract;
+import com.liantong.membercenter.membercenter.presenter.ModifyPersonalDataPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
-import com.liantong.membercenter.membercenter.utils.StringLinkUtils;
-import com.liantong.membercenter.membercenter.utils.ToastUtil;
-import com.liantong.membercenter.membercenter.utils.VerifyUtils;
+import com.liantong.membercenter.membercenter.utils.LogUtils;
+import com.liantong.membercenter.membercenter.utils.SPUtil;
 
 import org.json.JSONArray;
 
@@ -39,6 +48,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -51,7 +61,7 @@ import io.reactivex.ObservableTransformer;
  * Time ： 2018/8/27.
  */
 
-public class ModifyPersonalDataActivity extends BaseActivity<MemberCenterContract.View, MemberCenterContract.Presenter> implements MemberCenterContract.View {
+public class ModifyPersonalDataActivity extends BaseActivity<ModifyPersonalDataContract.View, ModifyPersonalDataContract.Presenter> implements ModifyPersonalDataContract.View {
 
     @BindView(R.id.tv_modify_personal_data_top)
     TopView tvModifyPersonalDataTop;
@@ -80,9 +90,9 @@ public class ModifyPersonalDataActivity extends BaseActivity<MemberCenterContrac
     @BindView(R.id.tv_modify_personal_data_detailed_address)
     TextView tvModifyPersonalDataDetailedAddress;
 
-    ArrayList<CityAddressBean> options1Items = new ArrayList<>();
-    ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
-    ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+    private ArrayList<CityAddressBean> options1Items = new ArrayList<>();
+    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
+    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -90,21 +100,68 @@ public class ModifyPersonalDataActivity extends BaseActivity<MemberCenterContrac
     }
 
     @Override
-    public MemberCenterContract.Presenter createPresenter() {
-        return new MemberCenterPresenter(this);
+    public ModifyPersonalDataContract.Presenter createPresenter() {
+        return new ModifyPersonalDataPresenter(this);
     }
 
     @Override
-    public MemberCenterContract.View createView() {
+    public ModifyPersonalDataContract.View createView() {
         return this;
     }
 
     @Override
     public void init() {
         ApplicationUtil.getManager().addActivity(this);
-        cbModifyPersonalData.setText(StringLinkUtils.checkAutoLink(getResources().getString(R.string.modify_personal_data_privacy_policy), "会员章程"));
-        cbModifyPersonalData.setText(StringLinkUtils.checkAutoLink(getResources().getString(R.string.modify_personal_data_privacy_policy), "隐私政策"));
+        tvModifyPersonalDataPhoneNum.setText(SPUtil.get(this, IConstants.PHONE, "").toString());
+        tvModifyPersonalDataRealName.setText(SPUtil.get(this, IConstants.NAME, "").toString());
+        cbModifyPersonalData.setText(getClickableSpan());
+        //设置超链接可点击
         cbModifyPersonalData.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    /**
+     * 获取可点击的SpannableString
+     *
+     * @return
+     */
+    private SpannableString getClickableSpan() {
+        SpannableString spannableString = new SpannableString(getResources().getString(R.string.modify_personal_data_privacy_policy));
+        //设置下划线文字
+        spannableString.setSpan(new UnderlineSpan(), 5, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置文字的单击事件
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                ModifyPersonalDataActivity.this.startActivity(new Intent(ModifyPersonalDataActivity.this, VipManualActivity.class));
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                //super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+            }
+        }, 5, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置文字的前景色
+        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.tx_link)), 5, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        //设置下划线文字
+        spannableString.setSpan(new UnderlineSpan(), 23, 27, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置文字的单击事件
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                ModifyPersonalDataActivity.this.startActivity(new Intent(ModifyPersonalDataActivity.this, VipCardDeclarationsActivity.class));
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                //super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+            }
+        }, 23, 27, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置文字的前景色
+        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.tx_link)), 23, 27, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
     }
 
     public void showPickerView() {
@@ -126,6 +183,7 @@ public class ModifyPersonalDataActivity extends BaseActivity<MemberCenterContrac
                 .setTextColorCenter(Color.BLACK)
                 .setDividerColor(getResources().getColor(R.color.bg_line))
                 .setContentTextSize(16)
+                .setDecorView((ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content))
                 .build();
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
         pvOptions.show();
@@ -265,8 +323,8 @@ public class ModifyPersonalDataActivity extends BaseActivity<MemberCenterContrac
     }
 
     @Override
-    public void getUserInfo(UserInfoBean data) {
-
+    public void getModifyPersonalData(ModifyPersonalDataBean data) {
+        finish();
     }
 
     @Override
@@ -289,11 +347,28 @@ public class ModifyPersonalDataActivity extends BaseActivity<MemberCenterContrac
                 showPickerView();
                 break;
             case R.id.bt_modify_personal_data:
-                if (VerifyUtils.isChineseCard(edModifyPersonalDataIdCard.getText().toString()) && VerifyUtils.isEmail(edModifyPersonalDataEMailAddress.getText().toString())) {
-                    finish();
-                } else {
-                    ToastUtil.showShortToast(getResources().getString(R.string.error_id_card_or_email));
-                }
+//                VerifyUtils.isChineseCard(edModifyPersonalDataIdCard.getText().toString()) && VerifyUtils.isEmail(edModifyPersonalDataEMailAddress.getText().toString())
+//                if () {
+                LogUtils.i("rmy", "name = " + tvModifyPersonalDataRealName.getText() + "\nidcard_no = " + edModifyPersonalDataIdCard.getText() + "\nemail = " + edModifyPersonalDataEMailAddress.getText() + "\ngender = " + tvModifyPersonalDataSex.getText() + "\naddress = " + tvModifyPersonalDataDetailedAddress.getText() + "\naddress_detail = " + edModifyPersonalDataDoorNum.getText());
+                TreeMap<String, String> map = new TreeMap<>();
+                if (!tvModifyPersonalDataDetailedAddress.getText().toString().equals(""))
+                    map.put("address", tvModifyPersonalDataDetailedAddress.getText().toString());
+                if (!edModifyPersonalDataDoorNum.getText().toString().equals(""))
+                    map.put("address_detail", edModifyPersonalDataDoorNum.getText().toString());
+                if (!edModifyPersonalDataEMailAddress.getText().toString().equals(""))
+                    map.put("email", edModifyPersonalDataEMailAddress.getText().toString());
+                if (tvModifyPersonalDataSex.getText().toString().equals("男"))
+                    map.put("gender", "0");
+                else if (tvModifyPersonalDataSex.getText().toString().equals("女"))
+                    map.put("gender", "1");
+                if (!edModifyPersonalDataIdCard.getText().toString().equals(""))
+                    map.put("idcard_no", edModifyPersonalDataIdCard.getText().toString());
+                if (!tvModifyPersonalDataRealName.getText().toString().equals(""))
+                    map.put("name", tvModifyPersonalDataRealName.getText().toString());
+                getPresenter().getModifyPersonalData(map, true, true);
+//                } else {
+//                    ToastUtil.showShortToast(getResources().getString(R.string.error_id_card_or_email));
+//                }
                 break;
         }
     }

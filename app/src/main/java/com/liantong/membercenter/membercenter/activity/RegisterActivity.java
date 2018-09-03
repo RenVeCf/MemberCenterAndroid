@@ -1,7 +1,6 @@
 package com.liantong.membercenter.membercenter.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -16,13 +15,14 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.base.BaseActivity;
 import com.liantong.membercenter.membercenter.base.BaseResponse;
-import com.liantong.membercenter.membercenter.bean.LoginBean;
+import com.liantong.membercenter.membercenter.bean.RegisterBean;
+import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.contract.RegisterContract;
 import com.liantong.membercenter.membercenter.presenter.RegisterPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.CountDownUtil;
-import com.liantong.membercenter.membercenter.utils.LogUtils;
+import com.liantong.membercenter.membercenter.utils.SPUtil;
 import com.liantong.membercenter.membercenter.utils.StringLinkUtils;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 import com.liantong.membercenter.membercenter.utils.VerifyUtils;
@@ -30,7 +30,6 @@ import com.liantong.membercenter.membercenter.utils.VerifyUtils;
 import java.util.TreeMap;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
@@ -85,7 +84,7 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvRegisterTop);
         //从字符串中获取要变为超链接的字符串
-        cbRegister.setText(StringLinkUtils.checkAutoLink(getResources().getString(R.string.vip_card_declarations), getResources().getString(R.string.privacy_policy)));
+        cbRegister.setText(StringLinkUtils.checkAutoLink(this, getResources().getString(R.string.vip_card_declarations), getResources().getString(R.string.privacy_policy)));
         cbRegister.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
@@ -176,8 +175,9 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
     }
 
     @Override
-    public void resultRegister(BaseResponse<LoginBean> data) {
-        startActivity(new Intent(this, RegisterNextActivity.class));
+    public void getRegister(RegisterBean data) {
+        SPUtil.put(this, IConstants.TOKEN, data.getToken());
+        startActivity(new Intent(this, RegisterNextActivity.class).putExtra("getTicket_name", data.getTicket_name()));
         finish();
     }
 
@@ -187,12 +187,6 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
             new CountDownUtil(tvRegisterCaptcha)
                     .setCountDownMillis(60_000L)//倒计时60000ms
                     .setCountDownColor(R.color.bg_captcha, R.color.tx_bottom_navigation)//不同状态字体颜色
-                    .setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            LogUtils.i("rmy", "发送成功");
-                        }
-                    })
                     .start();
         }
     }
@@ -221,6 +215,14 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IConstants.REQUEST_CODE && resultCode == IConstants.RESULT_CODE) {
+            cbRegister.setChecked(true);
+        }
+    }
+
     @OnClick({R.id.tv_register_captcha, R.id.bt_register, R.id.ll_register_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -243,13 +245,13 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
                     TreeMap<String, String> loginMap = new TreeMap<>();
                     //获取手机号码
                     loginMap.put("mobile", etRegisterPhone.getText().toString().trim());
-                    //获取手机号码
+                    //获取姓名
                     loginMap.put("name", etRegisterName.getText().toString().trim());
                     //获取验证码
-                    loginMap.put("captcha", etRegisterPhone.getText().toString().trim());
+                    loginMap.put("captcha", etRegisterCaptcha.getText().toString().trim());
                     //平台标识码
                     loginMap.put("delegate_code", "2010006");
-                    getPresenter().register(loginMap, true, true);
+                    getPresenter().getRegister(loginMap, true, true);
                 } else {
                     ToastUtil.showShortToast(getString(R.string.error_login));
                 }

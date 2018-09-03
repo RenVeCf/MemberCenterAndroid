@@ -6,6 +6,8 @@ import com.liantong.membercenter.membercenter.bean.CouponDetailsBean;
 import com.liantong.membercenter.membercenter.bean.CouponListBean;
 import com.liantong.membercenter.membercenter.bean.GrowthValueBean;
 import com.liantong.membercenter.membercenter.bean.LoginBean;
+import com.liantong.membercenter.membercenter.bean.ModifyPersonalDataBean;
+import com.liantong.membercenter.membercenter.bean.RegisterBean;
 import com.liantong.membercenter.membercenter.bean.UserInfoBean;
 import com.liantong.membercenter.membercenter.common.config.UrlConfig;
 
@@ -16,6 +18,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.QueryMap;
 
 /**
@@ -36,9 +39,19 @@ public interface ApiService {
     @POST(UrlConfig.LOGIN)
     Observable<LoginBean> login(@FieldMap Map<String, String> map);
 
+    //注册
+    @FormUrlEncoded
+    @POST(UrlConfig.REGISTER)
+    Observable<RegisterBean> getRegister(@FieldMap Map<String, String> map);
+
     //获取用户信息
     @GET(UrlConfig.GET_USER_INFO)
     Observable<UserInfoBean> getUserInfo();
+
+    //修改用户信息
+    @FormUrlEncoded
+    @PUT(UrlConfig.GET_USER_INFO)
+    Observable<ModifyPersonalDataBean> getModifyPersonalData(@FieldMap Map<String, String> map);
 
     //获取用户成长值记录列表
     @GET(UrlConfig.GROWTH_VALUE_LIST)

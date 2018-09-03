@@ -64,6 +64,7 @@
             android:name=".activity.CouponDetailsActivity"
             android:exported="true"
             android:launchMode="singleTask" />
+        <activity android:name=".activity.UndeterminedActivity"></activity>
     </application>
 
 </manifest>

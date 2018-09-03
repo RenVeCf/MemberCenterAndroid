@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import com.liantong.membercenter.membercenter.api.NullOnEmptyConverterFactory;
 import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.LogUtils;
@@ -17,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -53,6 +55,7 @@ public class BaseApi {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(ScalarsConverterFactory.create())//请求结果转换为基本类型，一般为String
+                .addConverterFactory(new NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())//请求的结果转为实体类
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//适配RxJava2.0,
                 // RxJava1.x则为RxJavaCallAdapterFactory.create()
@@ -77,14 +80,15 @@ public class BaseApi {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request build = chain.request();
-                FormBody formBody = (FormBody) build.body();
 
                 String parameter = "";
+                FormBody formBody = (FormBody) build.body();
                 if (formBody != null) {
                     for (int i = 0; i < formBody.size(); i++) {
-                        parameter = parameter + formBody.encodedName(i) + "=" + formBody.encodedValue(i);
-                        if (i < formBody.size() - 1)
+                        parameter = parameter + formBody.encodedName(i) + "=" + URLDecoder.decode(formBody.encodedValue(i), "utf-8");
+                        if (i < formBody.size() - 1) {
                             parameter = parameter + "&";
+                        }
                     }
                 }
 
@@ -103,17 +107,19 @@ public class BaseApi {
                     map = new Gson().fromJson(jsonReader, map.getClass());
                     jti = map.get("jti") + "";
                 }
-                if (build.method().equals("GET") && build.url().toString().substring(21).contains("&")) {
-                    LogUtils.i("rmy", "build.url() = " + build.url().toString() + "substring = " + build.url().toString().substring(21, 45) + ", lastIndexOf = " + build.url().toString().lastIndexOf("?") + 1 + "\nparameter = " + parameter);
-                    buildUrl = "|" + jti + "|2010006|GET|" + build.url().toString().substring(21, 45) + "|" + timesTamp + "|" + build.url().toString().substring(46) + "|||";
-                } else if (build.method().equals("GET"))
-                    buildUrl = "|" + jti + "|2010006|GET|" + build.url().toString().substring(21) + "|" + timesTamp + "|" + parameter + "|||";
-                else
-                    buildUrl = "|" + jti + "|2010006|POST|" + build.url().toString().substring(21) + "|" + timesTamp + "||" + parameter + "||";
 
-                LogUtils.i("rmy", "Base64 = " + getUidFromBase64(SPUtil.get(ApplicationUtil.getContext(), IConstants.TOKEN, "").toString()) + "\nAuthorization = " + getToKen() + "\nX-Signature = " + MD5Utils.encodeMD5(buildUrl) + "\nX-TimesTamp = " + timesTamp + "\nbuildUrl = " + buildUrl);
+                if (build.method().equals("GET") && build.url().toString().substring(build.url().toString().indexOf("/mc/v1")).contains("&"))
+                    buildUrl = "|" + jti + "|2010006|GET|" + build.url().toString().substring(build.url().toString().indexOf("/mc/v1"), Integer.valueOf(build.url().toString().lastIndexOf("?"))) + "|" + timesTamp + "|" + build.url().toString().substring(Integer.valueOf(build.url().toString().lastIndexOf("?")) + 1) + "|||";
+                else if (build.method().equals("GET"))
+                    buildUrl = "|" + jti + "|2010006|GET|" + build.url().toString().substring(build.url().toString().indexOf("/mc/v1")) + "|" + timesTamp + "|" + parameter + "|||";
+                else if (build.method().equals("PUT"))
+                    buildUrl = "|" + jti + "|2010006|PUT|" + build.url().toString().substring(build.url().toString().indexOf("/mc/v1")) + "|" + timesTamp + "||" + parameter + "||";
+                else
+                    buildUrl = "|" + jti + "|2010006|POST|" + build.url().toString().substring(build.url().toString().indexOf("/mc/v1")) + "|" + timesTamp + "||" + parameter + "||";
+
+                LogUtils.i("rmy", "parameter = " + parameter + "\nBase64 = " + getUidFromBase64(SPUtil.get(ApplicationUtil.getContext(), IConstants.TOKEN, "").toString()) + "\nAuthorization = " + getToKen() + "\nX-Signature = " + MD5Utils.encodeMD5(buildUrl) + "\nX-TimesTamp = " + timesTamp + "\nbuildUrl = " + buildUrl);
                 build = build.newBuilder()
-                        .addHeader("Content-Type", "application/json")//设置允许请求json数据
+                        .addHeader("Content-Type", "application/json; charset=utf-8")
                         .addHeader("Authorization", getToKen())
                         .addHeader("X-Signature", MD5Utils.encodeMD5(buildUrl))
                         .addHeader("X-TimesTamp", timesTamp)
@@ -137,16 +143,17 @@ public class BaseApi {
                 .client(client)
                 .baseUrl(baseUrl)
                 .addConverterFactory(ScalarsConverterFactory.create())//请求结果转换为基本类型，一般为String
+                .addConverterFactory(new NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())//请求的结果转为实体类
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//适配RxJava2.0,
                 // RxJava1.x则为RxJavaCallAdapterFactory.create()
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())//适配RxJava2.0,
                 .build();
         return retrofit;
     }
 
     private String getToKen() {
         if (!SPUtil.get(ApplicationUtil.getContext(), IConstants.TOKEN, "").equals(""))
-            return "Bearer " + SPUtil.get(ApplicationUtil.getContext(), IConstants.TOKEN, "");
+            return SPUtil.get(ApplicationUtil.getContext(), IConstants.AUTHORIZATION_TYPE, "") + " " + SPUtil.get(ApplicationUtil.getContext(), IConstants.TOKEN, "");
         else
             return "";
     }
@@ -170,7 +177,6 @@ public class BaseApi {
         }
         return result;
     }
-
 
     /**
      * 设缓存有效期为两天

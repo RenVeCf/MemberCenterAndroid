@@ -28,12 +28,12 @@ public class GrowthValueAdapter extends BaseQuickAdapter<GrowthValueBean.GrowthV
                 .setText(R.id.tv_growth_value_describe, item.getDesc())
                 .setText(R.id.tv_growth_value_exp, item.getExp());
         if (item.getFlow_type().equals("0"))
-            helper.setText(R.id.tv_growth_value_exp_type, "-")
-                    .setTextColor(R.id.tv_growth_value_exp_type, Color.RED)
-                    .setTextColor(R.id.tv_growth_value_exp, Color.RED);
-        else
             helper.setText(R.id.tv_growth_value_exp_type, "+")
                     .setTextColor(R.id.tv_growth_value_exp_type, Color.GREEN)
                     .setTextColor(R.id.tv_growth_value_exp, Color.GREEN);
+        else
+            helper.setText(R.id.tv_growth_value_exp_type, "-")
+                    .setTextColor(R.id.tv_growth_value_exp_type, Color.RED)
+                    .setTextColor(R.id.tv_growth_value_exp, Color.RED);
     }
 }

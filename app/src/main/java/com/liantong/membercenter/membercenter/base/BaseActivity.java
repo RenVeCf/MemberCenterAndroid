@@ -8,9 +8,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.gyf.barlibrary.ImmersionBar;
-import com.liantong.membercenter.membercenter.R;
-import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
-import com.liantong.membercenter.membercenter.utils.ToastUtil;
+import com.liantong.membercenter.membercenter.utils.NavigationBarUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
@@ -27,6 +25,7 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
     //引用V层和P层
     private P presenter;
     private V view;
+    public Bundle savedInstanceState;
 
     public P getPresenter() {
         return presenter;
@@ -34,8 +33,18 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //防止getFragment为null
+        if (savedInstanceState != null) {
+            savedInstanceState.remove("android:support:fragments");
+        }
         super.onCreate(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
+        //键盘不遮盖输入框
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        //适配虚拟按键
+        if (NavigationBarUtil.hasNavigationBar(this)) {
+            NavigationBarUtil.initActivity(findViewById(android.R.id.content));
+        }
         setContentView(getLayoutId());
         //控件绑定初始化
         ButterKnife.bind(this);

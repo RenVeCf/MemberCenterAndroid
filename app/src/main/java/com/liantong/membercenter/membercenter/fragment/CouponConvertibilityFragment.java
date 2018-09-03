@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.liantong.membercenter.membercenter.R;
-import com.liantong.membercenter.membercenter.adapter.NotUseAdapter;
+import com.liantong.membercenter.membercenter.adapter.CouponConvertibilityAdapter;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
 import com.liantong.membercenter.membercenter.bean.CouponListBean;
 import com.liantong.membercenter.membercenter.contract.CouponListContract;
@@ -37,7 +37,7 @@ public class CouponConvertibilityFragment extends BaseFragment<CouponListContrac
     @BindView(R.id.tv_coupon_convertibility_total_num)
     TextView tvCouponConvertibilityTotalNum;
 
-    private NotUseAdapter mFailedAdapter;
+    private CouponConvertibilityAdapter mCouponConvertibilityAdapter;
     private List<CouponListBean.TicketListBean> mCouponConvertibilityBean;
 
     @Override
@@ -63,8 +63,8 @@ public class CouponConvertibilityFragment extends BaseFragment<CouponListContrac
         rvCouponConvertibility.setItemAnimator(new DefaultItemAnimator());
 
         mCouponConvertibilityBean = new ArrayList<>();
-        mFailedAdapter = new NotUseAdapter(mCouponConvertibilityBean);
-        rvCouponConvertibility.setAdapter(mFailedAdapter);
+        mCouponConvertibilityAdapter = new CouponConvertibilityAdapter(mCouponConvertibilityBean);
+        rvCouponConvertibility.setAdapter(mCouponConvertibilityAdapter);
     }
 
     @Override
@@ -88,12 +88,13 @@ public class CouponConvertibilityFragment extends BaseFragment<CouponListContrac
     public void getCouponList(CouponListBean data) {
         mCouponConvertibilityBean.clear();
         for (int i = 0; i < data.getTicket_list().size(); i++) {
-            if (data.getTicket_list().get(i).getCoupon_status().equals("3"))
+            if (data.getTicket_list().get(i).getCoupon_status().equals("1"))
                 mCouponConvertibilityBean.add(data.getTicket_list().get(i));
         }
         tvCouponConvertibilityTotalNum.setText("共" + mCouponConvertibilityBean.size() + "张券");
-        mFailedAdapter = new NotUseAdapter(mCouponConvertibilityBean);
-        rvCouponConvertibility.setAdapter(mFailedAdapter);
+        mCouponConvertibilityAdapter = new CouponConvertibilityAdapter(mCouponConvertibilityBean);
+        rvCouponConvertibility.setAdapter(mCouponConvertibilityAdapter);
+        mCouponConvertibilityAdapter.setEmptyView(R.layout.null_data, rvCouponConvertibility);
     }
 
     @Override

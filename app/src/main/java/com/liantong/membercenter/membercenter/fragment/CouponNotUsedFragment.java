@@ -1,5 +1,6 @@
 package com.liantong.membercenter.membercenter.fragment;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liantong.membercenter.membercenter.R;
+import com.liantong.membercenter.membercenter.activity.CouponDetailsActivity;
 import com.liantong.membercenter.membercenter.adapter.NotUseAdapter;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
 import com.liantong.membercenter.membercenter.bean.CouponListBean;
@@ -100,9 +102,11 @@ public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View,
         notUseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ToastUtil.showShortToast(position);
+                ToastUtil.showShortToast(position + "");
+                startActivity(new Intent(getActivity(), CouponDetailsActivity.class).putExtra("ticket_type", notUseBean.get(position).getTicket_type()).putExtra("ticket_name", notUseBean.get(position).getTicket_name()).putExtra("coupon_no", notUseBean.get(position).getCoupon_no()).putExtra("use_date", notUseBean.get(position).getUse_date()).putExtra("ticket_desc", notUseBean.get(position).getTicket_desc()));
             }
         });
+        notUseAdapter.setEmptyView(R.layout.null_data, rvNotUse);
     }
 
     @Override

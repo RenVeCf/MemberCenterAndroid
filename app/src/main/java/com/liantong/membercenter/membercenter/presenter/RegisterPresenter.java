@@ -3,7 +3,7 @@ package com.liantong.membercenter.membercenter.presenter;
 import android.content.Context;
 
 import com.liantong.membercenter.membercenter.base.BaseResponse;
-import com.liantong.membercenter.membercenter.bean.LoginBean;
+import com.liantong.membercenter.membercenter.bean.RegisterBean;
 import com.liantong.membercenter.membercenter.contract.RegisterContract;
 import com.liantong.membercenter.membercenter.model.RegisterModel;
 import com.liantong.membercenter.membercenter.progress.ObserverResponseListener;
@@ -29,13 +29,13 @@ public class RegisterPresenter extends RegisterContract.Presenter {
     }
 
     @Override
-    public void register(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-        model.register(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+    public void getRegister(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
+        model.getRegister(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
             @Override
             public void onNext(Object o) {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
-                    getView().resultRegister((BaseResponse<LoginBean>) o);
+                    getView().getRegister((RegisterBean) o);
                     getView().setMsg("请求成功");
                 }
             }
@@ -58,7 +58,6 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().resultCaptcha((BaseResponse) o);
-                    getView().setMsg("请求成功");
                 }
             }
 

@@ -1,34 +1,22 @@
 package com.liantong.membercenter.membercenter.activity;
 
-import android.widget.Button;
-
 import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.base.BaseActivity;
 import com.liantong.membercenter.membercenter.base.BasePresenter;
 import com.liantong.membercenter.membercenter.base.BaseView;
-import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.common.view.TopView;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
-/**
- * Description ：隐私政策
- * Author ： MengYang
- * Email ： 942685687@qq.com
- * Time ： 2018/8/27.
- */
+public class UndeterminedActivity extends BaseActivity {
 
-public class VipCardDeclarationsActivity extends BaseActivity {
-    @BindView(R.id.tv_vip_card_declarations_top)
-    TopView tvVipCardDeclarationsTop;
-    @BindView(R.id.bt_vip_card_declarations)
-    Button btVipCardDeclarations;
+    @BindView(R.id.tv_undetermined_top)
+    TopView tvUndeterminedTop;
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_vip_card_declarations;
+        return R.layout.activity_undetermined;
     }
 
     @Override
@@ -44,7 +32,7 @@ public class VipCardDeclarationsActivity extends BaseActivity {
     @Override
     public void init() {
         //防止状态栏和标题重叠
-        ImmersionBar.setTitleBar(this, tvVipCardDeclarationsTop);
+        ImmersionBar.setTitleBar(this, tvUndeterminedTop);
     }
 
     @Override
@@ -55,11 +43,5 @@ public class VipCardDeclarationsActivity extends BaseActivity {
     @Override
     public void initData() {
 
-    }
-
-    @OnClick(R.id.bt_vip_card_declarations)
-    public void onViewClicked() {
-        setResult(IConstants.RESULT_CODE);
-        finish();
     }
 }

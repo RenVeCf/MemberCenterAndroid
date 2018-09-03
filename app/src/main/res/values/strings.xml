@@ -97,5 +97,9 @@
     <string name="offset_coupon">折扣券</string>
     <string name="discount_coupon">优惠券</string>
     <string name="exchange_coupon">兑换券</string>
+    <string name="use_now">立即使用</string>
+    <string name="merchant_scan_bar_code_usage">商家扫条形码使用</string>
+    <string name="effective_date">有效时间:</string>
+    <string name="undetermined">待推出</string>
 
 </resources>

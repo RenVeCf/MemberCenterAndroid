@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.liantong.membercenter.membercenter.utils.ExceptionHandle;
+import com.liantong.membercenter.membercenter.utils.LogUtils;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 
 import java.net.ConnectException;
@@ -54,6 +55,7 @@ public class ProgressObserver<T> implements Observer<T>, ProgressCancelListener 
 
     @Override
     public void onNext(T t) {
+        LogUtils.i("rmy", "t = " + t);
         listener.onNext(t);//可定制接口，通过code回调处理不同的业务
     }
 

@@ -86,8 +86,12 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
         ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvLoginTop);
+        if (!SPUtil.get(this, IConstants.TOKEN, "").equals("")) {
+            startActivity(new Intent(this, MemberCenterActivity.class));
+            finish();
+        }
         //从字符串中获取要变为超链接的字符串
-        cbLogin.setText(StringLinkUtils.checkAutoLink(getResources().getString(R.string.vip_card_declarations), getResources().getString(R.string.privacy_policy)));
+        cbLogin.setText(StringLinkUtils.checkAutoLink(this, getResources().getString(R.string.vip_card_declarations), getResources().getString(R.string.privacy_policy)));
         cbLogin.setMovementMethod(LinkMovementMethod.getInstance());
 
         smsReceiver = new SmsBroadcastReceiver(this, handler);
@@ -189,6 +193,14 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
     public <T> ObservableTransformer<T, T> bindLifecycle() {
         //        return this.bindUntilEvent(ActivityEvent.PAUSE);//绑定到Activity的pause生命周期（在pause销毁请求）
         return this.bindToLifecycle();//绑定activity，与activity生命周期一样
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IConstants.REQUEST_CODE && resultCode == IConstants.RESULT_CODE) {
+            cbLogin.setChecked(true);
+        }
     }
 
     private Handler handler = new Handler() {

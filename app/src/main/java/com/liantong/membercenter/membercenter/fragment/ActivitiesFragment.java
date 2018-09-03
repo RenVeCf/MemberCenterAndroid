@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
-import com.liantong.membercenter.membercenter.activity.CouponDetailsActivity;
+import com.liantong.membercenter.membercenter.activity.UndeterminedActivity;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
 import com.liantong.membercenter.membercenter.bean.AcitvitiesBean;
 import com.liantong.membercenter.membercenter.common.view.TopView;
@@ -123,9 +123,12 @@ public class ActivitiesFragment extends BaseFragment<ActivitiesContract.View, Ac
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_activities_center:
-                startActivity(new Intent(getActivity(), CouponDetailsActivity.class));
+                if (acitvitiesBean.getImages().get(0).getLand_page().equals(""))
+                    startActivity(new Intent(getActivity(), UndeterminedActivity.class));
                 break;
             case R.id.iv_activities_bottom:
+                if (acitvitiesBean.getImages().get(0).getLand_page().equals(""))
+                    startActivity(new Intent(getActivity(), UndeterminedActivity.class));
                 break;
         }
     }

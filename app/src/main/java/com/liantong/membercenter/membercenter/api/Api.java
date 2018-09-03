@@ -1,12 +1,6 @@
 package com.liantong.membercenter.membercenter.api;
 
 import com.liantong.membercenter.membercenter.base.BaseApi;
-import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
-import com.liantong.membercenter.membercenter.utils.DeviceUtils;
-import com.liantong.membercenter.membercenter.utils.MD5Utils;
-
-import java.util.HashMap;
-import java.util.TreeMap;
 
 /**
  * Description ：处理请求链接的地方
@@ -19,6 +13,8 @@ public class Api {
     //域名
     private String baseUrl = "https://fx.10010sh.cn/mc/v1/"; //测试
     //private String baseUrl = "https://api.10010sh.cn/mc/v1/"; //正式
+//    private String baseUrl = "http://192.168.2.4:8080/mc/v1/"; //吴江
+//    private String baseUrl = "http://192.168.2.102:8080/mc/v1/"; //吴江2
 
     private volatile static ApiService apiService;
 

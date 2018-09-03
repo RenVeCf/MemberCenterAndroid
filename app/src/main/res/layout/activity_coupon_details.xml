@@ -7,4 +7,118 @@
     android:orientation="vertical"
     tools:context=".activity.CouponDetailsActivity">
 
+    <com.liantong.membercenter.membercenter.common.view.TopView
+        android:id="@+id/tv_coupon_details_top"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:is_back="true"
+        app:title_color="@color/black" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/x40"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@mipmap/bg_coupon_details_top"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_coupon_details_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/y100"
+                    android:textColor="@color/tx_check_box"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_coupon_details_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/y32"
+                    android:textColor="@color/black"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/bt_coupon_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/y80"
+                    android:background="@drawable/bg_login_bt"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/y32"
+                    android:paddingEnd="@dimen/x88"
+                    android:paddingStart="@dimen/x88"
+                    android:paddingTop="@dimen/y32"
+                    android:text="@string/use_now"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_coupon_details_use_bar_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/merchant_scan_bar_code_usage"
+                    android:textColor="@color/tx_check_box"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_coupon_details_bar_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/y26"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_coupon_details_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/y10"
+                    android:textColor="@color/tx_check_box"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_coupon_details_bottom"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_coupon_details_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x50"
+                    android:layout_marginTop="@dimen/y60"
+                    android:textColor="@color/tx_check_box" />
+
+                <TextView
+                    android:id="@+id/tv_coupon_details_desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/x50"
+                    android:layout_marginStart="@dimen/x50"
+                    android:layout_marginTop="@dimen/y48"
+                    android:lineSpacingExtra="@dimen/y10"
+                    android:textColor="@color/tx_check_box" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

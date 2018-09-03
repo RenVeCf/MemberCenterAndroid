@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.liantong.membercenter.membercenter.R;
-import com.liantong.membercenter.membercenter.adapter.NotUseAdapter;
+import com.liantong.membercenter.membercenter.adapter.FailedAdapter;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
 import com.liantong.membercenter.membercenter.bean.CouponListBean;
 import com.liantong.membercenter.membercenter.contract.CouponListContract;
@@ -37,7 +37,7 @@ public class CouponFailedFragment extends BaseFragment<CouponListContract.View, 
     @BindView(R.id.tv_failed_total_num)
     TextView tvFailedTotalNum;
 
-    private NotUseAdapter mFailedAdapter;
+    private FailedAdapter mFailedAdapter;
     private List<CouponListBean.TicketListBean> mFailedBean;
 
     @Override
@@ -63,7 +63,7 @@ public class CouponFailedFragment extends BaseFragment<CouponListContract.View, 
         rvFailed.setItemAnimator(new DefaultItemAnimator());
 
         mFailedBean = new ArrayList<>();
-        mFailedAdapter = new NotUseAdapter(mFailedBean);
+        mFailedAdapter = new FailedAdapter(mFailedBean);
         rvFailed.setAdapter(mFailedAdapter);
     }
 
@@ -92,8 +92,9 @@ public class CouponFailedFragment extends BaseFragment<CouponListContract.View, 
                 mFailedBean.add(data.getTicket_list().get(i));
         }
         tvFailedTotalNum.setText("共" + mFailedBean.size() + "张券");
-        mFailedAdapter = new NotUseAdapter(mFailedBean);
+        mFailedAdapter = new FailedAdapter(mFailedBean);
         rvFailed.setAdapter(mFailedAdapter);
+        mFailedAdapter.setEmptyView(R.layout.null_data, rvFailed);
     }
 
     @Override

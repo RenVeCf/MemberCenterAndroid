@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
@@ -30,6 +31,8 @@ public class RegisterNextActivity extends BaseActivity {
     Button btMemberCenterGo;
     @BindView(R.id.ll_register_to_coupon)
     LinearLayout llRegisterToCoupon;
+    @BindView(R.id.tv_register_coupon_name)
+    TextView tvRegisterCouponName;
 
     @Override
     public int getLayoutId() {
@@ -50,6 +53,7 @@ public class RegisterNextActivity extends BaseActivity {
     public void init() {
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvRegisterSuccessTop);
+        tvRegisterCouponName.setText(getIntent().getStringExtra("getTicket_name"));
     }
 
     @Override

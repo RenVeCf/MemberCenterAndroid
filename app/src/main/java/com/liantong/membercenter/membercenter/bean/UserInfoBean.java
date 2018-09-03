@@ -9,24 +9,46 @@ package com.liantong.membercenter.membercenter.bean;
 public class UserInfoBean {
 
     /**
-     * {"address":"","address_detail":"","channel":"","create_time":"2018-08-28 15:03:56","degree_of_education":"","email":"","exp":"50","gender":"","id":"452","idcard_no":"","is_vip":"0","member_code":"6905439765650","member_level":"W1","mobile":"18502994087","name":"任梦阳","next_level":"W2","next_level_exp":"1950","status":"1","update_time":"2018-08-28 15:03:57"}
+     * address :
+     * address_detail :
+     * channel :
+     * create_time : 2018-08-28 15:03:56
+     * degree_of_education :
+     * email :
+     * exp : 50
+     * gender :
+     * id : 452
+     * idcard_no :
+     * is_vip : 0
+     * member_code : 6905439765650
+     * member_level : W1
+     * mobile : 18502994087
+     * name : 任梦阳
+     * next_level : W2
+     * next_level_exp : 1950
+     * status : 1
+     * update_time : 2018-08-28 15:03:57
      */
 
-    private String address; //地址
-    private String address_detail; //详细地址
-    private String create_time; //创建时间，格式：2018-06-19 06:31:30
-    private String degree_of_education; //教育程度
-    private String email; //邮箱
-    private String exp; //经验值
-    private String gender; //性别，0 - 男；1 - 女
-    private String id; //会员逻辑id
-    private String idcard_no; //身份证号
-    private String is_vip; //是否为付费会员
-    private String member_code; //会员编号
-    private String member_level; //会员等级
-    private String mobile; //手机号码
-    private String name; //会员姓名
-    private String next_level_exp; //距离下一等级所差经验
+    private String address;
+    private String address_detail;
+    private String channel;
+    private String create_time;
+    private String degree_of_education;
+    private String email;
+    private String exp;
+    private String gender;
+    private String id;
+    private String idcard_no;
+    private String is_vip;
+    private String member_code;
+    private String member_level;
+    private String mobile;
+    private String name;
+    private String next_level;
+    private String next_level_exp;
+    private String status;
+    private String update_time;
 
     public String getAddress() {
         return address;
@@ -42,6 +64,14 @@ public class UserInfoBean {
 
     public void setAddress_detail(String address_detail) {
         this.address_detail = address_detail;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 
     public String getCreate_time() {
@@ -140,11 +170,35 @@ public class UserInfoBean {
         this.name = name;
     }
 
+    public String getNext_level() {
+        return next_level;
+    }
+
+    public void setNext_level(String next_level) {
+        this.next_level = next_level;
+    }
+
     public String getNext_level_exp() {
         return next_level_exp;
     }
 
     public void setNext_level_exp(String next_level_exp) {
         this.next_level_exp = next_level_exp;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
     }
 }

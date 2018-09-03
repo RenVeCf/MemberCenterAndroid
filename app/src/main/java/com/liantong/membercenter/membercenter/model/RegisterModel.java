@@ -17,12 +17,12 @@ import io.reactivex.ObservableTransformer;
  * Time ： 2018/8/18.
  */
 public class RegisterModel<T> extends BaseModel {
-    public void register(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
+    public void getRegister(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
                          ObservableTransformer<T, T> transformer, ObserverResponseListener observerListener) {
 
         //当不需要指定是否由dialog时，可以调用这个方法
 //                subscribe(context, Api.getApiService().login(map), observerListener, transformer);
-        paramSubscribe(context, Api.getApiService().login(map), observerListener, transformer, isDialog, cancelable);
+        paramSubscribe(context, Api.getApiService().getRegister(map), observerListener, transformer, isDialog, cancelable);
     }
 
     public void captcha(Context context, TreeMap<String, String> map, boolean isDialog, boolean cancelable,
