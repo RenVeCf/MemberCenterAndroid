@@ -46,7 +46,7 @@ public class StringLinkUtils {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.tv_to_modify_personal_data:
-                        ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), ModifyPersonalDataActivity.class));
+                        activity.startActivityForResult(new Intent(ApplicationUtil.getContext(), ModifyPersonalDataActivity.class), IConstants.REQUEST_CODE);
                         break;
                     case R.id.tv_to_vip_manual:
                         ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), VipManualActivity.class));
@@ -55,7 +55,6 @@ public class StringLinkUtils {
                         break;
                     case R.id.cb_register:
                     case R.id.cb_login:
-                        //                        ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), VipCardDeclarationsActivity.class));
                         activity.startActivityForResult(new Intent(ApplicationUtil.getContext(), VipCardDeclarationsActivity.class), IConstants.REQUEST_CODE);
                         break;
                 }

@@ -3,12 +3,14 @@ package com.liantong.membercenter.membercenter.fragment;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.activity.UndeterminedActivity;
+import com.liantong.membercenter.membercenter.activity.WebViewActivity;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
 import com.liantong.membercenter.membercenter.bean.AcitvitiesBean;
 import com.liantong.membercenter.membercenter.common.view.TopView;
@@ -45,6 +47,13 @@ public class ActivitiesFragment extends BaseFragment<ActivitiesContract.View, Ac
     ImageView ivActivitiesCenter;
     @BindView(R.id.iv_activities_bottom)
     ImageView ivActivitiesBottom;
+    @BindView(R.id.rb_weekly_receivez)
+    RadioButton rbWeeklyReceivez;
+    @BindView(R.id.rb_everyday_sign)
+    RadioButton rbEverydaySign;
+    @BindView(R.id.rb_electronic_coupons)
+    RadioButton rbElectronicCoupons;
+
     //轮播图集合
     private List<AdPageInfo> loop = new ArrayList<>();
     private AcitvitiesBean acitvitiesBean;
@@ -87,7 +96,7 @@ public class ActivitiesFragment extends BaseFragment<ActivitiesContract.View, Ac
     public void getActivities(AcitvitiesBean data) {
         acitvitiesBean = data;
         for (int i = 0; i < acitvitiesBean.getBanners().size(); i++) {
-            loop.add(new AdPageInfo("", acitvitiesBean.getBanners().get(i).getImage(), acitvitiesBean.getBanners().get(i).getFrom(), 1));
+            loop.add(new AdPageInfo("", acitvitiesBean.getBanners().get(i).getImage(), acitvitiesBean.getBanners().get(i).getLand_page(), 1));
         }
 
         apbActivitiesLoop.setImageLoadType(GLIDE);
@@ -119,16 +128,29 @@ public class ActivitiesFragment extends BaseFragment<ActivitiesContract.View, Ac
         return this.bindUntilEvent(FragmentEvent.PAUSE);
     }
 
-    @OnClick({R.id.iv_activities_center, R.id.iv_activities_bottom})
+    @OnClick({R.id.iv_activities_center, R.id.iv_activities_bottom, R.id.rb_weekly_receivez, R.id.rb_everyday_sign, R.id.rb_electronic_coupons})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_activities_center:
-                if (acitvitiesBean.getImages().get(0).getLand_page().equals(""))
+                if (!acitvitiesBean.getImages().get(0).getLand_page().equals(""))
+                    startActivity(new Intent(getActivity(), WebViewActivity.class).putExtra("land_page", acitvitiesBean.getImages().get(0).getLand_page()));
+                else
                     startActivity(new Intent(getActivity(), UndeterminedActivity.class));
                 break;
             case R.id.iv_activities_bottom:
-                if (acitvitiesBean.getImages().get(0).getLand_page().equals(""))
+                if (!acitvitiesBean.getImages().get(0).getLand_page().equals(""))
+                    startActivity(new Intent(getActivity(), WebViewActivity.class).putExtra("land_page", acitvitiesBean.getImages().get(1).getLand_page()));
+                else
                     startActivity(new Intent(getActivity(), UndeterminedActivity.class));
+                break;
+            case R.id.rb_weekly_receivez:
+                startActivity(new Intent(getActivity(), WebViewActivity.class).putExtra("land_page", acitvitiesBean.getNavs().get(1).getLand_page()));
+                break;
+            case R.id.rb_everyday_sign:
+                startActivity(new Intent(getActivity(), WebViewActivity.class).putExtra("land_page", acitvitiesBean.getNavs().get(0).getLand_page()));
+                break;
+            case R.id.rb_electronic_coupons:
+                startActivity(new Intent(getActivity(), WebViewActivity.class).putExtra("land_page", acitvitiesBean.getNavs().get(2).getLand_page()));
                 break;
         }
     }

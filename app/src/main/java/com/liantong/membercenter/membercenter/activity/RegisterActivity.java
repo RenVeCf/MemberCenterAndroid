@@ -1,6 +1,8 @@
 package com.liantong.membercenter.membercenter.activity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -20,8 +22,10 @@ import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.contract.RegisterContract;
 import com.liantong.membercenter.membercenter.presenter.RegisterPresenter;
+import com.liantong.membercenter.membercenter.receiver.SmsBroadcastReceiver;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.CountDownUtil;
+import com.liantong.membercenter.membercenter.utils.LogUtils;
 import com.liantong.membercenter.membercenter.utils.SPUtil;
 import com.liantong.membercenter.membercenter.utils.StringLinkUtils;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
@@ -61,6 +65,7 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
 
     boolean isName = false; //用户名格式判断
     private long firstTime = 0;
+    private SmsBroadcastReceiver smsReceiver;
 
     @Override
     public int getLayoutId() {
@@ -86,6 +91,10 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
         //从字符串中获取要变为超链接的字符串
         cbRegister.setText(StringLinkUtils.checkAutoLink(this, getResources().getString(R.string.vip_card_declarations), getResources().getString(R.string.privacy_policy)));
         cbRegister.setMovementMethod(LinkMovementMethod.getInstance());
+
+        smsReceiver = new SmsBroadcastReceiver(this, handler);
+        IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+        registerReceiver(smsReceiver, intentFilter);
     }
 
     @Override
@@ -176,7 +185,9 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
 
     @Override
     public void getRegister(RegisterBean data) {
+        SPUtil.put(this, IConstants.AUTHORIZATION_TYPE, data.getAuthorization_type());
         SPUtil.put(this, IConstants.TOKEN, data.getToken());
+        LogUtils.i("rmy", "token = " + data.getToken());
         startActivity(new Intent(this, RegisterNextActivity.class).putExtra("getTicket_name", data.getTicket_name()));
         finish();
     }
@@ -201,6 +212,16 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
         return this.bindToLifecycle();
     }
 
+    private Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            if (msg.what == LoginActivity.BC_SMS_RECEIVE) {
+                String code = (String) msg.obj;
+                //更新UI
+                etRegisterCaptcha.setText(code);
+            }
+        }
+    };
+
     /**
      * 双击退出程序
      */
@@ -213,6 +234,12 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
         } else {
             ApplicationUtil.getManager().exitApp();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(smsReceiver);
     }
 
     @Override

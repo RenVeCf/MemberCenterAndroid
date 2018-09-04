@@ -21,5 +21,6 @@ public interface UrlConfig {
     String GROWTH_VALUE_LIST = "member_center/exp"; //获取用户成长值记录列表
     String COUPON_LIST = "member_center/tickets"; //获取券列表
     String COUPON_DETAILS = "member_center/ticket"; //获取券详情
+    String COUPON_DETAILS_BT_URL = "member_center/unif_token"; //券详情中立即使用按钮跳转的URL
     String ACTIVITIES = "member_center/activities"; //获取活动列表
 }

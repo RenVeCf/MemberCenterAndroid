@@ -145,6 +145,15 @@ public class MemberCenterFragment extends BaseFragment<MemberCenterContract.View
         return this.bindUntilEvent(FragmentEvent.PAUSE);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IConstants.REQUEST_CODE && resultCode == IConstants.RESULT_CODE) {
+            TreeMap<String, String> captchaMap = new TreeMap<>();
+            getPresenter().getUserInfo(captchaMap, true, true);
+        }
+    }
+
     @OnClick({R.id.tv_growth_value})
     public void onViewClicked(View view) {
         switch (view.getId()) {

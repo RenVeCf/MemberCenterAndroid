@@ -39,8 +39,9 @@ import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.contract.ModifyPersonalDataContract;
 import com.liantong.membercenter.membercenter.presenter.ModifyPersonalDataPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
-import com.liantong.membercenter.membercenter.utils.LogUtils;
 import com.liantong.membercenter.membercenter.utils.SPUtil;
+import com.liantong.membercenter.membercenter.utils.ToastUtil;
+import com.liantong.membercenter.membercenter.utils.VerifyUtils;
 
 import org.json.JSONArray;
 
@@ -324,6 +325,7 @@ public class ModifyPersonalDataActivity extends BaseActivity<ModifyPersonalDataC
 
     @Override
     public void getModifyPersonalData(ModifyPersonalDataBean data) {
+        setResult(IConstants.RESULT_CODE);
         finish();
     }
 
@@ -347,28 +349,31 @@ public class ModifyPersonalDataActivity extends BaseActivity<ModifyPersonalDataC
                 showPickerView();
                 break;
             case R.id.bt_modify_personal_data:
-//                VerifyUtils.isChineseCard(edModifyPersonalDataIdCard.getText().toString()) && VerifyUtils.isEmail(edModifyPersonalDataEMailAddress.getText().toString())
-//                if () {
-                LogUtils.i("rmy", "name = " + tvModifyPersonalDataRealName.getText() + "\nidcard_no = " + edModifyPersonalDataIdCard.getText() + "\nemail = " + edModifyPersonalDataEMailAddress.getText() + "\ngender = " + tvModifyPersonalDataSex.getText() + "\naddress = " + tvModifyPersonalDataDetailedAddress.getText() + "\naddress_detail = " + edModifyPersonalDataDoorNum.getText());
-                TreeMap<String, String> map = new TreeMap<>();
-                if (!tvModifyPersonalDataDetailedAddress.getText().toString().equals(""))
-                    map.put("address", tvModifyPersonalDataDetailedAddress.getText().toString());
-                if (!edModifyPersonalDataDoorNum.getText().toString().equals(""))
-                    map.put("address_detail", edModifyPersonalDataDoorNum.getText().toString());
-                if (!edModifyPersonalDataEMailAddress.getText().toString().equals(""))
-                    map.put("email", edModifyPersonalDataEMailAddress.getText().toString());
-                if (tvModifyPersonalDataSex.getText().toString().equals("男"))
-                    map.put("gender", "0");
-                else if (tvModifyPersonalDataSex.getText().toString().equals("女"))
-                    map.put("gender", "1");
-                if (!edModifyPersonalDataIdCard.getText().toString().equals(""))
-                    map.put("idcard_no", edModifyPersonalDataIdCard.getText().toString());
-                if (!tvModifyPersonalDataRealName.getText().toString().equals(""))
-                    map.put("name", tvModifyPersonalDataRealName.getText().toString());
-                getPresenter().getModifyPersonalData(map, true, true);
-//                } else {
-//                    ToastUtil.showShortToast(getResources().getString(R.string.error_id_card_or_email));
-//                }
+                if (!edModifyPersonalDataEMailAddress.getText().toString().equals("")) {
+                    if (!VerifyUtils.isEmail(edModifyPersonalDataEMailAddress.getText().toString()))
+                        ToastUtil.showShortToast("请输入正确的电子邮箱！");
+                }
+                if (!edModifyPersonalDataIdCard.getText().toString().equals("")) {
+                    if (!VerifyUtils.isChineseCard(edModifyPersonalDataIdCard.getText().toString()))
+                        ToastUtil.showShortToast("请输入正确的身份证号码！");
+                } else {
+                    TreeMap<String, String> map = new TreeMap<>();
+                    if (!tvModifyPersonalDataDetailedAddress.getText().toString().equals(""))
+                        map.put("address", tvModifyPersonalDataDetailedAddress.getText().toString());
+                    if (!edModifyPersonalDataDoorNum.getText().toString().equals(""))
+                        map.put("address_detail", edModifyPersonalDataDoorNum.getText().toString());
+                    if (!edModifyPersonalDataEMailAddress.getText().toString().equals(""))
+                        map.put("email", edModifyPersonalDataEMailAddress.getText().toString());
+                    if (tvModifyPersonalDataSex.getText().toString().equals(getResources().getString(R.string.man)))
+                        map.put("gender", "0");
+                    else if (tvModifyPersonalDataSex.getText().toString().equals(getResources().getString(R.string.woman)))
+                        map.put("gender", "1");
+                    if (!edModifyPersonalDataIdCard.getText().toString().equals(""))
+                        map.put("idcard_no", edModifyPersonalDataIdCard.getText().toString());
+                    if (!tvModifyPersonalDataRealName.getText().toString().equals(""))
+                        map.put("name", tvModifyPersonalDataRealName.getText().toString());
+                    getPresenter().getModifyPersonalData(map, true, true);
+                }
                 break;
         }
     }

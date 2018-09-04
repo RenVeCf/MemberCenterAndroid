@@ -109,7 +109,7 @@ public class BaseApi {
                 }
 
                 if (build.method().equals("GET") && build.url().toString().substring(build.url().toString().indexOf("/mc/v1")).contains("&"))
-                    buildUrl = "|" + jti + "|2010006|GET|" + build.url().toString().substring(build.url().toString().indexOf("/mc/v1"), Integer.valueOf(build.url().toString().lastIndexOf("?"))) + "|" + timesTamp + "|" + build.url().toString().substring(Integer.valueOf(build.url().toString().lastIndexOf("?")) + 1) + "|||";
+                    buildUrl = "|" + jti + "|2010006|GET|" + build.url().toString().substring(build.url().toString().indexOf("/mc/v1"), Integer.valueOf(build.url().toString().lastIndexOf("?"))) + "|" + timesTamp + "|" + URLDecoder.decode(build.url().toString().substring(Integer.valueOf(build.url().toString().lastIndexOf("?")) + 1), "utf-8") + "|||";
                 else if (build.method().equals("GET"))
                     buildUrl = "|" + jti + "|2010006|GET|" + build.url().toString().substring(build.url().toString().indexOf("/mc/v1")) + "|" + timesTamp + "|" + parameter + "|||";
                 else if (build.method().equals("PUT"))

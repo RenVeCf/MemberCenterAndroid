@@ -1,5 +1,6 @@
 package com.liantong.membercenter.membercenter.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.Button;
@@ -9,23 +10,21 @@ import android.widget.TextView;
 import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.base.BaseActivity;
-import com.liantong.membercenter.membercenter.bean.CouponDetailsBean;
+import com.liantong.membercenter.membercenter.bean.CouponDetailsBtUrlBean;
+import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.common.view.TopView;
-import com.liantong.membercenter.membercenter.contract.CouponDetailsContract;
-import com.liantong.membercenter.membercenter.presenter.CouponDetailsPresenter;
+import com.liantong.membercenter.membercenter.contract.CouponDetailsBtUrlContract;
+import com.liantong.membercenter.membercenter.presenter.CouponDetailsBtUrlPresenter;
 import com.liantong.membercenter.membercenter.utils.BarCodeUtil;
+
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
 
-public class CouponDetailsActivity extends BaseActivity<CouponDetailsContract.View, CouponDetailsContract.Presenter> implements CouponDetailsContract.View {
+public class CouponDetailsActivity extends BaseActivity<CouponDetailsBtUrlContract.View, CouponDetailsBtUrlContract.Presenter> implements CouponDetailsBtUrlContract.View {
 
-    String ticketType = "";
-    String ticketName = "";
-    String couponNo = "";
-    String useDate = "";
-    String ticketDesc = "";
     @BindView(R.id.tv_coupon_details_top)
     TopView tvCouponDetailsTop;
     @BindView(R.id.tv_coupon_details_type)
@@ -47,18 +46,28 @@ public class CouponDetailsActivity extends BaseActivity<CouponDetailsContract.Vi
     @BindView(R.id.tv_coupon_details_code)
     TextView tvCouponDetailsCode;
 
+    private String ticketType = "";
+    private String ticketName = "";
+    private String couponNo = "";
+    private String useDate = "";
+    private String ticketDesc = "";
+    private String RightTemplateCode = "";
+    private String CreateTime = "";
+    private String CouponCode = "";
+    private boolean isClick = false;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_coupon_details;
     }
 
     @Override
-    public CouponDetailsContract.Presenter createPresenter() {
-        return new CouponDetailsPresenter(this);
+    public CouponDetailsBtUrlContract.Presenter createPresenter() {
+        return new CouponDetailsBtUrlPresenter(this);
     }
 
     @Override
-    public CouponDetailsContract.View createView() {
+    public CouponDetailsBtUrlContract.View createView() {
         return this;
     }
 
@@ -98,6 +107,9 @@ public class CouponDetailsActivity extends BaseActivity<CouponDetailsContract.Vi
         ticketDesc = getIntent().getStringExtra("ticket_desc");
         ticketDesc = ticketDesc.replace("<p>", "").replace("</p>", "");
         tvCouponDetailsDesc.setText(ticketDesc);
+        RightTemplateCode = getIntent().getStringExtra("right_template_code");
+        CreateTime = getIntent().getStringExtra("create_time");
+        CouponCode = getIntent().getStringExtra("coupon_code");
 
         if (!couponNo.equals("") && couponNo != null) {
             try {
@@ -130,8 +142,9 @@ public class CouponDetailsActivity extends BaseActivity<CouponDetailsContract.Vi
     }
 
     @Override
-    public void getCouponDetails(CouponDetailsBean data) {
-
+    public void getCouponDetailsBtUrl(CouponDetailsBtUrlBean data) {
+        isClick = true;
+        startActivity(new Intent(this, WebViewActivity.class).putExtra("land_page", data.getUrl()));
     }
 
     @Override
@@ -141,11 +154,22 @@ public class CouponDetailsActivity extends BaseActivity<CouponDetailsContract.Vi
 
     @Override
     public <T> ObservableTransformer<T, T> bindLifecycle() {
-        return null;
+        return this.bindToLifecycle();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isClick)
+            setResult(IConstants.RESULT_CODE);
     }
 
     @OnClick(R.id.bt_coupon_details)
     public void onViewClicked() {
-
+        TreeMap<String, String> map = new TreeMap<>();
+        map.put("right_template_code", RightTemplateCode);
+        map.put("create_time", CreateTime);
+        map.put("coupon_code", CouponCode);
+        getPresenter().getCouponDetailsBtUrl(map, true, true);
     }
 }

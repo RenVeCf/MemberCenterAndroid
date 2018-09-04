@@ -61,18 +61,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|start"
+            android:layout_marginStart="@dimen/x124"
             app:srcCompat="@drawable/bg_register_gift" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/x110"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_register_coupon_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:textColor="@color/black"
                 android:textSize="26sp"
                 android:textStyle="bold" />
@@ -80,6 +82,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
                 android:text="@string/see_gift" />
         </LinearLayout>
     </LinearLayout>

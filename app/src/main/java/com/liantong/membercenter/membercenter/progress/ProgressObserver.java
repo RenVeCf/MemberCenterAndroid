@@ -1,10 +1,14 @@
 package com.liantong.membercenter.membercenter.progress;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
+import com.liantong.membercenter.membercenter.activity.LoginActivity;
+import com.liantong.membercenter.membercenter.api.ErrorHandler;
+import com.liantong.membercenter.membercenter.base.BaseResponse;
+import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.ExceptionHandle;
-import com.liantong.membercenter.membercenter.utils.LogUtils;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 
 import java.net.ConnectException;
@@ -55,12 +59,12 @@ public class ProgressObserver<T> implements Observer<T>, ProgressCancelListener 
 
     @Override
     public void onNext(T t) {
-        LogUtils.i("rmy", "t = " + t);
         listener.onNext(t);//可定制接口，通过code回调处理不同的业务
     }
 
     @Override
     public void onError(Throwable e) {
+        BaseResponse errBody = ErrorHandler.handle(e);
         dismissProgressDialog();
         Log.e(TAG, "onError: ", e);
         //自定义异常处理
@@ -79,7 +83,15 @@ public class ProgressObserver<T> implements Observer<T>, ProgressCancelListener 
         } else if (e instanceof HttpException) {
             ToastUtil.showLongToast("请求超时");
         } else {
-            ToastUtil.showLongToast("请求失败");
+            if (errBody != null) {
+                if (errBody.getErrorCode() == "401") {
+                    ToastUtil.showLongToast(errBody.getDisplayedMsg());
+                    ApplicationUtil.getManager().finishAllActivity();
+                    ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), LoginActivity.class));
+                } else {
+                    ToastUtil.showLongToast(errBody.getDisplayedMsg());
+                }
+            }
         }
     }
 

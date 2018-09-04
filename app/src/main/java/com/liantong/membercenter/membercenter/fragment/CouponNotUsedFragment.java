@@ -14,10 +14,11 @@ import com.liantong.membercenter.membercenter.activity.CouponDetailsActivity;
 import com.liantong.membercenter.membercenter.adapter.NotUseAdapter;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
 import com.liantong.membercenter.membercenter.bean.CouponListBean;
+import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.contract.CouponListContract;
 import com.liantong.membercenter.membercenter.presenter.CouponListPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
-import com.liantong.membercenter.membercenter.utils.ToastUtil;
+import com.liantong.membercenter.membercenter.utils.LogUtils;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import io.reactivex.ObservableTransformer;
  * Email ： 942685687@qq.com
  * Time ： 2018/8/21.
  */
+
 public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View, CouponListContract.Presenter> implements CouponListContract.View {
 
     @BindView(R.id.srl_not_use)
@@ -102,8 +104,7 @@ public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View,
         notUseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ToastUtil.showShortToast(position + "");
-                startActivity(new Intent(getActivity(), CouponDetailsActivity.class).putExtra("ticket_type", notUseBean.get(position).getTicket_type()).putExtra("ticket_name", notUseBean.get(position).getTicket_name()).putExtra("coupon_no", notUseBean.get(position).getCoupon_no()).putExtra("use_date", notUseBean.get(position).getUse_date()).putExtra("ticket_desc", notUseBean.get(position).getTicket_desc()));
+                CouponNotUsedFragment.this.startActivityForResult(new Intent(getActivity(), CouponDetailsActivity.class).putExtra("ticket_type", notUseBean.get(position).getTicket_type()).putExtra("ticket_name", notUseBean.get(position).getTicket_name()).putExtra("coupon_no", notUseBean.get(position).getCoupon_no()).putExtra("use_date", notUseBean.get(position).getUse_date()).putExtra("ticket_desc", notUseBean.get(position).getTicket_desc()).putExtra("right_template_code", notUseBean.get(position).getRight_template_code()).putExtra("create_time", notUseBean.get(position).getCreate_time()).putExtra("coupon_code", notUseBean.get(position).getCoupon_code()), IConstants.REQUEST_CODE);
             }
         });
         notUseAdapter.setEmptyView(R.layout.null_data, rvNotUse);
@@ -112,6 +113,15 @@ public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View,
     @Override
     public void setMsg(String msg) {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtils.i("rmy", "requestCode = " + requestCode + "\nresultCode = " + resultCode);
+        if (requestCode == IConstants.REQUEST_CODE && resultCode == IConstants.RESULT_CODE) {
+            initData();
+        }
     }
 
     @Override

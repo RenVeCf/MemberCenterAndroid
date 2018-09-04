@@ -3,6 +3,7 @@ package com.liantong.membercenter.membercenter.api;
 import com.liantong.membercenter.membercenter.base.BaseResponse;
 import com.liantong.membercenter.membercenter.bean.AcitvitiesBean;
 import com.liantong.membercenter.membercenter.bean.CouponDetailsBean;
+import com.liantong.membercenter.membercenter.bean.CouponDetailsBtUrlBean;
 import com.liantong.membercenter.membercenter.bean.CouponListBean;
 import com.liantong.membercenter.membercenter.bean.GrowthValueBean;
 import com.liantong.membercenter.membercenter.bean.LoginBean;
@@ -61,9 +62,13 @@ public interface ApiService {
     @GET(UrlConfig.COUPON_LIST)
     Observable<CouponListBean> getCouponList();
 
-    //获取券详情
+    //获取券详情l
     @GET(UrlConfig.COUPON_DETAILS)
     Observable<CouponDetailsBean> getCouponDetails();
+
+    //券详情中立即使用按钮跳转的URL
+    @GET(UrlConfig.COUPON_DETAILS_BT_URL)
+    Observable<CouponDetailsBtUrlBean> getCouponDetailsBtUrl(@QueryMap Map<String, String> map);
 
     //获取活动列表
     @GET(UrlConfig.ACTIVITIES)
