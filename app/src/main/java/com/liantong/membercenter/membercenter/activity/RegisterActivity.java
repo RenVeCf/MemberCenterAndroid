@@ -92,7 +92,7 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
         cbRegister.setText(StringLinkUtils.checkAutoLink(this, getResources().getString(R.string.vip_card_declarations), getResources().getString(R.string.privacy_policy)));
         cbRegister.setMovementMethod(LinkMovementMethod.getInstance());
 
-        smsReceiver = new SmsBroadcastReceiver(this, handler);
+        smsReceiver = new SmsBroadcastReceiver(handler);
         IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         registerReceiver(smsReceiver, intentFilter);
     }

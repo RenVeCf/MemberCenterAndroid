@@ -7,20 +7,16 @@ import com.gyf.barlibrary.ImmersionBar;
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.adapter.ViewPagerAdapter;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
-import com.liantong.membercenter.membercenter.bean.CouponListBean;
 import com.liantong.membercenter.membercenter.common.view.NavitationLayout;
 import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.contract.CouponListContract;
 import com.liantong.membercenter.membercenter.presenter.CouponListPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
-import com.liantong.membercenter.membercenter.utils.ToastUtil;
-import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.ObservableTransformer;
 
 /**
  * Description ：优惠券
@@ -28,7 +24,7 @@ import io.reactivex.ObservableTransformer;
  * Email ： 942685687@qq.com
  * Time ： 2018/8/19.
  */
-public class CouponFragment extends BaseFragment<CouponListContract.View, CouponListContract.Presenter> implements CouponListContract.View {
+public class CouponFragment extends BaseFragment {
 
     private String[] titles1 = new String[]{ApplicationUtil.getContext().getResources().getString(R.string.not_use), ApplicationUtil.getContext().getResources().getString(R.string.failed), ApplicationUtil.getContext().getResources().getString(R.string.convertibility)};
     private ViewPagerAdapter mViewPagerAdapter;
@@ -48,12 +44,12 @@ public class CouponFragment extends BaseFragment<CouponListContract.View, Coupon
 
     @Override
     public CouponListContract.Presenter createPresenter() {
-        return new CouponListPresenter(mContext);
+        return null;
     }
 
     @Override
     public CouponListContract.View createView() {
-        return this;
+        return null;
     }
 
     @Override
@@ -82,19 +78,5 @@ public class CouponFragment extends BaseFragment<CouponListContract.View, Coupon
     @Override
     public void initData() {
 
-    }
-
-    @Override
-    public void getCouponList(CouponListBean data) {
-    }
-
-    @Override
-    public void setMsg(String msg) {
-        ToastUtil.showShortToast(msg);
-    }
-
-    @Override
-    public <T> ObservableTransformer<T, T> bindLifecycle() {
-        return this.bindUntilEvent(FragmentEvent.PAUSE);
     }
 }

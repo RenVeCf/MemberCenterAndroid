@@ -23,8 +23,6 @@ import com.liantong.membercenter.membercenter.utils.StringLinkUtils;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
-import java.util.TreeMap;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
@@ -94,8 +92,7 @@ public class MemberCenterFragment extends BaseFragment<MemberCenterContract.View
 
     @Override
     public void initData() {
-        TreeMap<String, String> captchaMap = new TreeMap<>();
-        getPresenter().getUserInfo(captchaMap, true, true);
+        getPresenter().getUserInfo(true, true);
     }
 
     @Override
@@ -149,8 +146,7 @@ public class MemberCenterFragment extends BaseFragment<MemberCenterContract.View
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IConstants.REQUEST_CODE && resultCode == IConstants.RESULT_CODE) {
-            TreeMap<String, String> captchaMap = new TreeMap<>();
-            getPresenter().getUserInfo(captchaMap, true, true);
+            getPresenter().getUserInfo(true, true);
         }
     }
 

@@ -9,11 +9,11 @@ import com.liantong.membercenter.membercenter.progress.ObserverResponseListener;
 import com.liantong.membercenter.membercenter.utils.ExceptionHandle;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 
-import java.util.TreeMap;
-
 /**
- * 作者：rmy on 2017/12/27 10:34
- * 邮箱：942685687@qq.com
+ * Description ：
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/26.
  */
 public class MemberCenterPresenter extends MemberCenterContract.Presenter {
 
@@ -26,8 +26,8 @@ public class MemberCenterPresenter extends MemberCenterContract.Presenter {
     }
 
     @Override
-    public void getUserInfo(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-        model.getUserInfo(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+    public void getUserInfo(boolean isDialog, boolean cancelable) {
+        model.getUserInfo(context, isDialog, cancelable, new ObserverResponseListener() {
             @Override
             public void onNext(Object o) {
                 //这一步是必须的，判断view是否已经被销毁

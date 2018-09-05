@@ -112,6 +112,7 @@ public class ModifyPersonalDataActivity extends BaseActivity<ModifyPersonalDataC
 
     @Override
     public void init() {
+        //将每个Activity加入到栈中
         ApplicationUtil.getManager().addActivity(this);
         tvModifyPersonalDataPhoneNum.setText(SPUtil.get(this, IConstants.PHONE, "").toString());
         tvModifyPersonalDataRealName.setText(SPUtil.get(this, IConstants.NAME, "").toString());
@@ -351,11 +352,11 @@ public class ModifyPersonalDataActivity extends BaseActivity<ModifyPersonalDataC
             case R.id.bt_modify_personal_data:
                 if (!edModifyPersonalDataEMailAddress.getText().toString().equals("")) {
                     if (!VerifyUtils.isEmail(edModifyPersonalDataEMailAddress.getText().toString()))
-                        ToastUtil.showShortToast("请输入正确的电子邮箱！");
+                        ToastUtil.showShortToast(getResources().getString(R.string.email_error));
                 }
                 if (!edModifyPersonalDataIdCard.getText().toString().equals("")) {
                     if (!VerifyUtils.isChineseCard(edModifyPersonalDataIdCard.getText().toString()))
-                        ToastUtil.showShortToast("请输入正确的身份证号码！");
+                        ToastUtil.showShortToast(getResources().getString(R.string.id_card_error));
                 } else {
                     TreeMap<String, String> map = new TreeMap<>();
                     if (!tvModifyPersonalDataDetailedAddress.getText().toString().equals(""))

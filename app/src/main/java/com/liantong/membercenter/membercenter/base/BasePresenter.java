@@ -1,8 +1,10 @@
 package com.liantong.membercenter.membercenter.base;
 
 /**
- * 作者：rmy on 2017/12/27 10:10
- * 邮箱：942685687@qq.com
+ * Description ：P层父类
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
  */
 
 public abstract class BasePresenter<V extends BaseView> {
@@ -13,10 +15,17 @@ public abstract class BasePresenter<V extends BaseView> {
         return mView;
     }
 
+    /**
+     * View初始化
+     * @param v
+     */
     public void attachView(V v) {
         mView = v;
     }
 
+    /**
+     * View销毁
+     */
     public void detachView() {
         mView = null;
     }

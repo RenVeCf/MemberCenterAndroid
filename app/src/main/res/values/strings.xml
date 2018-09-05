@@ -90,7 +90,6 @@
     <string name="w1_vip">W1会员</string>
     <string name="w2_vip">W2会员</string>
     <string name="w3_vip">W3会员</string>
-    <string name="error_id_card_or_email">身份证或邮箱填写错误！</string>
     <string name="use_date">使用期限:</string>
     <string name="group_bug_coupon">团购券</string>
     <string name="cash_coupon">代金券</string>
@@ -101,5 +100,11 @@
     <string name="merchant_scan_bar_code_usage">商家扫条形码使用</string>
     <string name="effective_date">有效时间:</string>
     <string name="undetermined">待推出</string>
+    <string name="email_error">请输入正确的电子邮箱！</string>
+    <string name="id_card_error">请输入正确的身份证号码！</string>
+    <string name="loading">正在加载...</string>
+    <string name="open_network">请打开网络</string>
+    <string name="link_timeout">请求超时</string>
+    <string name="link_failed">连接失败</string>
 
 </resources>

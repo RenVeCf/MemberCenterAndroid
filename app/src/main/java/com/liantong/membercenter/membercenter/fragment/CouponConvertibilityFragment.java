@@ -17,7 +17,6 @@ import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 import butterknife.BindView;
 import io.reactivex.ObservableTransformer;
@@ -80,8 +79,7 @@ public class CouponConvertibilityFragment extends BaseFragment<CouponListContrac
 
     @Override
     public void initData() {
-        TreeMap<String, String> map = new TreeMap<>();
-        getPresenter().getCouponList(map, true, true);
+        getPresenter().getCouponList(true, true);
     }
 
     @Override

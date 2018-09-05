@@ -94,7 +94,7 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
         cbLogin.setText(StringLinkUtils.checkAutoLink(this, getResources().getString(R.string.vip_card_declarations), getResources().getString(R.string.privacy_policy)));
         cbLogin.setMovementMethod(LinkMovementMethod.getInstance());
 
-        smsReceiver = new SmsBroadcastReceiver(this, handler);
+        smsReceiver = new SmsBroadcastReceiver(handler);
         IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         registerReceiver(smsReceiver, intentFilter);
     }
@@ -186,7 +186,6 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
 
     @Override
     public void setMsg(String msg) {
-        ToastUtil.showShortToast(msg);
     }
 
     @Override

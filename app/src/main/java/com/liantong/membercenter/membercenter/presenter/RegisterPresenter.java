@@ -36,7 +36,6 @@ public class RegisterPresenter extends RegisterContract.Presenter {
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().getRegister((RegisterBean) o);
-                    getView().setMsg("请求成功");
                 }
             }
 

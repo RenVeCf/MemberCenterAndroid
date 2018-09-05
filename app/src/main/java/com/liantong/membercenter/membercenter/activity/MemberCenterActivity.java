@@ -10,20 +10,15 @@ import android.widget.RadioButton;
 
 import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.base.BaseActivity;
-import com.liantong.membercenter.membercenter.bean.UserInfoBean;
 import com.liantong.membercenter.membercenter.contract.MemberCenterContract;
 import com.liantong.membercenter.membercenter.fragment.ActivitiesFragment;
 import com.liantong.membercenter.membercenter.fragment.CouponFragment;
 import com.liantong.membercenter.membercenter.fragment.MemberCenterFragment;
-import com.liantong.membercenter.membercenter.presenter.MemberCenterPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 
-import java.util.TreeMap;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.ObservableTransformer;
 
 /**
  * Description ：会员中心主界面
@@ -32,7 +27,7 @@ import io.reactivex.ObservableTransformer;
  * Time ： 2018/8/27.
  */
 
-public class MemberCenterActivity extends BaseActivity<MemberCenterContract.View, MemberCenterContract.Presenter> implements MemberCenterContract.View {
+public class MemberCenterActivity extends BaseActivity {
 
     @BindView(R.id.ll_member_center)
     LinearLayout llMemberCenter;
@@ -58,12 +53,12 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterContract.View
 
     @Override
     public MemberCenterContract.Presenter createPresenter() {
-        return new MemberCenterPresenter(this);
+        return null;
     }
 
     @Override
     public MemberCenterContract.View createView() {
-        return this;
+        return null;
     }
 
     @Override
@@ -103,23 +98,7 @@ public class MemberCenterActivity extends BaseActivity<MemberCenterContract.View
 
     @Override
     public void initData() {
-        TreeMap<String, String> captchaMap = new TreeMap<>();
-        getPresenter().getUserInfo(captchaMap, true, true);
-    }
 
-    @Override
-    public void getUserInfo(UserInfoBean data) {
-
-    }
-
-    @Override
-    public void setMsg(String msg) {
-
-    }
-
-    @Override
-    public <T> ObservableTransformer<T, T> bindLifecycle() {
-        return null;
     }
 
     /**

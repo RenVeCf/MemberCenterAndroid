@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 
+import com.liantong.membercenter.membercenter.R;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
@@ -31,7 +33,7 @@ public class ProgressDialogHandler extends Handler {
         if (sad == null) {
             sad = new SweetAlertDialog(context);
             sad.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
-            sad.setTitleText("正在加载...");
+            sad.setTitleText(context.getResources().getString(R.string.loading));
             sad.setCancelable(cancelable);
 
             if (cancelable) {

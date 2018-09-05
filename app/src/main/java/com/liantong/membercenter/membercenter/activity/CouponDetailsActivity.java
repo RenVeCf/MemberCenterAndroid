@@ -15,6 +15,7 @@ import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.contract.CouponDetailsBtUrlContract;
 import com.liantong.membercenter.membercenter.presenter.CouponDetailsBtUrlPresenter;
+import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.BarCodeUtil;
 
 import java.util.TreeMap;
@@ -22,6 +23,13 @@ import java.util.TreeMap;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
+
+/**
+ * Description ：卡券详情
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
+ */
 
 public class CouponDetailsActivity extends BaseActivity<CouponDetailsBtUrlContract.View, CouponDetailsBtUrlContract.Presenter> implements CouponDetailsBtUrlContract.View {
 
@@ -73,6 +81,8 @@ public class CouponDetailsActivity extends BaseActivity<CouponDetailsBtUrlContra
 
     @Override
     public void init() {
+        //将每个Activity加入到栈中
+        ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvCouponDetailsTop);
         ticketType = getIntent().getStringExtra("ticket_type");

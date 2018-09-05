@@ -9,6 +9,7 @@ import com.liantong.membercenter.membercenter.base.BasePresenter;
 import com.liantong.membercenter.membercenter.base.BaseView;
 import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.common.view.TopView;
+import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,6 +44,8 @@ public class VipCardDeclarationsActivity extends BaseActivity {
 
     @Override
     public void init() {
+        //将每个Activity加入到栈中
+        ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvVipCardDeclarationsTop);
     }

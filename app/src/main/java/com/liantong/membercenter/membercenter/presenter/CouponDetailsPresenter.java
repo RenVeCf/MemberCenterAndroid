@@ -7,14 +7,15 @@ import com.liantong.membercenter.membercenter.contract.CouponDetailsContract;
 import com.liantong.membercenter.membercenter.model.CouponDetailsModel;
 import com.liantong.membercenter.membercenter.progress.ObserverResponseListener;
 import com.liantong.membercenter.membercenter.utils.ExceptionHandle;
-import com.liantong.membercenter.membercenter.utils.LogUtils;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 
 import java.util.TreeMap;
 
 /**
- * 作者：rmy on 2017/12/27 10:34
- * 邮箱：942685687@qq.com
+ * Description ：
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/26.
  */
 public class CouponDetailsPresenter extends CouponDetailsContract.Presenter {
 
@@ -27,11 +28,10 @@ public class CouponDetailsPresenter extends CouponDetailsContract.Presenter {
     }
 
     @Override
-    public void getCouponDetails(TreeMap<String, String> map, boolean isDialog, boolean cancelable) {
-        model.getCouponDetails(context, map, isDialog, cancelable, getView().bindLifecycle(), new ObserverResponseListener() {
+    public void getCouponDetails(boolean isDialog, boolean cancelable) {
+        model.getCouponDetails(context, isDialog, cancelable, new ObserverResponseListener() {
             @Override
             public void onNext(Object o) {
-                LogUtils.i("rmy", "o = " + o);
                 //这一步是必须的，判断view是否已经被销毁
                 if (getView() != null) {
                     getView().getCouponDetails((CouponDetailsBean) o);

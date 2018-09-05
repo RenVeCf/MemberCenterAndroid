@@ -1,8 +1,10 @@
 package com.liantong.membercenter.membercenter.base;
 
 /**
- * 作者：rmy on 2017/12/28 11:19
- * 邮箱：942685687@qq.com
+ * Description ：因为这个程序的后台返回格式不是 RESTful 架构格式的，所以不算是所有Bean的父类，在这里只作为返回错误信息的Bean
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
  */
 
 public class BaseResponse<T> {

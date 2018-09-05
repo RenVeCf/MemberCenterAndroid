@@ -1,7 +1,7 @@
 package com.liantong.membercenter.membercenter.common.config;
 
 /**
- * Description ：
+ * Description ：公共配置类
  * Author ： MengYang
  * Email ： 942685687@qq.com
  * Time ： 2018/8/26.

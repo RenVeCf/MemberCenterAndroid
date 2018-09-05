@@ -1,4 +1,4 @@
-package com.liantong.membercenter.membercenter.api;
+package com.liantong.membercenter.membercenter.progress;
 
 import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;

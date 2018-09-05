@@ -7,14 +7,15 @@ import com.liantong.membercenter.membercenter.contract.ModifyPersonalDataContrac
 import com.liantong.membercenter.membercenter.model.ModifyPersonalDataModel;
 import com.liantong.membercenter.membercenter.progress.ObserverResponseListener;
 import com.liantong.membercenter.membercenter.utils.ExceptionHandle;
-import com.liantong.membercenter.membercenter.utils.LogUtils;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 
 import java.util.TreeMap;
 
 /**
- * 作者：rmy on 2017/12/27 10:34
- * 邮箱：942685687@qq.com
+ * Description ：
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/26.
  */
 public class ModifyPersonalDataPresenter extends ModifyPersonalDataContract.Presenter {
 

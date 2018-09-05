@@ -12,9 +12,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
- * Created by ywl on 2016/6/27.
+ * Description : 滑动导航栏
+ * Author : rmy
+ * Email : 942685687@qq.com
+ * Time : 2017/11/loading1
  */
-public class NavitationLayout extends RelativeLayout{
+
+public class NavitationLayout extends RelativeLayout {
 
     private TextView[] textViews; // 标题栏数组，用于存储要显示的标题
     private LinearLayout titleLayout; //标题栏父控件
@@ -47,7 +51,7 @@ public class NavitationLayout extends RelativeLayout{
         super(context, attrs, defStyleAttr);
 
         titleLayout = new LinearLayout(context);
-        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         titleLayout.setLayoutParams(layoutParams);
         titleLayout.setOrientation(LinearLayout.HORIZONTAL);
         addView(titleLayout);
@@ -61,15 +65,13 @@ public class NavitationLayout extends RelativeLayout{
         this.onNaPageChangeListener = onNaPageChangeListener;
     }
 
-    private void setTitles(Context context, String[] titles, final boolean smoothScroll)
-    {
+    private void setTitles(Context context, String[] titles, final boolean smoothScroll) {
         this.textViews = new TextView[titles.length];
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT);
         params.weight = 1;
         params.gravity = Gravity.CENTER;
         // 循环，根据标题栏动态生成TextView来显示标题，每个标题栏的宽度比例为1:1,其中的内容居中。
-        for(int i = 0; i < titles.length; i++)
-        {
+        for (int i = 0; i < titles.length; i++) {
             final int index = i;
             TextView textView = new TextView(context);
             textView.setText(titles[i]);
@@ -79,8 +81,7 @@ public class NavitationLayout extends RelativeLayout{
                 @Override
                 public void onClick(View v) {
                     viewPager.setCurrentItem(index, smoothScroll);
-                    if(onTitleClickListener != null)
-                    {
+                    if (onTitleClickListener != null) {
                         onTitleClickListener.onTitleClick(v);
                     }
                 }
@@ -90,18 +91,16 @@ public class NavitationLayout extends RelativeLayout{
     }
 
 
-    private void setTitles(Context context, String[] titles, final boolean smoothScroll, int splilinecolor, float splilinewidth, float topoffset, float bottomoffset)
-    {
+    private void setTitles(Context context, String[] titles, final boolean smoothScroll, int splilinecolor, float splilinewidth, float topoffset, float bottomoffset) {
         this.textViews = new TextView[titles.length];
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0,LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT);
         params.weight = 1;
         params.gravity = Gravity.CENTER;
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dip2px(context, splilinewidth),LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dip2px(context, splilinewidth), LayoutParams.MATCH_PARENT);
         lp.setMargins(0, dip2px(context, topoffset), 0, dip2px(context, bottomoffset));
         // 循环，根据标题栏动态生成TextView来显示标题，每个标题栏的宽度比例为1:1,其中的内容居中。
-        for(int i = 0; i < titles.length; i++)
-        {
+        for (int i = 0; i < titles.length; i++) {
             final int index = i;
             TextView textView = new TextView(context);
             textView.setText(titles[i]);
@@ -111,15 +110,13 @@ public class NavitationLayout extends RelativeLayout{
                 @Override
                 public void onClick(View v) {
                     viewPager.setCurrentItem(index, smoothScroll);
-                    if(onTitleClickListener != null)
-                    {
+                    if (onTitleClickListener != null) {
                         onTitleClickListener.onTitleClick(v);
                     }
                 }
             });
             titleLayout.addView(textView, params);
-            if(i < titles.length - 1)
-            {
+            if (i < titles.length - 1) {
                 View view = new View(context);
                 view.setBackgroundColor(splilinecolor);
                 titleLayout.addView(view, lp);
@@ -130,13 +127,13 @@ public class NavitationLayout extends RelativeLayout{
 
     /**
      * 设置导航背景色
+     *
      * @param context
      * @param height
      * @param color
      */
-    public void setBgLine(Context context, int height, int color)
-    {
-        height = dip2px(context,height);
+    public void setBgLine(Context context, int height, int color) {
+        height = dip2px(context, height);
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, height);
         bgLine = new View(context);
         bgLine.setLayoutParams(layoutParams);
@@ -149,18 +146,17 @@ public class NavitationLayout extends RelativeLayout{
 
     /**
      * 设置导航条颜色
+     *
      * @param context
      * @param height
      * @param color
      * @param currentPosition
      */
-    public void setNavLine(Activity context, int height, int color, int currentPosition)
-    {
-        if(textViews != null)
-        {
+    public void setNavLine(Activity context, int height, int color, int currentPosition) {
+        if (textViews != null) {
             navWidth = getScreenWidth(context) / textViews.length;
         }
-        height = dip2px(context,height);
+        height = dip2px(context, height);
         System.out.println("width:" + navWidth);
 
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, height);
@@ -175,20 +171,18 @@ public class NavitationLayout extends RelativeLayout{
     }
 
     /**
-     *
-     * @param context 上下文
-     * @param titles 标题栏
+     * @param context           上下文
+     * @param titles            标题栏
      * @param viewPager
-     * @param unselectedcolor 未选中字体颜色
-     * @param setectedcolor 选中字体颜色
+     * @param unselectedcolor   未选中字体颜色
+     * @param setectedcolor     选中字体颜色
      * @param txtUnselectedSize 未选中字体大小
-     * @param txtSelectedSize 选中字体大小
-     * @param currentPosition 当前viewpager的位置
-     * @param widOffset 导航条的边距
-     * @param smoothScroll 滑动类型
+     * @param txtSelectedSize   选中字体大小
+     * @param currentPosition   当前viewpager的位置
+     * @param widOffset         导航条的边距
+     * @param smoothScroll      滑动类型
      */
-    public void setViewPager(final Context context, String[] titles, ViewPager viewPager, final int unselectedcolor, final int setectedcolor, int txtUnselectedSize, final int txtSelectedSize, final int currentPosition, int widOffset, boolean smoothScroll)
-    {
+    public void setViewPager(final Context context, String[] titles, ViewPager viewPager, final int unselectedcolor, final int setectedcolor, int txtUnselectedSize, final int txtSelectedSize, final int currentPosition, int widOffset, boolean smoothScroll) {
         this.viewPager = viewPager;
         this.txtUnselectedColor = unselectedcolor;
         this.txtSelectedColor = setectedcolor;
@@ -204,8 +198,7 @@ public class NavitationLayout extends RelativeLayout{
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 moveBar(navLine, navWidth, positionOffset, position);
-                if(onNaPageChangeListener != null)
-                {
+                if (onNaPageChangeListener != null) {
                     onNaPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 }
             }
@@ -213,24 +206,21 @@ public class NavitationLayout extends RelativeLayout{
             @Override
             public void onPageSelected(int position) {
                 setSelectedTxtColor(context, setectedcolor, txtSelectedSize, position);
-                if(onNaPageChangeListener != null)
-                {
+                if (onNaPageChangeListener != null) {
                     onNaPageChangeListener.onPageSelected(position);
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if(onNaPageChangeListener != null)
-                {
+                if (onNaPageChangeListener != null) {
                     onNaPageChangeListener.onPageScrollStateChanged(state);
                 }
             }
         });
     }
 
-    public void setViewPager(final Context context, String[] titles, ViewPager viewPager, final int unselectedcolor, final int setectedcolor, int txtUnselectedSize, final int txtSelectedSize, final int currentPosition, int widOffset, boolean smoothScroll, int splilinecolor, float splilinewidth, float topoffset, float bottomoffset)
-    {
+    public void setViewPager(final Context context, String[] titles, ViewPager viewPager, final int unselectedcolor, final int setectedcolor, int txtUnselectedSize, final int txtSelectedSize, final int currentPosition, int widOffset, boolean smoothScroll, int splilinecolor, float splilinewidth, float topoffset, float bottomoffset) {
         this.viewPager = viewPager;
         this.txtUnselectedColor = unselectedcolor;
         this.txtSelectedColor = setectedcolor;
@@ -246,8 +236,7 @@ public class NavitationLayout extends RelativeLayout{
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 moveBar(navLine, navWidth, positionOffset, position);
-                if(onNaPageChangeListener != null)
-                {
+                if (onNaPageChangeListener != null) {
                     onNaPageChangeListener.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 }
             }
@@ -255,16 +244,14 @@ public class NavitationLayout extends RelativeLayout{
             @Override
             public void onPageSelected(int position) {
                 setSelectedTxtColor(context, setectedcolor, txtSelectedSize, position);
-                if(onNaPageChangeListener != null)
-                {
+                if (onNaPageChangeListener != null) {
                     onNaPageChangeListener.onPageSelected(position);
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                if(onNaPageChangeListener != null)
-                {
+                if (onNaPageChangeListener != null) {
                     onNaPageChangeListener.onPageScrollStateChanged(state);
                 }
             }
@@ -279,32 +266,24 @@ public class NavitationLayout extends RelativeLayout{
         bar.requestLayout();
     }
 
-    private void setUnselectedTxtColor(Context context, int unselectedcolor, int unselectedsize)
-    {
-        if(textViews != null)
-        {
+    private void setUnselectedTxtColor(Context context, int unselectedcolor, int unselectedsize) {
+        if (textViews != null) {
             int length = textViews.length;
-            for(int i = 0; i < length; i++)
-            {
+            for (int i = 0; i < length; i++) {
                 textViews[i].setTextColor(context.getResources().getColor(unselectedcolor));
                 textViews[i].setTextSize(unselectedsize);
             }
         }
     }
 
-    private void setSelectedTxtColor(Context context, int selectedcolor, int selectedsize, int position)
-    {
-        if(textViews != null)
-        {
+    private void setSelectedTxtColor(Context context, int selectedcolor, int selectedsize, int position) {
+        if (textViews != null) {
             int length = textViews.length;
-            for(int i = 0; i < length; i++)
-            {
-                if(i == position) {
+            for (int i = 0; i < length; i++) {
+                if (i == position) {
                     textViews[i].setTextColor(context.getResources().getColor(selectedcolor));
                     textViews[i].setTextSize(selectedsize);
-                }
-                else
-                {
+                } else {
                     textViews[i].setTextColor(context.getResources().getColor(txtUnselectedColor));
                     textViews[i].setTextSize(txtUnselectedSize);
                 }
@@ -333,18 +312,18 @@ public class NavitationLayout extends RelativeLayout{
     /**
      * 点击标题栏事件
      */
-    public interface OnTitleClickListener
-    {
+    public interface OnTitleClickListener {
         void onTitleClick(View v);
     }
 
     /**
      * viewpager滑动事件
      */
-    public interface OnNaPageChangeListener
-    {
+    public interface OnNaPageChangeListener {
         void onPageScrolled(int position, float positionOffset, int positionOffsetPixels);
+
         void onPageSelected(int position);
+
         void onPageScrollStateChanged(int state);
     }
 }

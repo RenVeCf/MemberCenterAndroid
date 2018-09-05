@@ -60,6 +60,7 @@ public class GrowthValueActivity extends BaseActivity<GrowthValueContract.View, 
 
     @Override
     public void init() {
+        //将每个Activity加入到栈中
         ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvGrowthValueTop);

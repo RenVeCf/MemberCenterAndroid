@@ -12,10 +12,12 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
- * 作者：rmy on 2017/12/27 15:59
- * 邮箱：942685687@qq.com
- * 父类->基类->动态指定类型->泛型设计（通过泛型指定动态类型->由子类指定，父类只需要规定范围即可）
+ * Description ：父类->基类->动态指定类型->泛型设计（通过泛型指定动态类型->由子类指定，父类只需要规定范围即可）
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
  */
+
 public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V>> extends RxFragment {
 
     //引用V层和P层
@@ -42,8 +44,17 @@ public abstract class BaseFragment<V extends BaseView, P extends BasePresenter<V
         if (presenter != null && view != null) {
             presenter.attachView(this.view);
         }
+        /**
+         * 初始化
+         */
         init();
+        /**
+         * 事件
+         */
         initListener();
+        /**
+         * 数据
+         */
         initData();
         return view;
     }

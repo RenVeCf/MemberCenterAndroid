@@ -17,7 +17,7 @@ import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.SPUtil;
 
 /**
- * Description : 标题栏
+ * Description : 公用标题栏
  * Author : rmy
  * Email : 942685687@qq.com
  * Time : 2017/11/loading1

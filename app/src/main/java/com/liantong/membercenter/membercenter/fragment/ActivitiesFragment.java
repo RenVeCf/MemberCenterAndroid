@@ -22,7 +22,6 @@ import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -88,8 +87,7 @@ public class ActivitiesFragment extends BaseFragment<ActivitiesContract.View, Ac
 
     @Override
     public void initData() {
-        TreeMap<String, String> activitiesMap = new TreeMap<>();
-        getPresenter().getActivities(activitiesMap, true, true);
+        getPresenter().getActivities(true, true);
     }
 
     @Override

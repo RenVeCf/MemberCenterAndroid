@@ -10,10 +10,10 @@ import java.util.TreeMap;
 import io.reactivex.ObservableTransformer;
 
 /**
- * Description ：
+ * Description ：RegisterContract  V 、P契约类
  * Author ： MengYang
  * Email ： 942685687@qq.com
- * Time ： 2018/8/18.
+ * Time ： 2018/8/26.
  */
 public interface RegisterContract {
 

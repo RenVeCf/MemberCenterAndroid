@@ -2,21 +2,21 @@ package com.liantong.membercenter.membercenter.presenter;
 
 import android.content.Context;
 
-import com.liantong.membercenter.membercenter.api.ErrorHandler;
 import com.liantong.membercenter.membercenter.base.BaseResponse;
 import com.liantong.membercenter.membercenter.bean.LoginBean;
 import com.liantong.membercenter.membercenter.contract.LoginContract;
 import com.liantong.membercenter.membercenter.model.LoginModel;
 import com.liantong.membercenter.membercenter.progress.ObserverResponseListener;
 import com.liantong.membercenter.membercenter.utils.ExceptionHandle;
-import com.liantong.membercenter.membercenter.utils.LogUtils;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 
 import java.util.TreeMap;
 
 /**
- * 作者：rmy on 2017/12/27 10:34
- * 邮箱：942685687@qq.com
+ * Description ：
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/26.
  */
 public class LoginPresenter extends LoginContract.Presenter {
 
@@ -43,20 +43,6 @@ public class LoginPresenter extends LoginContract.Presenter {
             public void onError(ExceptionHandle.ResponeThrowable e) {
                 if (getView() != null) {
                     //// TODO: 2017/12/28 自定义处理异常
-                    LogUtils.i("rmy", "e.message = " + e.message);
-                    LogUtils.i("rmy", "e.getLocalizedMessage() = " + e.getLocalizedMessage());
-                    LogUtils.i("rmy", "e.getMessage() = " + e.getMessage());
-                    LogUtils.i("rmy", "e.code = " + e.code);
-                    LogUtils.i("rmy", "e.getCause() = " + e.getCause());
-                    LogUtils.i("rmy", "e.getStackTrace() = " + e.getStackTrace());
-                    LogUtils.i("rmy", "e.getSuppressed() = " + e.getSuppressed());
-                    LogUtils.i("rmy", "e.fillInStackTrace() = " + e.fillInStackTrace());
-                    LogUtils.i("rmy", "e.toString() = " + e.toString());
-
-
-                    LogUtils.i("rmy", "error getLocalizedMessage = " + ExceptionHandle.handleException(e).getLocalizedMessage());
-                    LogUtils.i("rmy", "error getMessage = " + ExceptionHandle.handleException(e).getMessage());
-                    LogUtils.i("rmy", "error code = " + ExceptionHandle.handleException(e).code);
                     ToastUtil.showShortToast(ExceptionHandle.handleException(e).message);
                 }
             }

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.liantong.membercenter.membercenter.R;
 import com.liantong.membercenter.membercenter.activity.LoginActivity;
-import com.liantong.membercenter.membercenter.api.ErrorHandler;
 import com.liantong.membercenter.membercenter.base.BaseResponse;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.ExceptionHandle;
@@ -37,12 +37,18 @@ public class ProgressObserver<T> implements Observer<T>, ProgressCancelListener 
         }
     }
 
+    /**
+     * 开启加载Dialog
+     */
     private void showProgressDialog() {
         if (mProgressDialogHandler != null) {
             mProgressDialogHandler.obtainMessage(ProgressDialogHandler.SHOW_PROGRESS_DIALOG).sendToTarget();
         }
     }
 
+    /**
+     * 关闭加载Dialog
+     */
     private void dismissProgressDialog() {
         if (mProgressDialogHandler != null) {
             mProgressDialogHandler.obtainMessage(ProgressDialogHandler.DISMISS_PROGRESS_DIALOG).sendToTarget();
@@ -75,20 +81,22 @@ public class ProgressObserver<T> implements Observer<T>, ProgressCancelListener 
         }
 
         if (e instanceof UnknownHostException) {
-            ToastUtil.showLongToast("请打开网络");
+            ToastUtil.showLongToast(context.getResources().getString(R.string.open_network));
         } else if (e instanceof SocketTimeoutException) {
-            ToastUtil.showLongToast("请求超时");
+            ToastUtil.showLongToast(context.getResources().getString(R.string.link_timeout));
         } else if (e instanceof ConnectException) {
-            ToastUtil.showLongToast("连接失败");
+            ToastUtil.showLongToast(context.getResources().getString(R.string.link_failed));
         } else if (e instanceof HttpException) {
-            ToastUtil.showLongToast("请求超时");
+            ToastUtil.showLongToast(context.getResources().getString(R.string.link_timeout));
         } else {
             if (errBody != null) {
+                //401是Token过期，每月月初Token过期
                 if (errBody.getErrorCode() == "401") {
                     ToastUtil.showLongToast(errBody.getDisplayedMsg());
                     ApplicationUtil.getManager().finishAllActivity();
                     ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), LoginActivity.class));
                 } else {
+                    //displayedMsg是后台返回的错误信息
                     ToastUtil.showLongToast(errBody.getDisplayedMsg());
                 }
             }

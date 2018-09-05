@@ -18,12 +18,10 @@ import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.contract.CouponListContract;
 import com.liantong.membercenter.membercenter.presenter.CouponListPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
-import com.liantong.membercenter.membercenter.utils.LogUtils;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 import butterknife.BindView;
 import io.reactivex.ObservableTransformer;
@@ -87,8 +85,7 @@ public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View,
 
     @Override
     public void initData() {
-        TreeMap<String, String> map = new TreeMap<>();
-        getPresenter().getCouponList(map, true, true);
+        getPresenter().getCouponList(true, true);
     }
 
     @Override
@@ -118,7 +115,6 @@ public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View,
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtils.i("rmy", "requestCode = " + requestCode + "\nresultCode = " + resultCode);
         if (requestCode == IConstants.REQUEST_CODE && resultCode == IConstants.RESULT_CODE) {
             initData();
         }

@@ -13,33 +13,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Description ：
+ * Description ：读取短信广播
  * Author ： MengYang
  * Email ： 942685687@qq.com
  * Time ： 2018/8/29.
  */
 public class SmsBroadcastReceiver extends BroadcastReceiver {
 
-    private Context context;
     private Handler handler;
-    private int codeLength = 0;
 
-    public SmsBroadcastReceiver(Context context, Handler handler) {
-        this.context = context;
+    public SmsBroadcastReceiver(Handler handler) {
         this.handler = handler;
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
+        //pdus是一个object类型的数组，每一个object都是一个byte[]字节数组，每一项为一条短信。
         Object[] objects = (Object[]) bundle.get("pdus");
         if (objects != null) {
-            String phone = null;
             StringBuffer content = new StringBuffer();
             for (int i = 0; i < objects.length; i++) {
                 SmsMessage sms = SmsMessage.createFromPdu((byte[]) objects[i]);
-                phone = sms.getDisplayOriginatingAddress();
-                content.append(sms.getDisplayMessageBody());
+                content.append(sms.getDisplayMessageBody()); //短信内容
             }
             CodeAndSend(content.toString());
         }

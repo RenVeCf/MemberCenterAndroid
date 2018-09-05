@@ -9,9 +9,10 @@ import java.util.TreeMap;
 import io.reactivex.ObservableTransformer;
 
 /**
- * 作者：rmy on 2017/12/27 10:30
- * 邮箱：942685687@qq.com
- * LoginContract  V 、P契约类
+ * Description ：ModifyPersonalDataContract  V 、P契约类
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/26.
  */
 public interface ModifyPersonalDataContract {
 
