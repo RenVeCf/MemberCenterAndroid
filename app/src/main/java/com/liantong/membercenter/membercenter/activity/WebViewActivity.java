@@ -59,13 +59,12 @@ public class WebViewActivity extends BaseActivity {
         ImmersionBar.setTitleBar(this, tvWebviewTitle);
 
         WebSettings webSettings = commonWebview.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true);
-        webSettings.setUseWideViewPort(true);
-        //支持自动加载图片
-        webSettings.setLoadsImagesAutomatically(true);
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);// 排版适应屏幕
-        commonWebview.loadUrl(getIntent().getStringExtra("land_page"));
+        webSettings.setJavaScriptEnabled(true); //允许与JS交互
+        webSettings.setDomStorageEnabled(true); //开启DOM storage API 功能
+        webSettings.setUseWideViewPort(true); //自适应屏幕
+        webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL); // 排版适应屏幕
+        commonWebview.loadUrl(getIntent().getStringExtra("land_page")); //网址链接
     }
 
     @Override

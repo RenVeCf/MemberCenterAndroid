@@ -9,6 +9,7 @@ import com.liantong.membercenter.membercenter.activity.LoginActivity;
 import com.liantong.membercenter.membercenter.base.BaseResponse;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.ExceptionHandle;
+import com.liantong.membercenter.membercenter.utils.SPUtil;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 
 import java.net.ConnectException;
@@ -91,7 +92,8 @@ public class ProgressObserver<T> implements Observer<T>, ProgressCancelListener 
         } else {
             if (errBody != null) {
                 //401是Token过期，每月月初Token过期
-                if (errBody.getErrorCode() == "401") {
+                if (errBody.getDisplayedMsg().equals("无效的令牌")) {
+                    SPUtil.clear(ApplicationUtil.getContext());
                     ToastUtil.showLongToast(errBody.getDisplayedMsg());
                     ApplicationUtil.getManager().finishAllActivity();
                     ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), LoginActivity.class));

@@ -55,6 +55,7 @@
     <string name="error_captcha_num">验证码不正确！</string>
     <string name="phone_num">手机号码</string>
     <string name="error_login">请选择正确的格式！</string>
+    <string name="error_check_box">请勾选隐私政策！</string>
     <string name="data_andr_privacy_policy">个人资料及隐私政策</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="commitment_privacy_policy">* 我接受注册用户协议，并承诺我已经阅读并接受注册用户协议和隐私政策的详细内容。</string>
@@ -78,7 +79,7 @@
     <string name="everyday_sign">每日签到</string>
     <string name="electronic_coupons">电子券</string>
     <string name="vip_card_num">会员卡号：</string>
-    <string name="to_modify_personal_data">（修改个人资料）</string>
+    <string name="to_modify_personal_data">(修改个人资料)</string>
     <string name="vip_lv">您当前的会员等级为:</string>
     <string name="cancel">取消</string>
     <string name="man">男</string>
@@ -102,9 +103,12 @@
     <string name="undetermined">待推出</string>
     <string name="email_error">请输入正确的电子邮箱！</string>
     <string name="id_card_error">请输入正确的身份证号码！</string>
+    <string name="input_error">输入格式不正确！</string>
     <string name="loading">正在加载...</string>
     <string name="open_network">请打开网络</string>
     <string name="link_timeout">请求超时</string>
     <string name="link_failed">连接失败</string>
+    <string name="six_length_captcha">验证码必须为6位数字</string>
+    <string name="out_to_login">确定要退出登录吗？</string>
 
 </resources>

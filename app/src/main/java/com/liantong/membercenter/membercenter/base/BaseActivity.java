@@ -8,7 +8,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.gyf.barlibrary.ImmersionBar;
-import com.liantong.membercenter.membercenter.utils.NavigationBarUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 
 import butterknife.ButterKnife;
@@ -41,10 +40,6 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         this.savedInstanceState = savedInstanceState;
         //键盘不遮盖输入框
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        //适配虚拟按键
-        if (NavigationBarUtil.hasNavigationBar(this)) {
-            NavigationBarUtil.initActivity(findViewById(android.R.id.content));
-        }
         setContentView(getLayoutId());
         //控件绑定初始化
         ButterKnife.bind(this);

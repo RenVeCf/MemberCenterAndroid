@@ -17,6 +17,7 @@ import com.liantong.membercenter.membercenter.contract.CouponDetailsBtUrlContrac
 import com.liantong.membercenter.membercenter.presenter.CouponDetailsBtUrlPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 import com.liantong.membercenter.membercenter.utils.BarCodeUtil;
+import com.liantong.membercenter.membercenter.utils.isClickUtil;
 
 import java.util.TreeMap;
 
@@ -123,6 +124,7 @@ public class CouponDetailsActivity extends BaseActivity<CouponDetailsBtUrlContra
 
         if (!couponNo.equals("") && couponNo != null) {
             try {
+                //设置条形码生成的大小
                 Bitmap barCode = BarCodeUtil.createBarCode(couponNo, (int) getResources().getDimension(R.dimen.x1020), (int) getResources().getDimension(R.dimen.y252));
                 ivCouponDetailsBarCode.setImageBitmap(barCode);
             } catch (Exception e) {
@@ -153,6 +155,7 @@ public class CouponDetailsActivity extends BaseActivity<CouponDetailsBtUrlContra
 
     @Override
     public void getCouponDetailsBtUrl(CouponDetailsBtUrlBean data) {
+        //如果点击了按钮，就让返回会员中心Fragment时刷新数据
         isClick = true;
         startActivity(new Intent(this, WebViewActivity.class).putExtra("land_page", data.getUrl()));
     }
@@ -176,10 +179,12 @@ public class CouponDetailsActivity extends BaseActivity<CouponDetailsBtUrlContra
 
     @OnClick(R.id.bt_coupon_details)
     public void onViewClicked() {
-        TreeMap<String, String> map = new TreeMap<>();
-        map.put("right_template_code", RightTemplateCode);
-        map.put("create_time", CreateTime);
-        map.put("coupon_code", CouponCode);
-        getPresenter().getCouponDetailsBtUrl(map, true, true);
+        if (isClickUtil.isFastClick()) {
+            TreeMap<String, String> map = new TreeMap<>();
+            map.put("right_template_code", RightTemplateCode);
+            map.put("create_time", CreateTime);
+            map.put("coupon_code", CouponCode);
+            getPresenter().getCouponDetailsBtUrl(map, true, false);
+        }
     }
 }

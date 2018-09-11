@@ -5,7 +5,6 @@ import com.liantong.membercenter.membercenter.base.BaseResponse;
 import com.liantong.membercenter.membercenter.base.BaseView;
 import com.liantong.membercenter.membercenter.bean.LoginBean;
 
-import java.util.HashMap;
 import java.util.TreeMap;
 
 import io.reactivex.ObservableTransformer;
@@ -23,8 +22,6 @@ public interface LoginContract {
         void resultLogin(LoginBean data);
 
         void resultCaptcha(BaseResponse data);
-
-        void setMsg(String msg);
 
         <T> ObservableTransformer<T, T> bindLifecycle();
     }

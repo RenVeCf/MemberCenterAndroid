@@ -18,6 +18,7 @@ import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.contract.CouponListContract;
 import com.liantong.membercenter.membercenter.presenter.CouponListPresenter;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
+import com.liantong.membercenter.membercenter.utils.SPUtil;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import java.util.ArrayList;
@@ -62,11 +63,13 @@ public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View,
 
     @Override
     public void init() {
+        //设置RecyclerView方向和是否反转
         LinearLayoutManager NotUseList = new LinearLayoutManager(ApplicationUtil.getContext(), LinearLayoutManager.VERTICAL, false);
         rvNotUse.setLayoutManager(NotUseList);
-        rvNotUse.setHasFixedSize(true);
-        rvNotUse.setItemAnimator(new DefaultItemAnimator());
+        rvNotUse.setHasFixedSize(true); //item如果一样的大小，可以设置为true让RecyclerView避免重新计算大小
+        rvNotUse.setItemAnimator(new DefaultItemAnimator()); //默认动画
 
+        //初始化数据
         notUseBean = new ArrayList<>();
         notUseAdapter = new NotUseAdapter(notUseBean);
         rvNotUse.setAdapter(notUseAdapter);
@@ -74,6 +77,7 @@ public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View,
 
     @Override
     public void initListener() {
+        //下拉刷新
         srlNotUse.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -85,12 +89,14 @@ public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View,
 
     @Override
     public void initData() {
-        getPresenter().getCouponList(true, true);
+        getPresenter().getCouponList(true, false);
     }
 
     @Override
     public void getCouponList(CouponListBean data) {
+        //清除数据
         notUseBean.clear();
+        //由于后台没做分页，所以这里遍历所有数据，将该品种的券检出
         for (int i = 0; i < data.getTicket_list().size(); i++) {
             if (data.getTicket_list().get(i).getCoupon_status().equals("0"))
                 notUseBean.add(data.getTicket_list().get(i));
@@ -98,12 +104,14 @@ public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View,
         tvNotUseTotalNum.setText("共" + notUseBean.size() + "张券");
         notUseAdapter = new NotUseAdapter(notUseBean);
         rvNotUse.setAdapter(notUseAdapter);
+        //item整体的点击事件
         notUseAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 CouponNotUsedFragment.this.startActivityForResult(new Intent(getActivity(), CouponDetailsActivity.class).putExtra("ticket_type", notUseBean.get(position).getTicket_type()).putExtra("ticket_name", notUseBean.get(position).getTicket_name()).putExtra("coupon_no", notUseBean.get(position).getCoupon_no()).putExtra("use_date", notUseBean.get(position).getUse_date()).putExtra("ticket_desc", notUseBean.get(position).getTicket_desc()).putExtra("right_template_code", notUseBean.get(position).getRight_template_code()).putExtra("create_time", notUseBean.get(position).getCreate_time()).putExtra("coupon_code", notUseBean.get(position).getCoupon_code()), IConstants.REQUEST_CODE);
             }
         });
+        //空数据时的页面
         notUseAdapter.setEmptyView(R.layout.null_data, rvNotUse);
     }
 
@@ -115,7 +123,8 @@ public class CouponNotUsedFragment extends BaseFragment<CouponListContract.View,
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == IConstants.REQUEST_CODE && resultCode == IConstants.RESULT_CODE) {
+        if (requestCode == IConstants.REQUEST_CODE && resultCode == 0) {
+            SPUtil.put(getActivity(), String.valueOf(IConstants.IS_REFRESH), true);
             initData();
         }
     }

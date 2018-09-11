@@ -9,20 +9,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/y40"
         android:layout_marginEnd="@dimen/x40"
+        android:layout_marginStart="@dimen/y40"
         android:background="@drawable/bg_growth_value"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/bt_man"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="center"
-            android:text="@string/man"
-            android:textColor="@color/tx_link"
-            android:textSize="16sp" />
+            android:padding="@dimen/y40"
+            android:text="@string/out_to_login"
+            android:textColor="@color/tx_check_box"
+            android:textSize="16dp" />
 
         <View
             android:layout_width="match_parent"
@@ -30,26 +30,28 @@
             android:background="@color/bg_line" />
 
         <Button
-            android:id="@+id/bt_woman"
+            android:id="@+id/bt_out_to_login_sure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="center"
-            android:text="@string/woman"
-            android:textColor="@color/tx_link"
-            android:textSize="16sp" />
+            android:padding="@dimen/y40"
+            android:text="@string/sure"
+            android:textColor="@color/bg_captcha"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/bt_cancel"
+        android:id="@+id/bt_out_to_login_cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/x40"
         android:layout_marginStart="@dimen/y40"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/x40"
         android:background="@drawable/bg_growth_value"
         android:gravity="center"
+        android:padding="@dimen/y40"
         android:text="@string/cancel"
         android:textColor="@color/tx_link"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 </LinearLayout>

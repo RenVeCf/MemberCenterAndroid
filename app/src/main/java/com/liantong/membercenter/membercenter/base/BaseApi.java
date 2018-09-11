@@ -116,6 +116,7 @@ public class BaseApi {
                 if (formBody != null) {
                     //进行规范中要求的参数的拼接
                     for (int i = 0; i < formBody.size(); i++) {
+                        // URLDecoder.decode(str, "utf-8") 参数有中文，需要这样转一下，不然中文会转为 6E%T3%O9% 这样的Base码
                         parameter = parameter + formBody.encodedName(i) + "=" + URLDecoder.decode(formBody.encodedValue(i), "utf-8");
                         if (i < formBody.size() - 1) {
                             parameter = parameter + "&";

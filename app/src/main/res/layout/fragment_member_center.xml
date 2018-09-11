@@ -14,130 +14,143 @@
         app:title="@string/app_name"
         app:title_color="@color/black" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y540"
-        android:layout_gravity="center"
-        android:layout_marginEnd="@dimen/x40"
-        android:layout_marginStart="@dimen/x40">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_member_center_title" />
-
-        <ImageView
-            android:id="@+id/iv_vip_lv_img"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="@dimen/y74"
-            android:layout_marginStart="@dimen/x62"
-            android:layout_marginTop="@dimen/y306" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_vip_card_num_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/y66"
-            android:layout_marginStart="@dimen/x62"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-    </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y540"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/x40"
+                android:layout_marginStart="@dimen/x40">
 
-    <ImageView
-        android:id="@+id/iv_vip_bar_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/y26" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_member_center_title" />
 
-    <TextView
-        android:id="@+id/tv_vip_card_num_center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/black" />
+                <ImageView
+                    android:id="@+id/iv_vip_lv_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="@dimen/y74"
+                    android:layout_marginStart="@dimen/x62"
+                    android:layout_marginTop="@dimen/y306" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/x66"
-        android:layout_marginStart="@dimen/x66"
-        android:layout_marginTop="@dimen/y106"
-        android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_vip_card_num_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/y66"
+                    android:layout_marginStart="@dimen/x62"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
+            <ImageView
+                android:id="@+id/iv_vip_bar_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/vip_card_num"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/y26" />
 
             <TextView
-                android:id="@+id/tv_vip_card_num_bottom"
+                android:id="@+id/tv_vip_card_num_center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/x66"
+                android:layout_marginStart="@dimen/x66"
+                android:layout_marginTop="@dimen/y106"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/vip_card_num"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_vip_card_num_bottom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_to_modify_personal_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/to_modify_personal_data"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/y30"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/vip_lv"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_vip_lv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_to_vip_manual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/y30"
+                    android:lineSpacingExtra="@dimen/y30"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_to_modify_personal_data"
+                android:id="@+id/tv_growth_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/to_modify_personal_data"
-                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/y20"
+                android:layout_marginTop="@dimen/y68"
+                android:drawableEnd="@drawable/ic_arrow_blue"
+                android:drawablePadding="@dimen/x16"
+                android:text="@string/growth_value_record"
+                android:textColor="@color/tx_link"
                 android:textSize="16sp" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y30"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/vip_lv"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv_vip_lv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_to_vip_manual"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y30"
-            android:lineSpacingExtra="@dimen/y30"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_growth_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/y68"
-        android:drawableEnd="@drawable/ic_arrow_blue"
-        android:drawablePadding="@dimen/x16"
-        android:text="@string/growth_value_record"
-        android:textColor="@color/tx_link"
-        android:textSize="16sp" />
+    </ScrollView>
 </LinearLayout>

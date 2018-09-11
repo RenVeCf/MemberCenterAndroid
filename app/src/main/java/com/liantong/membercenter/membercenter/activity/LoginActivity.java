@@ -30,6 +30,7 @@ import com.liantong.membercenter.membercenter.utils.SPUtil;
 import com.liantong.membercenter.membercenter.utils.StringLinkUtils;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 import com.liantong.membercenter.membercenter.utils.VerifyUtils;
+import com.liantong.membercenter.membercenter.utils.isClickUtil;
 
 import java.util.TreeMap;
 
@@ -86,14 +87,21 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
         ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvLoginTop);
+        //自动登录
         if (!SPUtil.get(this, IConstants.TOKEN, "").equals("")) {
             startActivity(new Intent(this, MemberCenterActivity.class));
             finish();
         }
+
+        //如果注册那边填写了信息，直接拿过来用，提高用户体验度
+        etLoginPhone.setText(getIntent().getStringExtra("registerPhoneFlag"));
+        etLoginCaptcha.setText(getIntent().getStringExtra("registerCaptchaFlag"));
+
         //从字符串中获取要变为超链接的字符串
         cbLogin.setText(StringLinkUtils.checkAutoLink(this, getResources().getString(R.string.vip_card_declarations), getResources().getString(R.string.privacy_policy)));
         cbLogin.setMovementMethod(LinkMovementMethod.getInstance());
 
+        //动态注册广播接收器
         smsReceiver = new SmsBroadcastReceiver(handler);
         IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
         registerReceiver(smsReceiver, intentFilter);
@@ -149,22 +157,36 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
 
     }
 
+    /**
+     * 登录成功的处理
+     *
+     * @param data
+     */
     @Override
     public void resultLogin(LoginBean data) {
         SPUtil.put(this, IConstants.AUTHORIZATION_TYPE, data.getAuthorization_type());
         SPUtil.put(this, IConstants.TOKEN, data.getToken());
+        SPUtil.put(this, String.valueOf(IConstants.IS_LOGIN), true);
         LogUtils.i("rmy", "token = " + data.getToken());
         startActivity(new Intent(this, MemberCenterActivity.class));
         finish();
     }
 
+    /**
+     * 验证码成功的处理
+     *
+     * @param data
+     */
     @Override
     public void resultCaptcha(BaseResponse data) {
+        //“1”是验证码发送成功
         if (data.getStatus().equals("1")) {
+            //验证码倒计时60内不能重新发送
             new CountDownUtil(tvLoginCaptcha)
                     .setCountDownMillis(60_000L)//倒计时60000ms
                     .setCountDownColor(R.color.bg_captcha, R.color.tx_bottom_navigation)//不同状态字体颜色
                     .setOnClickListener(new View.OnClickListener() {
+                        //重新获取验证码
                         @Override
                         public void onClick(View v) {
                             //手机号码的长度判断
@@ -174,7 +196,7 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
                                 captchaMap.put("mobile", etLoginPhone.getText().toString().trim());
                                 //平台标识码
                                 captchaMap.put("delegate_code", "2010006");
-                                getPresenter().captcha(captchaMap, true, true);
+                                getPresenter().captcha(captchaMap, true, false);
                             } else {
                                 ToastUtil.showShortToast(getString(R.string.error_phone_num));
                             }
@@ -182,10 +204,6 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
                     })
                     .start();
         }
-    }
-
-    @Override
-    public void setMsg(String msg) {
     }
 
     @Override
@@ -202,6 +220,9 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
         }
     }
 
+    /**
+     * 验证码自动填写
+     */
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             if (msg.what == BC_SMS_RECEIVE) {
@@ -215,6 +236,7 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        //注销掉广播
         unregisterReceiver(smsReceiver);
     }
 
@@ -243,30 +265,42 @@ public class LoginActivity extends BaseActivity<LoginContract.View, LoginContrac
                     captchaMap.put("mobile", etLoginPhone.getText().toString().trim());
                     //平台标识码
                     captchaMap.put("delegate_code", "2010006");
-                    getPresenter().captcha(captchaMap, true, true);
+                    getPresenter().captcha(captchaMap, true, false);
                 } else {
                     ToastUtil.showShortToast(getString(R.string.error_phone_num));
                 }
                 break;
             case R.id.bt_login:
-                //手机号码的长度判断，验证码的长度判断，复选框状态
-                if (etLoginPhone.getText().toString().trim().length() == 11 && etLoginCaptcha.getText().toString().trim().length() == 6 && VerifyUtils.isNumeric(etLoginCaptcha.getText().toString().trim()) && cbLogin.isChecked() == true) {
-                    TreeMap<String, String> loginMap = new TreeMap<>();
-                    //获取手机号码
-                    loginMap.put("mobile", etLoginPhone.getText().toString().trim());
-                    //获取验证码
-                    loginMap.put("captcha", etLoginCaptcha.getText().toString().trim());
-                    //平台标识码
-                    loginMap.put("delegate_code", "2010006");
-                    getPresenter().login(loginMap, true, true);
-                } else {
-                    ToastUtil.showShortToast(getString(R.string.error_login));
+                if (isClickUtil.isFastClick()) {
+                    //手机号码的长度判断，验证码的长度判断，复选框状态
+                    if (etLoginPhone.getText().toString().trim().length() == 11 && VerifyUtils.isMobileNumber(etLoginPhone.getText().toString().trim()) && etLoginCaptcha.getText().toString().trim().length() == 6 && VerifyUtils.isNumeric(etLoginCaptcha.getText().toString().trim()) && cbLogin.isChecked() == true) {
+                        TreeMap<String, String> loginMap = new TreeMap<>();
+                        //获取手机号码
+                        loginMap.put("mobile", etLoginPhone.getText().toString().trim());
+                        //获取验证码
+                        loginMap.put("captcha", etLoginCaptcha.getText().toString().trim());
+                        //平台标识码
+                        loginMap.put("delegate_code", "2010006");
+                        getPresenter().login(loginMap, true, false);
+                    } else if (cbLogin.isChecked() == false) {
+                        ToastUtil.showShortToast(getString(R.string.error_check_box));
+                    } else if (etLoginPhone.getText().toString().trim().equals("") || etLoginPhone.getText().toString().trim().length() != 11 || !VerifyUtils.isMobileNumber(etLoginPhone.getText().toString().trim())) {
+                        ToastUtil.showShortToast(getString(R.string.error_phone_num));
+                    } else if (etLoginCaptcha.getText().toString().trim().length() != 6) {
+                        ToastUtil.showLongToast(getResources().getString(R.string.six_length_captcha));
+                    } else {
+                        ToastUtil.showShortToast(getString(R.string.error_login));
+                    }
                 }
                 break;
             case R.id.ll_login_register:
-                //跳注册
-                startActivity(new Intent(this, RegisterActivity.class));
-                finish();
+                if (isClickUtil.isFastClick()) {
+                    String loginPhoneFlag = etLoginPhone.getText().toString().trim();
+                    String loginCaptchaFlag = etLoginCaptcha.getText().toString().trim();
+                    //跳注册
+                    startActivity(new Intent(this, RegisterActivity.class).putExtra("loginPhoneFlag", loginPhoneFlag).putExtra("loginCaptchaFlag", loginCaptchaFlag));
+                    finish();
+                }
                 break;
         }
     }

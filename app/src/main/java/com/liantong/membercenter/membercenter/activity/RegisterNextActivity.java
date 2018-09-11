@@ -13,6 +13,7 @@ import com.liantong.membercenter.membercenter.base.BasePresenter;
 import com.liantong.membercenter.membercenter.base.BaseView;
 import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
+import com.liantong.membercenter.membercenter.utils.isClickUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,6 +57,7 @@ public class RegisterNextActivity extends BaseActivity {
         ApplicationUtil.getManager().addActivity(this);
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvRegisterSuccessTop);
+        //注册接口会返回券的名称
         tvRegisterCouponName.setText(getIntent().getStringExtra("getTicket_name"));
     }
 
@@ -73,14 +75,19 @@ public class RegisterNextActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bt_member_center_go:
-                startActivity(new Intent(this, MemberCenterActivity.class).putExtra("howPage", 0));
-                finish();
+                if (isClickUtil.isFastClick()) {
+                    //跳会员中心的Fragment
+                    startActivity(new Intent(this, MemberCenterActivity.class).putExtra("howPage", 0));
+                    finish();
+                }
                 break;
             case R.id.ll_register_to_coupon:
-                startActivity(new Intent(this, MemberCenterActivity.class).putExtra("howPage", 1));
-                finish();
+                if (isClickUtil.isFastClick()) {
+                    //跳优惠券的Fragment
+                    startActivity(new Intent(this, MemberCenterActivity.class).putExtra("howPage", 1));
+                    finish();
+                }
                 break;
         }
-
     }
 }

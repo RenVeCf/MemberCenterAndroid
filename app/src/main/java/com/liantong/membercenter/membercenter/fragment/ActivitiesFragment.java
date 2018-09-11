@@ -13,9 +13,11 @@ import com.liantong.membercenter.membercenter.activity.UndeterminedActivity;
 import com.liantong.membercenter.membercenter.activity.WebViewActivity;
 import com.liantong.membercenter.membercenter.base.BaseFragment;
 import com.liantong.membercenter.membercenter.bean.AcitvitiesBean;
+import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.contract.ActivitiesContract;
 import com.liantong.membercenter.membercenter.presenter.ActivitiesPresenter;
+import com.liantong.membercenter.membercenter.utils.SPUtil;
 import com.ryane.banner.AdPageInfo;
 import com.ryane.banner.AdPlayBanner;
 import com.trello.rxlifecycle2.android.FragmentEvent;
@@ -76,8 +78,8 @@ public class ActivitiesFragment extends BaseFragment<ActivitiesContract.View, Ac
     public void init() {
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(getActivity(), tvActivitiesTop);
-        apbActivitiesLoop.measure(0, 0);
-        apbActivitiesLoop.setImageViewScaleType(AdPlayBanner.ScaleType.CENTER_CROP);
+        apbActivitiesLoop.measure(0, 0); //不限定大小
+        apbActivitiesLoop.setImageViewScaleType(AdPlayBanner.ScaleType.CENTER_CROP); //百分比拉伸充满屏幕
     }
 
     @Override
@@ -87,16 +89,27 @@ public class ActivitiesFragment extends BaseFragment<ActivitiesContract.View, Ac
 
     @Override
     public void initData() {
-        getPresenter().getActivities(true, true);
+        getPresenter().getActivities(true, false);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            if ((Boolean) SPUtil.get(getActivity(), String.valueOf(IConstants.IS_REFRESH), false) == true)
+                initData();
+        }
     }
 
     @Override
     public void getActivities(AcitvitiesBean data) {
         acitvitiesBean = data;
         for (int i = 0; i < acitvitiesBean.getBanners().size(); i++) {
+            //设置title，图片内容，跳转链接，顺序
             loop.add(new AdPageInfo("", acitvitiesBean.getBanners().get(i).getImage(), acitvitiesBean.getBanners().get(i).getLand_page(), 1));
         }
-
+        SPUtil.put(getActivity(), String.valueOf(IConstants.IS_REFRESH), false);
+        //设置用glide图片加载
         apbActivitiesLoop.setImageLoadType(GLIDE);
         //自动滚动
         apbActivitiesLoop.setAutoPlay(true);

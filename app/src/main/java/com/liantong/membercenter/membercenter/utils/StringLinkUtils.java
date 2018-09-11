@@ -15,6 +15,7 @@ import com.liantong.membercenter.membercenter.activity.ModifyPersonalDataActivit
 import com.liantong.membercenter.membercenter.activity.VipCardDeclarationsActivity;
 import com.liantong.membercenter.membercenter.activity.VipManualActivity;
 import com.liantong.membercenter.membercenter.common.config.IConstants;
+import com.liantong.membercenter.membercenter.fragment.MemberCenterFragment;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,28 +35,43 @@ public class StringLinkUtils {
         Pattern pattern = Pattern.compile(link);//根据正则匹配出带有超链接的文字
         Matcher matcher = pattern.matcher(mSsb);
         while (matcher.find()) {
-            setClickableSpan(activity, mSsb, matcher);
+            setClickableSpan(activity, null, mSsb, matcher);
         }
         return mSsb;
     }
 
-    private static void setClickableSpan(final Activity activity, final SpannableStringBuilder clickableHtmlBuilder, final Matcher matcher) {
+    public static CharSequence checkAutoLinkFragment(MemberCenterFragment fragment, String content, String link) {
+        mSsb = new SpannableStringBuilder(content);
+        Pattern pattern = Pattern.compile(link);//根据正则匹配出带有超链接的文字
+        Matcher matcher = pattern.matcher(mSsb);
+        while (matcher.find()) {
+            setClickableSpan(null, fragment, mSsb, matcher);
+        }
+        return mSsb;
+    }
+
+    private static void setClickableSpan(final Activity activity, final MemberCenterFragment fragment, final SpannableStringBuilder clickableHtmlBuilder, final Matcher matcher) {
         int start = matcher.start();
         int end = matcher.end();
         ClickableSpan clickableSpan = new ClickableSpan() {
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.tv_to_modify_personal_data:
-                        activity.startActivityForResult(new Intent(ApplicationUtil.getContext(), ModifyPersonalDataActivity.class), IConstants.REQUEST_CODE);
+                        if (isClickUtil.isFastClick())
+                            fragment.startActivityForResult(new Intent(ApplicationUtil.getContext(), ModifyPersonalDataActivity.class), IConstants.REQUEST_CODE);
                         break;
                     case R.id.tv_to_vip_manual:
-                        ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), VipManualActivity.class));
+                        if (isClickUtil.isFastClick())
+                            ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), VipManualActivity.class));
                         break;
                     case R.id.cb_modify_personal_data:
                         break;
                     case R.id.cb_register:
+                        if (isClickUtil.isFastClick())
+                            break;
                     case R.id.cb_login:
-                        activity.startActivityForResult(new Intent(ApplicationUtil.getContext(), VipCardDeclarationsActivity.class), IConstants.REQUEST_CODE);
+                        if (isClickUtil.isFastClick())
+                            activity.startActivityForResult(new Intent(ApplicationUtil.getContext(), VipCardDeclarationsActivity.class), IConstants.REQUEST_CODE);
                         break;
                 }
             }

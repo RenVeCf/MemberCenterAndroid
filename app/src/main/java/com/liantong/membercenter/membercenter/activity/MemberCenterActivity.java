@@ -15,6 +15,7 @@ import com.liantong.membercenter.membercenter.fragment.ActivitiesFragment;
 import com.liantong.membercenter.membercenter.fragment.CouponFragment;
 import com.liantong.membercenter.membercenter.fragment.MemberCenterFragment;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
+import com.liantong.membercenter.membercenter.utils.NavigationBarUtil;
 import com.liantong.membercenter.membercenter.utils.ToastUtil;
 
 import butterknife.BindView;
@@ -63,6 +64,10 @@ public class MemberCenterActivity extends BaseActivity {
 
     @Override
     public void init() {
+        //适配虚拟按键
+        if (NavigationBarUtil.hasNavigationBar(this)) {
+            NavigationBarUtil.initActivity(findViewById(android.R.id.content));
+        }
         //将每个Activity加入到栈中
         ApplicationUtil.getManager().addActivity(this);
         //上一层界面跳过来时，要求显示对的碎片
@@ -78,17 +83,17 @@ public class MemberCenterActivity extends BaseActivity {
         }
 
         //定义底部标签图片大小
-        Drawable drawableFirst = getResources().getDrawable(R.drawable.select_bg_member_center);
-        drawableFirst.setBounds(0, 0, 80, 80);//第一0是距左右边距离，第二0是距上下边距离，第三69长度,第四宽度
-        rbNavigationMemberCenter.setCompoundDrawables(null, drawableFirst, null, null);//只放上面
+        Drawable drawableMemberber = getResources().getDrawable(R.drawable.select_bg_member_center);
+        drawableMemberber.setBounds(0, 0, (int) getResources().getDimension(R.dimen.y80), (int) getResources().getDimension(R.dimen.y80));//第一0是距左右边距离，第二0是距上下边距离，第三长度,第四宽度
+        rbNavigationMemberCenter.setCompoundDrawables(null, drawableMemberber, null, null);//只放上面
 
-        Drawable drawableSearch = getResources().getDrawable(R.drawable.select_bg_coupon);
-        drawableSearch.setBounds(0, 0, 80, 80);//第一0是距左右边距离，第二0是距上下边距离，第三69长度,第四宽度
-        rbNavigationCoupon.setCompoundDrawables(null, drawableSearch, null, null);//只放上面
+        Drawable drawableCoupon = getResources().getDrawable(R.drawable.select_bg_coupon);
+        drawableCoupon.setBounds(0, 0, (int) getResources().getDimension(R.dimen.y80), (int) getResources().getDimension(R.dimen.y80));//第一0是距左右边距离，第二0是距上下边距离，第三长度,第四宽度
+        rbNavigationCoupon.setCompoundDrawables(null, drawableCoupon, null, null);//只放上面
 
-        Drawable drawableMe = getResources().getDrawable(R.drawable.select_bg_activities);
-        drawableMe.setBounds(0, 0, 80, 80);//第一0是距左右边距离，第二0是距上下边距离，第三69长度,第四宽度
-        rbNavigationActivities.setCompoundDrawables(null, drawableMe, null, null);//只放上面
+        Drawable drawableActivities = getResources().getDrawable(R.drawable.select_bg_activities);
+        drawableActivities.setBounds(0, 0, (int) getResources().getDimension(R.dimen.y80), (int) getResources().getDimension(R.dimen.y80));//第一0是距左右边距离，第二0是距上下边距离，第三长度,第四宽度
+        rbNavigationActivities.setCompoundDrawables(null, drawableActivities, null, null);//只放上面
     }
 
     @Override
@@ -117,15 +122,13 @@ public class MemberCenterActivity extends BaseActivity {
 
     //Fragment优化
     public FragmentTransaction switchFragment(Fragment targetFragment) {
-        FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (!targetFragment.isAdded()) {
             //第一次使用switchFragment()时currentFragment为null，所以要判断一下
             if (currentFragment != null) {
                 transaction.hide(currentFragment);
             }
             transaction.add(R.id.ll_member_center, targetFragment, targetFragment.getClass().getName());
-
         } else {
             transaction
                     .hide(currentFragment)

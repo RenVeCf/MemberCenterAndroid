@@ -22,7 +22,7 @@ public class BaseModel<T> {
     /**
      * 封装线程管理和订阅的过程
      * flag  是否添加progressdialog
-     * 有参
+     * 有参(上下文， 订阅， 请求对象， 参数， 是否显示Dialog， Dialog点击外部区域是否可取消)
      */
     public void paramSubscribe(Context context, final Observable observable, ObserverResponseListener<T> listener, ObservableTransformer<T, T> transformer, boolean isDialog, boolean cancelable) {
         final Observer<T> observer = new ProgressObserver(context, listener, isDialog, cancelable);
@@ -36,7 +36,7 @@ public class BaseModel<T> {
     /**
      * 封装线程管理和订阅的过程
      * flag  是否添加progressdialog
-     * 无参
+     * 无参(上下文， 订阅， 请求对象，是否显示Dialog， Dialog点击外部区域是否可取消)
      */
     public void nullParamSubscribe(Context context, final Observable observable, ObserverResponseListener<T> listener, boolean isDialog, boolean cancelable) {
         final Observer<T> observer = new ProgressObserver(context, listener, isDialog, cancelable);

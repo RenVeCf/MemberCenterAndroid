@@ -10,6 +10,7 @@ import com.liantong.membercenter.membercenter.base.BaseView;
 import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
+import com.liantong.membercenter.membercenter.utils.isClickUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -62,7 +63,9 @@ public class VipCardDeclarationsActivity extends BaseActivity {
 
     @OnClick(R.id.bt_vip_card_declarations)
     public void onViewClicked() {
-        setResult(IConstants.RESULT_CODE);
-        finish();
+        if (isClickUtil.isFastClick()) {
+            setResult(IConstants.RESULT_CODE);
+            finish();
+        }
     }
 }

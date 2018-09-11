@@ -2,7 +2,6 @@ package com.liantong.membercenter.membercenter.common.view;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
@@ -12,9 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.liantong.membercenter.membercenter.R;
-import com.liantong.membercenter.membercenter.activity.LoginActivity;
-import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
-import com.liantong.membercenter.membercenter.utils.SPUtil;
+import com.liantong.membercenter.membercenter.utils.isClickUtil;
 
 /**
  * Description : 公用标题栏
@@ -67,24 +64,18 @@ public class TopView extends RelativeLayout implements View.OnClickListener {
         ivTopOut = (ImageView) this.findViewById(R.id.iv_top_out);
 
         ivTopBack.setOnClickListener(this);
-        ivTopOut.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top_back:
-                if (mContext instanceof Activity) {
+                if (mContext instanceof Activity && isClickUtil.isFastClick()) {
                     ((Activity) mContext).finish();
                     if (((Activity) mContext).getCurrentFocus() != null) {
                         ((InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(((Activity) mContext).getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     }
                 }
-                break;
-            case R.id.iv_top_out:
-                SPUtil.clear(ApplicationUtil.getContext());
-                ApplicationUtil.getContext().startActivity(new Intent(ApplicationUtil.getContext(), LoginActivity.class));
-                ApplicationUtil.getManager().finishActivity();
                 break;
             default:
                 break;

@@ -51,15 +51,15 @@ public class NavigationBarUtil {
     }
 
     /**
-     * 计算试图高度
+     * 计算视图高度
      *
      * @return
      */
     private int CalculateAvailableHeight() {
         Rect r = new Rect();
         mObserved.getWindowVisibleDisplayFrame(r);
-        return (r.bottom - r.top);//如果不是沉浸状态栏，需要减去顶部高度
-        //        return (r.bottom );//如果是沉浸状态栏
+//        return (r.bottom - r.top);//如果不是沉浸状态栏，需要减去顶部高度
+        return (r.bottom);//如果是沉浸状态栏
     }
 
     /**

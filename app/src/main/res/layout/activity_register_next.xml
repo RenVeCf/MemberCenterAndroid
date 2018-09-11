@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|start"
-            android:layout_marginStart="@dimen/x124"
+            android:layout_marginStart="@dimen/x100"
             app:srcCompat="@drawable/bg_register_gift" />
 
         <LinearLayout
@@ -72,9 +72,10 @@
 
             <TextView
                 android:id="@+id/tv_register_coupon_name"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/x700"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
+                android:gravity="start"
                 android:textColor="@color/black"
                 android:textSize="26sp"
                 android:textStyle="bold" />

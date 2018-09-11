@@ -65,11 +65,13 @@ public class GrowthValueActivity extends BaseActivity<GrowthValueContract.View, 
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(this, tvGrowthValueTop);
 
+        //设置RecyclerView方向和是否反转
         LinearLayoutManager GrowthValueList = new LinearLayoutManager(ApplicationUtil.getContext(), LinearLayoutManager.VERTICAL, false);
         rvGrowthValue.setLayoutManager(GrowthValueList);
-        rvGrowthValue.setHasFixedSize(true);
-        rvGrowthValue.setItemAnimator(new DefaultItemAnimator());
+        rvGrowthValue.setHasFixedSize(true); //item如果一样的大小，可以设置为true让RecyclerView避免重新计算大小
+        rvGrowthValue.setItemAnimator(new DefaultItemAnimator()); //默认动画
 
+        //初始化数据
         mGrowthValueBean = new ArrayList<>();
         mGrowthValueAdapter = new GrowthValueAdapter(mGrowthValueBean);
         rvGrowthValue.setAdapter(mGrowthValueAdapter);
@@ -77,6 +79,7 @@ public class GrowthValueActivity extends BaseActivity<GrowthValueContract.View, 
 
     @Override
     public void initListener() {
+        //下拉刷新
         srlGrowthValue.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -90,31 +93,32 @@ public class GrowthValueActivity extends BaseActivity<GrowthValueContract.View, 
     @Override
     public void initData() {
         TreeMap<String, String> map = new TreeMap<>();
-        map.put("page", pageNum + "");
-        map.put("page_size", "20");
-        getPresenter().getGrowthValueList(map, true, true);
+        map.put("page", pageNum + ""); //请求页码
+        map.put("page_size", "20"); //请求每页条数
+        getPresenter().getGrowthValueList(map, true, false);
     }
 
     @Override
     public void getGrowthValueList(GrowthValueBean data) {
-
         if (data.getTotal() > 0) {
             if (pageNum == 1) {
+                //如果是第一页，那么清除数据，从新添加
                 mGrowthValueBean.clear();
                 mGrowthValueBean.addAll(data.getList());
 
                 if (data.getTotal_page() > 0) {
-                    pageNum += 1;
+                    pageNum += 1; //如果总页数大于0，下回请求就把页数加1
                     mGrowthValueAdapter = new GrowthValueAdapter(mGrowthValueBean);
                     rvGrowthValue.setAdapter(mGrowthValueAdapter);
+                    //上拉加载
                     mGrowthValueAdapter.setOnLoadMoreListener(this, rvGrowthValue);
                 } else {
                     mGrowthValueAdapter.loadMoreEnd();//完成所有加载
                 }
             } else {
-                if (data.getList().size() > 0) {
+                if (data.getList().size() > 0) { //如果item大于0
                     pageNum += 1;
-                    mGrowthValueAdapter.addData(data.getList());
+                    mGrowthValueAdapter.addData(data.getList()); //追加数据
                     mGrowthValueAdapter.loadMoreComplete(); //完成本次
                 } else {
                     mGrowthValueAdapter.loadMoreEnd(); //完成所有加载

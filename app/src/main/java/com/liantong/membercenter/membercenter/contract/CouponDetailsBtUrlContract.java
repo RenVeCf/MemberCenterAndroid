@@ -2,7 +2,6 @@ package com.liantong.membercenter.membercenter.contract;
 
 import com.liantong.membercenter.membercenter.base.BasePresenter;
 import com.liantong.membercenter.membercenter.base.BaseView;
-import com.liantong.membercenter.membercenter.bean.CouponDetailsBean;
 import com.liantong.membercenter.membercenter.bean.CouponDetailsBtUrlBean;
 
 import java.util.TreeMap;

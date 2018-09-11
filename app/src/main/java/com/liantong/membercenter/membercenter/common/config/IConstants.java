@@ -20,8 +20,14 @@ public interface IConstants {
     Boolean IS_LOGIN = false; //已经登录
     String TOKEN = "token"; //token
     String AUTHORIZATION_TYPE = "token_type"; //token type
-    String NAME = "name";
-    String PHONE = "phone";
+    String NAME = "name"; //用户真实姓名
+    String PHONE = "phone"; //用户手机号码
+    String ADDRESS = "address"; //用户地址（省市区）
+    String ADDRESS_DETAIL = "address_detail"; //用户详细地址
+    String EMAIL = "email"; //用户邮箱
+    String GENDER = "gender"; //用户性别
+    String IDCARD_NO = "idcard_no"; //用户身份证号
+    Boolean IS_REFRESH = false; //券列表是否刷新
 
     /**
      * requestCode
@@ -34,5 +40,5 @@ public interface IConstants {
      * resultCode
      * 返回码
      */
-    int RESULT_CODE = 1000;
+    int RESULT_CODE = 0;
 }

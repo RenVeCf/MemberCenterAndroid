@@ -10,6 +10,13 @@ import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 
 import butterknife.BindView;
 
+/**
+ * Description ：待推出
+ * Author ： MengYang
+ * Email ： 942685687@qq.com
+ * Time ： 2018/8/27.
+ */
+
 public class UndeterminedActivity extends BaseActivity {
 
     @BindView(R.id.tv_undetermined_top)

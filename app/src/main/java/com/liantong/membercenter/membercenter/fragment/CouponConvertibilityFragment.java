@@ -36,8 +36,8 @@ public class CouponConvertibilityFragment extends BaseFragment<CouponListContrac
     @BindView(R.id.tv_coupon_convertibility_total_num)
     TextView tvCouponConvertibilityTotalNum;
 
-    private CouponConvertibilityAdapter mCouponConvertibilityAdapter;
-    private List<CouponListBean.TicketListBean> mCouponConvertibilityBean;
+    private CouponConvertibilityAdapter couponConvertibilityAdapter;
+    private List<CouponListBean.TicketListBean> couponConvertibilityBean;
 
     @Override
     public int getLayoutId() {
@@ -56,18 +56,21 @@ public class CouponConvertibilityFragment extends BaseFragment<CouponListContrac
 
     @Override
     public void init() {
+        //设置RecyclerView方向和是否反转
         LinearLayoutManager NotUseList = new LinearLayoutManager(ApplicationUtil.getContext(), LinearLayoutManager.VERTICAL, false);
         rvCouponConvertibility.setLayoutManager(NotUseList);
-        rvCouponConvertibility.setHasFixedSize(true);
-        rvCouponConvertibility.setItemAnimator(new DefaultItemAnimator());
+        rvCouponConvertibility.setHasFixedSize(true); //item如果一样的大小，可以设置为true让RecyclerView避免重新计算大小
+        rvCouponConvertibility.setItemAnimator(new DefaultItemAnimator()); //默认动画
 
-        mCouponConvertibilityBean = new ArrayList<>();
-        mCouponConvertibilityAdapter = new CouponConvertibilityAdapter(mCouponConvertibilityBean);
-        rvCouponConvertibility.setAdapter(mCouponConvertibilityAdapter);
+        //初始化数据
+        couponConvertibilityBean = new ArrayList<>();
+        couponConvertibilityAdapter = new CouponConvertibilityAdapter(couponConvertibilityBean);
+        rvCouponConvertibility.setAdapter(couponConvertibilityAdapter);
     }
 
     @Override
     public void initListener() {
+        //下拉刷新
         srlCouponConvertibility.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -79,20 +82,23 @@ public class CouponConvertibilityFragment extends BaseFragment<CouponListContrac
 
     @Override
     public void initData() {
-        getPresenter().getCouponList(true, true);
+        getPresenter().getCouponList(true, false);
     }
 
     @Override
     public void getCouponList(CouponListBean data) {
-        mCouponConvertibilityBean.clear();
+        //清除数据
+        couponConvertibilityBean.clear();
+        //由于后台没做分页，所以这里遍历所有数据，将该品种的券检出
         for (int i = 0; i < data.getTicket_list().size(); i++) {
             if (data.getTicket_list().get(i).getCoupon_status().equals("1"))
-                mCouponConvertibilityBean.add(data.getTicket_list().get(i));
+                couponConvertibilityBean.add(data.getTicket_list().get(i));
         }
-        tvCouponConvertibilityTotalNum.setText("共" + mCouponConvertibilityBean.size() + "张券");
-        mCouponConvertibilityAdapter = new CouponConvertibilityAdapter(mCouponConvertibilityBean);
-        rvCouponConvertibility.setAdapter(mCouponConvertibilityAdapter);
-        mCouponConvertibilityAdapter.setEmptyView(R.layout.null_data, rvCouponConvertibility);
+        tvCouponConvertibilityTotalNum.setText("共" + couponConvertibilityBean.size() + "张券");
+        couponConvertibilityAdapter = new CouponConvertibilityAdapter(couponConvertibilityBean);
+        rvCouponConvertibility.setAdapter(couponConvertibilityAdapter);
+        //空数据时的页面
+        couponConvertibilityAdapter.setEmptyView(R.layout.null_data, rvCouponConvertibility);
     }
 
     @Override
