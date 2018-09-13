@@ -142,7 +142,8 @@ public class MemberCenterFragment extends BaseFragment<MemberCenterContract.View
         tvToVipManual.setText(StringLinkUtils.checkAutoLink(getActivity(), tvToVipManual.getText().toString(), "点此了解"));
         //允许作为跳转链接
         tvToVipManual.setMovementMethod(LinkMovementMethod.getInstance());
-        tvVipCardNumTop.setText(data.getMember_code());
+        //每4个字符空两格（空一格不太明显）
+        tvVipCardNumTop.setText(data.getMember_code().replaceAll("(.{4})", "$1  "));
         tvVipCardNumCenter.setText(data.getMember_code());
         tvVipCardNumBottom.setText(data.getMember_code());
 

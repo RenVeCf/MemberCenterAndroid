@@ -1,7 +1,10 @@
 package com.liantong.membercenter.membercenter.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 
@@ -17,10 +20,13 @@ import com.liantong.membercenter.membercenter.common.config.IConstants;
 import com.liantong.membercenter.membercenter.common.view.TopView;
 import com.liantong.membercenter.membercenter.contract.ActivitiesContract;
 import com.liantong.membercenter.membercenter.presenter.ActivitiesPresenter;
+import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
+import com.liantong.membercenter.membercenter.utils.DisplayUtils;
 import com.liantong.membercenter.membercenter.utils.SPUtil;
-import com.ryane.banner.AdPageInfo;
-import com.ryane.banner.AdPlayBanner;
 import com.trello.rxlifecycle2.android.FragmentEvent;
+import com.zhouwei.mzbanner.MZBannerView;
+import com.zhouwei.mzbanner.holder.MZHolderCreator;
+import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +34,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.ObservableTransformer;
-
-import static com.ryane.banner.AdPlayBanner.ImageLoaderType.GLIDE;
-import static com.ryane.banner.AdPlayBanner.IndicatorType.POINT_INDICATOR;
 
 /**
  * Description ：活动
@@ -42,8 +45,8 @@ public class ActivitiesFragment extends BaseFragment<ActivitiesContract.View, Ac
 
     @BindView(R.id.tv_activities_top)
     TopView tvActivitiesTop;
-    @BindView(R.id.apb_activities_loop)
-    AdPlayBanner apbActivitiesLoop;
+    @BindView(R.id.mzb_activities_loop)
+    MZBannerView mzbActivitiesLoop;
     @BindView(R.id.iv_activities_center)
     ImageView ivActivitiesCenter;
     @BindView(R.id.iv_activities_bottom)
@@ -56,7 +59,7 @@ public class ActivitiesFragment extends BaseFragment<ActivitiesContract.View, Ac
     RadioButton rbElectronicCoupons;
 
     //轮播图集合
-    private List<AdPageInfo> loop = new ArrayList<>();
+    private List<String> loop = new ArrayList<>();
     private AcitvitiesBean acitvitiesBean;
 
     @Override
@@ -78,8 +81,12 @@ public class ActivitiesFragment extends BaseFragment<ActivitiesContract.View, Ac
     public void init() {
         //防止状态栏和标题重叠
         ImmersionBar.setTitleBar(getActivity(), tvActivitiesTop);
-        apbActivitiesLoop.measure(0, 0); //不限定大小
-        apbActivitiesLoop.setImageViewScaleType(AdPlayBanner.ScaleType.CENTER_CROP); //百分比拉伸充满屏幕
+        //设置BannerView 的切换时间间隔
+        mzbActivitiesLoop.setDelayedTime(3000);
+
+        ViewGroup.LayoutParams params = mzbActivitiesLoop.getLayoutParams();
+        params.width = DisplayUtils.getScreenWidth(getActivity()) + 80;
+        mzbActivitiesLoop.setLayoutParams(params);
     }
 
     @Override
@@ -102,31 +109,56 @@ public class ActivitiesFragment extends BaseFragment<ActivitiesContract.View, Ac
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mzbActivitiesLoop.pause();//暂停轮播
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mzbActivitiesLoop.start();//开始轮播
+    }
+
+    @Override
     public void getActivities(AcitvitiesBean data) {
         acitvitiesBean = data;
         for (int i = 0; i < acitvitiesBean.getBanners().size(); i++) {
-            //设置title，图片内容，跳转链接，顺序
-            loop.add(new AdPageInfo("", acitvitiesBean.getBanners().get(i).getImage(), acitvitiesBean.getBanners().get(i).getLand_page(), 1));
+            loop.add(acitvitiesBean.getBanners().get(i).getImage());
         }
+        loop.add(acitvitiesBean.getBanners().get(0).getImage());
         SPUtil.put(getActivity(), String.valueOf(IConstants.IS_REFRESH), false);
-        //设置用glide图片加载
-        apbActivitiesLoop.setImageLoadType(GLIDE);
-        //自动滚动
-        apbActivitiesLoop.setAutoPlay(true);
-        //页码指示器
-        apbActivitiesLoop.setIndicatorType(POINT_INDICATOR);
-        //间隔时间
-        apbActivitiesLoop.setInterval(3000);
-        //背景
-        apbActivitiesLoop.setBannerBackground(0xffffffff);
-        //数据源
-        apbActivitiesLoop.setInfoList(loop);
-        apbActivitiesLoop.setUp();
+        // 设置数据
+        mzbActivitiesLoop.setPages(loop, new MZHolderCreator<BannerViewHolder>() {
+            @Override
+            public BannerViewHolder createViewHolder() {
+                return new BannerViewHolder();
+            }
+        });
+
 
         if (acitvitiesBean.getImages().size() > 0)
             Glide.with(getActivity()).load(acitvitiesBean.getImages().get(0).getImage()).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round)).into(ivActivitiesCenter);
         if (acitvitiesBean.getImages().size() > 1)
             Glide.with(getActivity()).load(acitvitiesBean.getImages().get(1).getImage()).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round)).into(ivActivitiesBottom);
+    }
+
+    public static class BannerViewHolder implements MZViewHolder<String> {
+        private ImageView mImageView;
+
+        @Override
+        public View createView(Context context) {
+            // 返回页面布局
+            View view = LayoutInflater.from(context).inflate(R.layout.banner_item, null);
+            mImageView = (ImageView) view.findViewById(R.id.banner_img);
+            return view;
+        }
+
+        @Override
+        public void onBind(Context context, int position, String data) {
+            // 数据绑定
+            Glide.with(ApplicationUtil.getContext()).load(data).into(mImageView);
+        }
     }
 
     @Override

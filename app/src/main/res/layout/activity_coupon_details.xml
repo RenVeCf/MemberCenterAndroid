@@ -102,6 +102,15 @@
                 android:background="@mipmap/bg_coupon_details_bottom"
                 android:orientation="vertical">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="@dimen/y20"
+                    android:layout_marginEnd="@dimen/x70"
+                    android:layout_marginStart="@dimen/x70"
+                    android:background="@drawable/shape_line_dash"
+                    android:layerType="software" />
+
                 <TextView
                     android:id="@+id/tv_coupon_details_time"
                     android:layout_width="wrap_content"
