@@ -2,6 +2,8 @@ package com.liantong.membercenter.membercenter.activity;
 
 import android.graphics.Bitmap;
 import android.net.http.SslError;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -15,7 +17,6 @@ import com.liantong.membercenter.membercenter.base.BaseActivity;
 import com.liantong.membercenter.membercenter.base.BasePresenter;
 import com.liantong.membercenter.membercenter.base.BaseView;
 import com.liantong.membercenter.membercenter.common.view.TopView;
-import com.liantong.membercenter.membercenter.progress.ProgressDialogHandler;
 import com.liantong.membercenter.membercenter.utils.ApplicationUtil;
 
 import butterknife.BindView;
@@ -79,6 +80,9 @@ public class WebViewActivity extends BaseActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                if (!TextUtils.isEmpty(view.getTitle())) {
+                    ivTopTitle.setText(view.getTitle());
+                }
             }
 
             @Override
@@ -108,6 +112,19 @@ public class WebViewActivity extends BaseActivity {
                 ivTopTitle.setText(title);
             }
         });
+    }
+
+    //使用Webview的时候，返回键没有重写的时候会直接关闭程序，这时候其实我们要其执行的知识回退到上一步的操作
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //这是一个监听用的按键的方法，keyCode 监听用户的动作，如果是按了返回键，同时Webview要返回的话，WebView执行回退操作，因为mWebView.canGoBack()返回的是一个Boolean类型，所以我们把它返回为true
+        if (keyCode == KeyEvent.KEYCODE_BACK && commonWebview.canGoBack()) {
+            commonWebview.goBack();
+            return true;
+        } else {
+            onBackPressed();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
