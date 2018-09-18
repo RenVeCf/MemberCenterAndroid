@@ -26,7 +26,7 @@ public class NotUseAdapter extends BaseQuickAdapter<CouponListBean.TicketListBea
     protected void convert(BaseViewHolder helper, CouponListBean.TicketListBean item) {
 
         helper.setText(R.id.tv_not_use_coupon_name, item.getTicket_name())
-                .setText(R.id.tv_not_use_coupon_time, ApplicationUtil.getContext().getResources().getString(R.string.use_date) + item.getCreate_time());
+                .setText(R.id.tv_not_use_coupon_time, ApplicationUtil.getContext().getResources().getString(R.string.use_date) + item.getUse_date());
 
         switch (item.getTicket_type()) {
             case "1":
