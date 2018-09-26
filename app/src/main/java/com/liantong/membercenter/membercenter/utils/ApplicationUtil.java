@@ -13,14 +13,13 @@ import java.util.Stack;
  */
 public class ApplicationUtil extends Application {
 
-    private static Context mContext;//全局上下文对象
+    private static Context mContext; //全局上下文对象
     private static ApplicationUtil sManager;
     private Stack<WeakReference<Activity>> mActivityStack;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
         mContext = getApplicationContext();
     }
 

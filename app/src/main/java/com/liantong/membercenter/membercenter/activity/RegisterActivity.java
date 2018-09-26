@@ -319,7 +319,7 @@ public class RegisterActivity extends BaseActivity<RegisterContract.View, Regist
                     } else if (etRegisterCaptcha.getText().toString().trim().length() != 6) {
                         ToastUtil.showLongToast(getResources().getString(R.string.six_length_captcha));
                     } else {
-                        ToastUtil.showShortToast(getString(R.string.error_login));
+                        ToastUtil.showShortToast(getString(R.string.error_name));
                     }
                 }
                 break;

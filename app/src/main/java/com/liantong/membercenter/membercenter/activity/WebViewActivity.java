@@ -2,6 +2,7 @@ package com.liantong.membercenter.membercenter.activity;
 
 import android.graphics.Bitmap;
 import android.net.http.SslError;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.webkit.SslErrorHandler;
@@ -65,6 +66,8 @@ public class WebViewActivity extends BaseActivity {
         webSettings.setUseWideViewPort(true); //自适应屏幕
         webSettings.setLoadsImagesAutomatically(true); //支持自动加载图片
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL); // 排版适应屏幕
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)  //图片的引用是http，但链接是https需要申请SSL安全证书
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         commonWebview.loadUrl(getIntent().getStringExtra("land_page")); //网址链接
     }
 
